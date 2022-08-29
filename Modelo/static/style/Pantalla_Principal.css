@@ -1,0 +1,156 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+header{
+    height: 100px;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: rgb(36, 97, 187);
+    border-bottom: 1px solid white;
+}
+
+.boton_panel{
+    width: 200px;
+    height: 50px;
+    background-color: chartreuse;
+    border: none;
+    margin: 25px;
+}
+
+.boton_panel:hover{
+    cursor: pointer;
+    border: 1px solid green;
+}
+
+.boton_panel a{
+    width: 200px;
+    height: 50px;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+}
+
+.boton_panel a:hover{
+    color: white;
+}
+
+.filtros{
+    width: 600px;
+    display: inline-block;
+    justify-content: center;
+    position: relative;
+}
+
+.filtros ul{
+    list-style: none;
+    padding-inline-start: 0px;
+}
+
+.filtros-menu{
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+    height: 100px;
+}
+
+.filtros-menu li{
+    margin: 40px 10px;
+}
+
+.filtro-items{
+    height: 30px;
+}
+
+.filtro-items:hover{
+    border-bottom: 1px solid white;
+}
+
+.filtro-items a{
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    margin: 0px 15px;
+    display: block;
+}
+
+
+.btn-filtrar{
+    width: 100px;
+    height: 50px;
+    background-color: chartreuse;
+    border: none;
+    margin: 25px;
+}
+
+.btn-filtrar:hover{
+    cursor: pointer;
+    border: 1px solid green;
+}
+
+.btn-filtrar a{
+    width: 100px;
+    height: 50px;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+}
+
+.btn-filtrar a:hover{
+    color: white;
+}
+
+
+
+
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container h1{
+    margin-left: 320px;
+}
+
+.items{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    margin: 10px 0px;
+}
+
+.img-antartida{
+    display: block;
+    width: 250px;
+    height: 200px;
+}
+
+.img-antartida img{
+    width: 250px;
+    height: 200px;
+}
+
+.img-antartida a{
+    display: block;
+    width: 250px;
+    height: 182px;
+    box-sizing: border-box;
+}
+
+.description-item{
+    display: block;
+    width: 450px;
+    height: 200px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    border-left: 1px solid rgb(165, 160, 160);
+    border-right: 1px solid rgb(165, 160, 160);
+    background-color: grey;
+}
+
+.description-item p{
+    margin-bottom: 4px;
+}
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Inicio de sesion</title>
+        <meta charset="UTF-8">
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'login.css' %}">  
+    </head>
+    <body>
+        <form class="formulario">
+           
+            
+            <div class="contenedor">
+                <h1>Login</h1>
+                <div class="input_contenedor">
+                    <input type="text" placeholder="Usuario">
+
+                </div>
+                
+                <div class="input_contenedor">
+                    <input type="password" placeholder="Contraseña">
+                </div>
+            <input type="submit" value="Iniciar sesion" class="button">
+            </div>
+        
+        </form>
+    </body>
+</html>

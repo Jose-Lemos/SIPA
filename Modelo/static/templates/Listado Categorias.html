@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <title>Listado de categorias</title>
+       <meta charset="UTF-8">
+       {% load static %}
+        <link rel="stylesheet" href="{% static 'categorias.css' %}">
+    </head>
+    <body>
+        <h1>Listado de Categorias</h1>
+        
+        <div>
+            <div class="movimientos">
+                <a href="http://127.0.0.1:8000/api/admin/">
+                    <button class="button_3">Volver al Panel de Administración</button>
+                </a>  
+                <a href="http://127.0.0.1:8000/api/home/">
+                    <button class="button_2">Volver a Inicio</button>
+                </a>
+                <a  href="http://127.0.0.1:8000/api/agregar-categoria/" >
+                    <button class="button_1">Agregar</button>
+                </a>
+            </div>
+            <table >
+                <thead class="propiedades">
+                    <tr>
+                        <th> ID-Categoria </th>
+                        <th> fecha de Creacion </th>
+                        <th > Categoria </th>
+                        <th> Opciones </th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    
+                        {% for categoria in Categorias %}
+                            <tr>
+                                <td> {{ categoria.id }} </td>
+                                <td> {{ categoria.fecha }} </td>
+                                <td> {{ categoria.concepto}} </td>
+                                <td> 
+                                    <button class="button_3"><a class="btn btn-primary" href="http://127.0.0.1:8000/api/modificar-categoria/{{categoria.id}}">Modificar</a></button>
+                                    <button class="button_4"><a class="btn btn-danger" href="">Eliminar</a></button>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        
+                    
+                </tbody>
+                
+            </table>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <title>Listado de paises</title>
+       {% load static %}
+        <link rel="stylesheet" href="{% static 'categorias.css' %}">
+    </head>
+    <body>
+        <h1>Listado de paises</h1>
+        
+        <div>
+            <div class="movimientos">
+                <button class="button_1"><a  href="http://127.0.0.1:8000/api/agregar-pais/" >Agregar</a></button>
+                <button class="button_2"><a href="http://127.0.0.1:8000/api/home/">Volver a Inicio</a></button> 
+                <button class="button_3"><a href="http://127.0.0.1:8000/api/admin/"> Volver al Panel de Administracion </a>  </button>
+            </div>
+            <table >
+                <thead class="propiedades">
+                    <tr>
+                        <th> Id-Pais </th>
+                        <th > Pais </th>
+                        <th> Idiomas </th>
+                        <th> Opciones </th>
+                    </tr>
+                </thead>
+                
+                   
+                   <tbody>
+                       {% for pais in Paises %}
+                        <tr>
+                            <td> {{ pais.id}} </td>
+                            <td> {{ pais.nombre }} </td>
+                            <td> {{ pais.idioma }} </td>
+                            <td> <button class="button_3"><a class="btn btn-primary" href="http://127.0.0.1:8000/api/modificar-pais/{{pais.id}}">Modificar</a></button>
+                                <button class="button_4"><a class="btn btn-danger" href="http://127.0.0.1:8000/api/eliminar-pais/{{pais.id}}">Eliminar</a></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                   </tbody>
+                   
+                
+            </table>
+        </div>
+    </body>
+
+</html>

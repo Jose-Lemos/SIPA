@@ -1,0 +1,72 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+#contenido
+{
+    width: 40em;
+    height: 20em;
+    background-color: #d1d1d8;
+    margin: 6em 23em;
+    border: black solid;
+}
+
+.boton_home
+{
+    width: 130px;
+    margin: 2em 1em;
+    padding: 10px 10px;
+    background-color: #1e1ee4;
+    border: none;
+    border-radius: 8px;
+}
+
+.boton_descarga
+{
+    width: 100px;
+    margin: 0em 1em;
+    padding: 10px 10px;
+    background-color: #08c738e0;
+    border: none;
+    border-radius: 8px;
+}
+#botones
+{
+    margin: -1em 41em;
+}
+
+a
+{
+    text-decoration: none;
+    color: #fff;
+    font-size: 17px;
+}
+
+p
+{
+    margin: 15em 0em;
+    font-size: 20px;
+    font: caption;
+}
+
+#notas
+{
+    width: 40em;
+    height: 7em;
+    border: 1px solid;
+    background-color: #eff8f8;
+    margin: -14em 0em;
+}
+
+.anotaciones
+{
+    width: 40em;
+    height: 7em;
+    margin: -14em 0em;
+}
+
+textarea
+{
+    margin:auto;
+}

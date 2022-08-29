@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Panel de administracion</title>
+        <meta charset="UTF-8">
+        <h1>Panel de administracion</h1>
+        {% load static %} 
+          <link rel="stylesheet" href="{% static 'panel.css' %}">
+    </head>
+    <body>
+    <div> 
+        <table>
+            <tr><th>Apicacion</th></tr>
+            <tr><td><a href="http://127.0.0.1:8000/api/categorias/">Categorias</a></td></tr>
+            <tr><td><a href="http://127.0.0.1:8000/api/fuentes-informacion/">Fuentes de informacion</a></td></tr>
+            <tr><td><a href="http://127.0.0.1:8000/api/paises/">Paises</a></td></tr>
+        </table>
+    </div>
+    <div>
+        <table>
+              <tr><th>Autenticacion y autorizacion</th></tr>
+              <tr><td><a href="http://127.0.0.1:8000/api/usuarios/">Usuarios</a></td></tr>
+        </table>
+    </div>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+
+
+table
+{
+    border: 2px solid #000;
+    width: 45%;
+    border-color: black;
+    border-collapse: collapse;
+    padding: 20px;
+    font-size: 24px;
+    margin: -5em 25em;
+    font: caption;
+}
+
+
+.propiedades
+{
+    border: 2px solid #000;
+    width: 50%;
+    
+    text-align: center;
+}
+thead
+{
+    background-color: rgb(30, 90, 180);
+    padding: 5px;
+}
+td
+{
+    border: 2px solid #000;
+    width: 20%;
+    text-align: center;
+    padding: 5px;
+}
+
+.button_1
+{
+    width: 23%;
+    padding: 15px;
+    border: 2px solid;
+    background-color: rgb(0, 110, 255);
+    border:none;
+}
+.button_3
+{
+    width: 30%;
+    padding: 10px;
+    background-color: rgb(238, 157, 34);
+    border: none;
+}
+.button_4
+{
+    width: 30%;
+    padding: 10px;
+    background-color: rgb(231, 38, 38);
+    border: none;
+}
+.button_2
+{
+    padding: 15px;
+    border: 2px solid;
+    background-color: rgb(0, 110, 255);
+    border-radius: 2px;
+    width: 25%;
+    border: none;
+}
+
+a
+{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+}
+
+.movimientos
+{
+    margin: 5.3em 25em;
+}
+
+h1
+{
+    font:caption;
+    font-size: 25px;
+    background-color: #1f6492;
+    padding: 12px;
+    color: white;
+}
+
+.tamaño
+{
+    width: 40%;
+    height: 15px;
+}
+
+.tamaño_2
+{
+    width: 32%;
+}
