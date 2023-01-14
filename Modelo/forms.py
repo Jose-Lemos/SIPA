@@ -7,16 +7,19 @@ class UsuarioForm(forms.ModelForm):
         fields = [
             'email',
             'password',
+            'is_superuser',
         ]
 
         labels={
             'email': "E-mail:",
             'password': "Contraseña: ",
+            'is_superuser': "Es SuperUsuario?: ",
         }
 
         widgets = {
             'email': forms.EmailInput(attrs={'class':'form-control'}),
             'contraseña':forms.PasswordInput(attrs={'class':'form-control'}),
+            'is_superuser': forms.NullBooleanSelect(attrs={'class':'form-control'}),
         }
 
 

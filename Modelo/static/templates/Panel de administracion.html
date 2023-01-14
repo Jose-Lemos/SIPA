@@ -8,18 +8,98 @@
           <link rel="stylesheet" href="{% static 'panel.css' %}">
     </head>
     <body>
-    <div> 
+    <div class="table-model-app"> 
         <table>
-            <tr><th>Apicacion</th></tr>
-            <tr><td><a href="http://127.0.0.1:8000/api/categorias/">Categorias</a></td></tr>
-            <tr><td><a href="http://127.0.0.1:8000/api/fuentes-informacion/">Fuentes de informacion</a></td></tr>
-            <tr><td><a href="http://127.0.0.1:8000/api/paises/">Paises</a></td></tr>
+            <caption>Aplicación</caption>
+            
+            <tr>
+                <th>
+                <a href="http://127.0.0.1:8000/api/categorias/">Categorias</a>
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/categorias/">
+                        <div class="botton-add">
+                            Agregar
+                        </div>
+                    </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/categorias/">
+                            <div class="botton-mod">
+                                Modificar
+                            </div>
+                        </a>
+                    </td>
+                        
+                
+                </th>
+                
+            </tr>
+            <tr>
+                <th>
+                    <a href="http://127.0.0.1:8000/api/fuentes-informacion/">Fuentes de informacion</a>
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/fuentes-informacion/">
+                        <div class="botton-add">
+                            Agregar
+                        </div>
+                    </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/fuentes-informacion/">
+                            <div class="botton-mod">
+                                Modificar
+                            </div>
+                        </a>
+                    </td>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <a href="http://127.0.0.1:8000/api/paises/">Paises</a>
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/paises/">
+                        <div class="botton-add">
+                            Agregar
+                        </div>
+                    </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/paises/">
+                            <div class="botton-mod">
+                                Modificar
+                            </div>
+                        </a>
+                    </td>
+                </th>
+            </tr>
         </table>
     </div>
-    <div>
+    <div class="table-model-user">
         <table>
-              <tr><th>Autenticacion y autorizacion</th></tr>
-              <tr><td><a href="http://127.0.0.1:8000/api/usuarios/">Usuarios</a></td></tr>
+            <caption> Autenticacion y autorizacion </caption> 
+            <tr>
+                <th>
+                    <a href="http://127.0.0.1:8000/api/usuarios/">Usuarios</a>
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/categorias/">
+                        <div class="botton-add">
+                            Agregar
+                        </div>
+                    </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/categorias/">
+                            <div class="botton-mod">
+                                Modificar
+                            </div>
+                        </a>
+                    </td>
+                </th>
+            </tr>
         </table>
     </div>
     </body>

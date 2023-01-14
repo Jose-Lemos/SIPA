@@ -1,4 +1,3 @@
-import bs4 as bs  
 import urllib.request  
 import re
 import nltk
@@ -11,13 +10,13 @@ from inscriptis import get_text
 #from googletrans import Translator
  
 #scrapea articulo de wikipedia
-enlace = 'https://www.bas.ac.uk/'
+enlace = 'https://www.bas.ac.uk/science/our-research/our-strategy/'  #Este parámetro lo va a definir la URL de la fuente que queremos resumir
 html = urllib.request.urlopen(enlace).read().decode('utf-8')
 text = get_text(html)
 article_text = text
 article_text = article_text.replace("[ edit ]", "")
 print ("###################")
- 
+print(text)
 from nltk import word_tokenize,sent_tokenize
 # Removing Square Brackets and Extra Spaces
 article_text = re.sub(r'\[[0-9]*\]', ' ', article_text)  
@@ -25,7 +24,9 @@ article_text = re.sub(r'\s+', ' ', article_text)
  
 formatted_article_text = re.sub('[^a-zA-Z]', ' ', article_text )  
 formatted_article_text = re.sub(r'\s+', ' ', formatted_article_text)  
-#nltk.download()
+print("articulo formateado")
+nltk.download('punkt')
+nltk.download('stopwords')
 #EN ESTA PARTE HACE LA TOKENIZACION 
 sentence_list = nltk.sent_tokenize(article_text)  
  
@@ -45,13 +46,15 @@ maximum_frequncy = max(word_frequencies.values())
  
 for word in word_frequencies.keys():  
     word_frequencies[word] = (word_frequencies[word]/maximum_frequncy)
+
+print("frecuencias de palabras obtenidas")
  
 #CALCULA LAS FRASES QUE MÁS SE REPITEN
 sentence_scores = {}  
 for sent in sentence_list:  
     for word in nltk.word_tokenize(sent.lower()):
         if word in word_frequencies.keys():
-            if len(sent.split(' ')) < 30:
+            if len(sent.split(' ')) < 30:  #se define el tamaño de la sentencia
                 if sent not in sentence_scores.keys():
                     sentence_scores[sent] = word_frequencies[word]
                 else:
@@ -67,8 +70,8 @@ print(summary)
 ###
 #traducir:
 ################
-translator = Translator()
-translate = translator.translate(summary, src="en", dest="es")
-print(translate.text)
+#translator = Translator()
+#translate = translator.translate(summary, src="en", dest="es")
+#print(translate.text)
 ############################
-print("Haz mi curso gratis de python:  https://www.udemy.com/course/python-desde-0-para-principiantes/")
+print("Resumen Finalizado")

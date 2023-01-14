@@ -56,7 +56,7 @@ ROOT_URLCONF = 'SIPA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['C:/Users/eljos/Documents/Proyectos en Github/SIPA/SIPA/Modelo/static/templates'],
+        'DIRS': ['C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,9 +127,9 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    "C:/Users/eljos/Documents/Proyectos en Github/SIPA/SIPA/Modelo/static/templates",
-    "C:/Users/eljos/Documents/Proyectos en Github/SIPA/SIPA/Modelo/static/style",
-    "C:/Users/eljos/Documents/Proyectos en Github/SIPA/SIPA/Modelo/scripts"
+    "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates",
+    "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/style",
+    "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/scripts"
 ]
 
 # Default primary key field type
@@ -141,3 +141,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
+
+AUTH_USER_MODEL = 'Modelo.Usuario'  #  where user is the app name and User is the model class name

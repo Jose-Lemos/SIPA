@@ -1,7 +1,7 @@
 import urllib.request
 from bs4 import BeautifulSoup
 
-page = urllib.request.urlopen('https://www.bas.ac.uk/').read().decode()
+page = urllib.request.urlopen('https://www.bas.ac.uk/').read().decode()  #Este parámetro define la URL de donde se van a obtener los elementos
 soup = BeautifulSoup(page, 'html.parser')
 
 #Links de la Pagina Principal (Home)

@@ -24,8 +24,10 @@ class UserManager(BaseUserManager):
         return user_obj
 
 class Usuario(PermissionsMixin, AbstractBaseUser):
-    
-    email = models.EmailField(max_length=255, unique=True)
+    id = models.BigAutoField(auto_created=True, primary_key=True, verbose_name="ID")
+    email = models.EmailField(max_length=255, unique=True, default="@gmail.com")
+    password = models.CharField(max_length=255)
+    is_superuser = models.BooleanField()
 
     # New manager
     objects = UserManager()

@@ -70,7 +70,26 @@ class UsuarioCreateView(CreateView):
     form_class = UsuarioForm
     queryset = Usuario.objects.all()
     template_name = "Agregar usuario.html"
-    success_url = reverse_lazy('usuarios')
+    success_url = reverse_lazy('Usuarios')
+
+    #def get_context_data(self, **kwargs):
+        #context = super().get_context_data(**kwargs)
+
+    def post(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        email_user = request.POST["email"]
+        pass_user = request.POST["password"]
+        is_super = request.POST["is_superuser"]
+
+        new_User = Usuario()
+        new_User.email = email_user
+        new_User.password = pass_user
+        new_User.is_superuser = is_super
+        new_User.save()
+
+        #context = self.get_context_data(**kwargs)
+        #return self.render_to_response(context)
+       
 
           
 
@@ -78,12 +97,12 @@ class modificar_Usuario(UpdateView):
     model = Usuario
     form_class = UsuarioForm
     template_name = "Agregar usuario.html"
-    success_url = reverse_lazy('usuarios')
+    success_url = reverse_lazy('Usuarios')
 
 class eliminar_Usuario(DeleteView):
     model = Usuario
     template_name = "usuario_confirm_delete.html"
-    success_url = reverse_lazy('usuarios')
+    success_url = reverse_lazy('Usuarios')
 
 #Vistas de las categorías
 class listar_Categorias(ListView):

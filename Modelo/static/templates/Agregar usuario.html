@@ -14,15 +14,17 @@
         <div class = "card-body card-block">
             <form  method="post" class="form-horizontal">
                 {% csrf_token %}
-                <div class="row form-group">
-                    <div class="col col-md-3">{{ form.nombre.label }}</div>
-                    <div class="col-12 col-md-9">{{ form.nombre }}</div>
+                <div class="row form-group align-items-md-center">
+                    
 
                     <div class="col col-md-3">{{ form.email.label }}</div>
                     <div class="col-12 col-md-9">{{ form.email }}</div>
 
-                    <div class="col col-md-3">{{ form.contraseña.label }}</div>
-                    <div class="col-12 col-md-9">{{ form.contraseña }}</div>
+                    <div class="col col-md-3">{{ form.password.label }}</div>
+                    <div class="col-12 col-md-9">{{ form.password }}</div>
+
+                    <div class="col col-md-3">{{ form.is_superuser.label }}</div>
+                    <div class="col-12 col-md-1">{{ form.is_superuser }}</div>
                 </div>
                
                

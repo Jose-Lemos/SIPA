@@ -14,10 +14,10 @@ h1
     font: caption;
 }
 
-table, th, td{
+table{
     border: solid;
     border-color:black;
-    width: 40%;
+    width: 50%;
     font-size: 20px;
     border-collapse: collapse;
     padding: 10px;
@@ -25,14 +25,49 @@ table, th, td{
     font: caption;
 }
 
-th
+th{
+    border-bottom: 2px solid black;
+    font-size: 20px;
+    padding: 10px;
+    text-align: start;
+    border-collapse: collapse;
+    width: 60%;
+}
+
+td{
+    border-bottom: 2px solid black;
+    padding: 10px;
+    font-size: 20px;
+}
+
+caption
 {
     background-color: cadetblue;
+    border: solid;
+    border-color:black;
+    font-size: 20px;
+    padding: 10px;
 }
 
 a
 {
     color: black;
     text-decoration: none;
+    
+}
+
+
+.botton-add{
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: rgb(26, 235, 26);
+}
+
+.botton-mod{
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: orange;
 }
 
