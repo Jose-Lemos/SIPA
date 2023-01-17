@@ -1,17 +1,25 @@
+:root{
+    --title-list: #1f6492;
+}
+
 .detalles
 { 
     
     border-collapse: separate;
     border-spacing: 10px 5px;
 }
-h1
+h1, h2
 {
     font-size: 25px;
-    background-color: green;
     height: 40%;
     padding: 15px;
     color: white;
     font: caption;
+}
+
+h2 a{
+    color: white;
+    text-decoration: underline;
 }
 
 table{
@@ -71,3 +79,8 @@ a
     background-color: orange;
 }
 
+.head{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--title-list);
+}

@@ -1,4 +1,5 @@
-from django.utils import timezone
+from django.utils import timezone, dateformat
+from datetime import datetime
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -125,9 +126,10 @@ class Contenido_Procesado(models.Model):
 
 
 class Categoria(models.Model):
-    fecha = models.DateField(null=False, blank=False, default=timezone.now())
+    fecha = models.DateField(null=False, blank=False, default= datetime.date(timezone.now()))
     concepto = models.CharField(max_length=100, null = False, blank = None, unique=True)
     contenidos_Procesados_Relacionados = models.ManyToManyField(Contenido_Procesado)
 
     def __str__(self):
         return self.concepto
+

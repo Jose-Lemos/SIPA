@@ -1,32 +1,34 @@
 <!DOCTYPE html>
-<html>
-    <head>
-       <title>Listado de categorias</title>
-       <meta charset="UTF-8">
-       {% load static %}
-        <link rel="stylesheet" href="{% static 'categorias.css' %}">
-    </head>
-    <body>
-        <h1>Listado de Categorias</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado Categorias</title>
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'Listados.css' %}">
         
-        <div>
-            <div class="movimientos">
-                <a href="http://127.0.0.1:8000/api/admin/">
-                    <button class="button_3">Volver al Panel de Administración</button>
-                </a>  
-                <a href="http://127.0.0.1:8000/api/home/">
-                    <button class="button_2">Volver a Inicio</button>
-                </a>
-                <a  href="http://127.0.0.1:8000/api/agregar-categoria/" >
-                    <button class="button_1">Agregar</button>
-                </a>
+
+    
+</head>
+<body>
+    <h1 id="title-list">Panel de Administración > Listado de Categorias</h1>
+    
+    <div class="main-container">
+        {% include 'sidebar.html' %}
+
+        <div class="data-container">
+            <div class="navegacion">
+                <h2>Categorias</h2>
+                <button class="btn-agregar"><a  href="http://127.0.0.1:8000/api/agregar-categoria/" >Agregar</a></button>
             </div>
+            
             <table >
                 <thead class="propiedades">
                     <tr>
-                        <th> ID-Categoria </th>
-                        <th> fecha de Creacion </th>
-                        <th > Categoria </th>
+                        <th> ID </th>
+                        <th> Categoria </th>
+                        <th> Fecha de Creación </th>
                         <th> Opciones </th>
                     </tr>
                 </thead>
@@ -36,11 +38,11 @@
                         {% for categoria in Categorias %}
                             <tr>
                                 <td> {{ categoria.id }} </td>
-                                <td> {{ categoria.fecha }} </td>
                                 <td> {{ categoria.concepto}} </td>
-                                <td> 
-                                    <button class="button_3"><a class="btn btn-primary" href="http://127.0.0.1:8000/api/modificar-categoria/{{categoria.id}}">Modificar</a></button>
-                                    <button class="button_4"><a class="btn btn-danger" href="">Eliminar</a></button>
+                                <td> {{ categoria.fecha }} </td>
+                                <td class="options"> 
+                                    <button class="btn-modificar"><a href="http://127.0.0.1:8000/api/modificar-categoria/{{categoria.id}}">Modificar</a></button>
+                                    <button class="btn-eliminar"><a href="http://127.0.0.1:8000/api/eliminar-categoria/{{categoria.id}}">Eliminar</a></button>
                                 </td>
 
                             </tr>
@@ -51,6 +53,10 @@
                 
             </table>
         </div>
-    </body>
 
+        
+    </div>
+    
+
+</body>
 </html>

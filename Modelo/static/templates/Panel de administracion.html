@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Panel de administracion</title>
+        <title>Panel de administración</title>
         <meta charset="UTF-8">
-        <h1>Panel de administracion</h1>
+        <div class="head">
+            <h1>Panel de administración</h1>
+            <h2>Bienvenid@ Jose, <a href="http://127.0.0.1:8000/api/home/"> Ir al Sitio</a> / <a href="#"> Cambiar Contraseña</a> / <a href="#"> Log Out </a></h2>
+        </div>
+        
         {% load static %} 
           <link rel="stylesheet" href="{% static 'panel.css' %}">
     </head>
@@ -15,13 +19,6 @@
             <tr>
                 <th>
                 <a href="http://127.0.0.1:8000/api/categorias/">Categorias</a>
-                    <td>
-                        <a href="http://127.0.0.1:8000/api/categorias/">
-                        <div class="botton-add">
-                            Agregar
-                        </div>
-                    </a>
-                    </td>
                     
                     <td>
                         <a href="http://127.0.0.1:8000/api/categorias/">
@@ -30,22 +27,22 @@
                             </div>
                         </a>
                     </td>
-                        
-                
+
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/categorias/">
+                            <div class="botton-add">
+                                Agregar
+                            </div>
+                        </a>
+                    </td>
+
                 </th>
                 
             </tr>
             <tr>
                 <th>
-                    <a href="http://127.0.0.1:8000/api/fuentes-informacion/">Fuentes de informacion</a>
-                    <td>
-                        <a href="http://127.0.0.1:8000/api/fuentes-informacion/">
-                        <div class="botton-add">
-                            Agregar
-                        </div>
-                    </a>
-                    </td>
-                    
+                    <a href="http://127.0.0.1:8000/api/fuentes-informacion/">Fuentes de información</a>
+
                     <td>
                         <a href="http://127.0.0.1:8000/api/fuentes-informacion/">
                             <div class="botton-mod">
@@ -53,19 +50,21 @@
                             </div>
                         </a>
                     </td>
+
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/fuentes-informacion/">
+                            <div class="botton-add">
+                                Agregar
+                            </div>
+                        </a>
+                    </td>
+
                 </th>
             </tr>
             <tr>
                 <th>
                     <a href="http://127.0.0.1:8000/api/paises/">Paises</a>
-                    <td>
-                        <a href="http://127.0.0.1:8000/api/paises/">
-                        <div class="botton-add">
-                            Agregar
-                        </div>
-                    </a>
-                    </td>
-                    
+                       
                     <td>
                         <a href="http://127.0.0.1:8000/api/paises/">
                             <div class="botton-mod">
@@ -73,23 +72,25 @@
                             </div>
                         </a>
                     </td>
+
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/paises/">
+                            <div class="botton-add">
+                                Agregar
+                            </div>
+                        </a>
+                    </td>
+
                 </th>
             </tr>
         </table>
     </div>
     <div class="table-model-user">
         <table>
-            <caption> Autenticacion y autorizacion </caption> 
+            <caption> Autenticación y autorización </caption> 
             <tr>
                 <th>
                     <a href="http://127.0.0.1:8000/api/usuarios/">Usuarios</a>
-                    <td>
-                        <a href="http://127.0.0.1:8000/api/categorias/">
-                        <div class="botton-add">
-                            Agregar
-                        </div>
-                    </a>
-                    </td>
                     
                     <td>
                         <a href="http://127.0.0.1:8000/api/categorias/">
@@ -98,6 +99,15 @@
                             </div>
                         </a>
                     </td>
+
+                    <td>
+                        <a href="http://127.0.0.1:8000/api/categorias/">
+                            <div class="botton-add">
+                                Agregar
+                            </div>
+                        </a>
+                    </td>
+
                 </th>
             </tr>
         </table>

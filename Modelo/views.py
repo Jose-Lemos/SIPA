@@ -108,7 +108,7 @@ class eliminar_Usuario(DeleteView):
 class listar_Categorias(ListView):
     queryset = Categoria.objects.all()
     context_object_name = "Categorias"
-    template_name = 'Listado Categorias2.html'
+    template_name = 'Listado Categorias.html'
 
 class agregar_categoria(CreateView):
     model = Categoria

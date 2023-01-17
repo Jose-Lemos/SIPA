@@ -3,47 +3,52 @@
     <head>
        <title>Listado de usuarios</title>
        {% load static %}
-        <link rel="stylesheet" href="{% static 'categorias.css' %}">
+        <link rel="stylesheet" href="{% static 'Listados.css' %}">
     </head>
     <body>
-        <h1>Listado de usuarios</h1>
+        <h1 id="title-list">Panel de Administración > Listado de Usuarios</h1>
         
-        <div>
-            <div class="movimientos">
-                <button class="button_1"><a  href="http://127.0.0.1:8000/api/agregar-usuario/" >Agregar</a></button>
-                <button class="button_2"><a href="http://127.0.0.1:8000/api/home/">Volver a Inicio</a></button> 
-                <button class="button_3"><a href="http://127.0.0.1:8000/api/admin/"> Volver al Panel de Administracion </a>  </button>
-            </div>
-            <table >
-                <thead class="propiedades">
+        <div class="main-container">
+            {% include 'sidebar.html' %}
+            <div class="data-container">
+                <div class="navegacion">
+                    <h2>Usuarios</h2>
+                    <button class="btn-agregar"><a  href="http://127.0.0.1:8000/api/agregar-usuario/" >Agregar</a></button>
+                </div>
+                <table >
+                    <thead class="propiedades">
+                        <tr>
+                            <th> ID </th>
+                            <th> Usuario </th>
+                            <th> Opciones </th>
+                        </tr>
+                    </thead>
                     <tr>
-                        <th> ID Usuario</th>
-                        <th >Usuario</th>
-                        <th>Opciones</th>
+                       
+                       <tbody>
+                            {% for usuario in Usuarios %}
+                                <tr>
+                                    <td>{{ usuario.id }}</td>
+                                    <td>{{ usuario.email }}</td>
+                                    <td class="options"> 
+                                        
+                                            <button class="btn-modificar"><a href="http://127.0.0.1:8000/api/modificar-usuario/{{usuario.id}}">Modificar</a></button>
+                                            <button class="btn-eliminar"><a href="http://127.0.0.1:8000/api/eliminar-usuario/{{usuario.id}}">Eliminar</a></button>
+                                        
+                                        
+                                    </td>
+                                </tr>
+                            {% endfor %}
+    
+                       </tbody>
+                       
                     </tr>
-                </thead>
-                <tr>
-                   
-                   <tbody>
-                        {% for usuario in Usuarios %}
-                            <tr>
-                                <td>{{ usuario.id }}</td>
-                                <td>{{ usuario.nombre }}</td>
-                                <td> 
-                                    
-                                        <button class="button_3"><a class="btn btn-primary" href="http://127.0.0.1:8000/api/modificar-usuario/{{usuario.id}}">Modificar</a></button>
-                                        <button class="button_4"><a class="btn btn-danger" href="http://127.0.0.1:8000/api/eliminar-usuario/{{usuario.id}}">Eliminar</a></button>
-                                    
-                                    
-                                </td>
-                            </tr>
-                        {% endfor %}
-
-                   </tbody>
-                   
-                </tr>
-            </table>
+                </table>
+            </div>
         </div>
+
+
+       
     </body>
 
 </html>

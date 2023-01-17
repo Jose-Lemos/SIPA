@@ -34,3 +34,4 @@ const cookie = {
     new bootstrap.Tooltip(tooltipTriggerEl)
   })
 })()
+
