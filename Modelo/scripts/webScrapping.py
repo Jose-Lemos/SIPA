@@ -10,7 +10,7 @@ from inscriptis import get_text
 #from googletrans import Translator
  
 #scrapea articulo de wikipedia
-enlace = 'https://www.bas.ac.uk/science/our-research/our-strategy/'  #Este parámetro lo va a definir la URL de la fuente que queremos resumir
+enlace = 'https://www.bas.ac.uk/about/antarctica/'  #Este parámetro lo va a definir la URL de la fuente que queremos resumir
 html = urllib.request.urlopen(enlace).read().decode('utf-8')
 text = get_text(html)
 article_text = text
@@ -24,7 +24,7 @@ article_text = re.sub(r'\s+', ' ', article_text)
  
 formatted_article_text = re.sub('[^a-zA-Z]', ' ', article_text )  
 formatted_article_text = re.sub(r'\s+', ' ', formatted_article_text)  
-print("articulo formateado")
+#print("articulo formateado")
 nltk.download('punkt')
 nltk.download('stopwords')
 #EN ESTA PARTE HACE LA TOKENIZACION 

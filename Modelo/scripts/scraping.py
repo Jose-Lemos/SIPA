@@ -38,6 +38,7 @@ class Articulo:
         self.imagen = link_imagen
 
 
+
     def __str__(self):
         texto="Titulo-Articulo: {0} - Link: {1} - Imagen: {2}"
         return texto.format(self.titulo, self.pagina, self.imagen)    

@@ -88,9 +88,9 @@ class Fuente_Informacion(models.Model):
     nombre = models.CharField(max_length=100, null = False, blank = None)
     URL = models.URLField(max_length= 200, null = False, blank = None)
     tipo = models.CharField(max_length=50)
+    es_parte_de = models.PositiveBigIntegerField()
+    nivel = models.PositiveIntegerField()
     fecha = models.DateField(default=timezone.now())
-    idContenido_Original = models.ForeignKey( Contenido_Original, on_delete=models.CASCADE, null=True)
-    idConfiguracion = models.ForeignKey(Configuracion_Fuente_Informacion,  on_delete=models.CASCADE, null=True)
     idPais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=True)
 
     def __str__(self): 
@@ -101,13 +101,19 @@ class Fuente_Informacion(models.Model):
 
 class Adjunto(models.Model):
     nombre = models.CharField(max_length=50, null = False, blank = None, unique=True)
-    formato = models.CharField(max_length=30)
+    imagen = models.ImageField(upload_to='adjuntos', default='adjunto.png')
 
     def __str__(self):
         return self.nombre
     
    
 
+class Categoria(models.Model):
+    fecha = models.DateField(null=False, blank=False, default= datetime.date(timezone.now()))
+    concepto = models.CharField(max_length=100, null = False, blank = None, unique=True)
+
+    def __str__(self):
+        return self.concepto
 
 
 
@@ -118,6 +124,8 @@ class Contenido_Procesado(models.Model):
     anotacion = models.TextField()
     idAdjunto = models.ForeignKey( Adjunto, null=False, blank=False, on_delete=models.CASCADE)
     idContenido_Original = models.ForeignKey(Contenido_Original, null=False, blank=False, on_delete=models.CASCADE)
+    idFuente = models.ForeignKey(Fuente_Informacion, on_delete=models.CASCADE)
+    idCategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.titulo
@@ -125,11 +133,4 @@ class Contenido_Procesado(models.Model):
     
 
 
-class Categoria(models.Model):
-    fecha = models.DateField(null=False, blank=False, default= datetime.date(timezone.now()))
-    concepto = models.CharField(max_length=100, null = False, blank = None, unique=True)
-    contenidos_Procesados_Relacionados = models.ManyToManyField(Contenido_Procesado)
-
-    def __str__(self):
-        return self.concepto
 

@@ -70,8 +70,8 @@ class Fuente_Info_Form(forms.ModelForm):
           'nombre',
           'URL',
           'tipo', 
-          'idContenido_Original', 
-          'idConfiguracion',
+          #'idContenido_Original', 
+          #'idConfiguracion',
           'idPais'
         ]
 
@@ -79,8 +79,8 @@ class Fuente_Info_Form(forms.ModelForm):
             'nombre': "Nombre:",
             'URL': "url:",
             'tipo': "Tipo:",
-            'idContenido_Original': "ID Contenido Original", 
-            'idConfiguracion': "ID Configuracion",
+            #'idContenido_Original': "ID Contenido Original", 
+            #'idConfiguracion': "ID Configuracion",
             'idPais':"ID Pais",
         }
 
