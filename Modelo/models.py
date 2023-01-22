@@ -62,17 +62,7 @@ class Contenido_Original(models.Model):
 
 
 
-class Configuracion_Fuente_Informacion(models.Model):
-    buscar_Titulo = models.CharField(max_length= 200,null = False, blank = None)
-    buscar_Contenido = models.CharField(max_length= 200, null = False, blank = None)
-    buscar_Imagenes = models.CharField(max_length= 200, null = False, blank = None)
-    buscar_links = models.CharField(max_length= 200, null = False, blank = None)
 
-    def get_absolute_url(self):
-        return reverse('fuentes', kwargs={'pk': self.pk})
-
-    def __str__(self):
-        return self.buscar_Titulo
 
 
 class Pais(models.Model):
@@ -82,22 +72,7 @@ class Pais(models.Model):
 
     def __str__(self):
         return self.nombre
-
-
-class Fuente_Informacion(models.Model):
-    nombre = models.CharField(max_length=100, null = False, blank = None)
-    URL = models.URLField(max_length= 200, null = False, blank = None)
-    tipo = models.CharField(max_length=50)
-    es_parte_de = models.PositiveBigIntegerField()
-    nivel = models.PositiveIntegerField()
-    fecha = models.DateField(default=timezone.now())
-    idPais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=True)
-
-    def __str__(self): 
-        return self.nombre
     
-    
-
 
 class Adjunto(models.Model):
     nombre = models.CharField(max_length=50, null = False, blank = None, unique=True)
@@ -114,7 +89,46 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.concepto
+    
 
+
+
+
+class Fuente_Informacion(models.Model):
+    nombre = models.CharField(max_length=100, null = False, blank = None)
+    URL = models.URLField(max_length= 200, null = False, blank = None)
+    tipo = models.CharField(max_length=50)
+    nivel = models.PositiveIntegerField(default=1)
+    fecha = models.DateField(default=timezone.now())
+    idPais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=True)
+
+    def __str__(self): 
+        return self.nombre
+    
+    
+
+class Links(models.Model):
+    URL = models.URLField(max_length= 200, null = False, blank = None)
+    es_parte_de = models.ForeignKey(Fuente_Informacion, on_delete=models.CASCADE)
+    fecha = models.DateField(default=timezone.now())
+
+    def __str__(self):
+        return self.URL
+
+
+
+class Configuracion_Fuente_Informacion(models.Model):
+    id_fuente = models.ForeignKey(Fuente_Informacion, on_delete=models.CASCADE, null=True)
+    buscar_Titulo = models.CharField(max_length= 200,null = False, blank = None)
+    buscar_Contenido = models.CharField(max_length= 200, null = False, blank = None)
+    buscar_Imagenes = models.CharField(max_length= 200, null = False, blank = None)
+    buscar_links = models.CharField(max_length= 200, null = False, blank = None)
+
+    def get_absolute_url(self):
+        return reverse('fuentes', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.buscar_Titulo
 
 
 class Contenido_Procesado(models.Model):

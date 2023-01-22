@@ -35,11 +35,20 @@ class Configuracion_Fuente_Info_Form(forms.ModelForm):
     class Meta:
         model = Configuracion_Fuente_Informacion
         fields = [
+            'id_fuente',
             'buscar_Titulo',
             'buscar_Contenido',
             'buscar_Imagenes',
             'buscar_links',
         ]
+
+        labels = {
+            'id_fuente': "Fuente de Información: ",
+            'buscar_Titulo': "Como Buscar el/los título/s: ",
+            'buscar_Contenido': "Como Buscar el/los Concepto/s: ",
+            'buscar_Imagenes': "Como Buscar la/s Imagen/es: ",
+            'buscar_links': "Como Buscar el/los link/s: ",
+        }
 
 
 
@@ -63,6 +72,7 @@ class Contenido_Procesado_Form(forms.ModelForm):
         ]
 
 
+
 class Fuente_Info_Form(forms.ModelForm):
     class Meta:
         model = Fuente_Informacion
@@ -77,7 +87,7 @@ class Fuente_Info_Form(forms.ModelForm):
 
         labels={
             'nombre': "Nombre:",
-            'URL': "url:",
+            'URL': "URL:",
             'tipo': "Tipo:",
             #'idContenido_Original': "ID Contenido Original", 
             #'idConfiguracion': "ID Configuracion",
