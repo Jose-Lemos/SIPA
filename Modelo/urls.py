@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (Panel_Administracion_View, Pantalla_Principal_View, UsuariosView, Visualizar_Contenido_View, 
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
 loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, 
-modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView)
+modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Configurar_Scrapper)
 
 
 urlpatterns = [
@@ -35,7 +35,11 @@ urlpatterns = [
     path('modificar-pais/<int:pk>', modificar_pais.as_view(), name = "modificar-pais"),
     path('eliminar-pais/<int:pk>', eliminar_pais.as_view(), name="eliminar-pais"),
 
+    #path de Navegacion
     path('admin/', Panel_Administracion_View.as_view(), name = "admin"),
     path('home/', Pantalla_Principal_View.as_view(), name = "home"),
     path('contenido/', Visualizar_Contenido_View.as_view(), name = 'contenido'),
+
+    #path Recoleccion
+    path('configuracion-scrapper/', Configurar_Scrapper.as_view(), name="configurar-scrapper"),
 ]

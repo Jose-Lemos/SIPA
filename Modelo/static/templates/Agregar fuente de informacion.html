@@ -8,7 +8,7 @@
     {% load static %}
         <link rel="stylesheet" href="{% static 'fuentes.css' %}">
     {% block content %}
-    <title>Agregar Categoria</title>
+    <title>Agregar Fuente de Informacion</title>
 </head>
 <body>
     <h1>Agregar Fuente de Informacion:</h1> 
@@ -16,7 +16,7 @@
 
         <div class = "card-body card-block">
             {% load static %}
-            <form  method="post" class="form-horizontal" script="{% static 'scripts/scraping.py' %}">
+            <form  method="post" class="form-horizontal">
                 {% csrf_token %}
                 <div class="row form-group">
                     <div class="col col-md-3">{{ form.nombre.label }}</div>

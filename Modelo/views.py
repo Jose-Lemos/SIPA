@@ -14,10 +14,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 
+#módulos necesarios para el WebScrapping
+import urllib.request
+from bs4 import BeautifulSoup
 
 #Modelos necesarios para las vistas
 from .models import Pais, Usuario, Categoria, Fuente_Informacion
-from .forms import UsuarioForm,CategoriaForm, PaisForm, Fuente_Info_Form
+from .forms import UsuarioForm,CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form
 # Create your views here.
 
 #Api de usuarios
@@ -204,3 +207,39 @@ class Visualizar_Contenido_View(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+    
+
+
+class Configurar_Scrapper(TemplateView):
+    template_name = "ConfigurarScrapper.html"
+    form = Configuracion_Fuente_Info_Form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
+    
+    def post(self, request, **kwargs):
+        id_fuente = request.POST.get("id_fuente")
+        fuente = Fuente_Informacion.objects.get(id=id_fuente)
+        title = request.POST.get("buscar_Titulo")
+        contenido = request.POST.get("buscar_Contenido")
+        imgs = request.POST.get("buscar_Imagenes")
+        links = request.POST.get("buscar_links")
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form
+        
+        if request.method == "POST":
+            if id_fuente and title and contenido and imgs and links:
+                print("id_fuente: ",id_fuente)
+                print("fuente: ", fuente)
+                print("title: ",title)
+                print("contenido: ", contenido)
+                print("imagenes: ", imgs)
+                print("links: ", links)
+                url = fuente.URL
+                page = urllib.request.urlopen(url).read().decode()  #Este parámetro define la URL de donde se van a obtener los elementos
+                soup = BeautifulSoup(page, 'html.parser')
+                #print(soup)
+                return self.render_to_response(context)
+            

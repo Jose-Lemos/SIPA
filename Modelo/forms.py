@@ -44,10 +44,10 @@ class Configuracion_Fuente_Info_Form(forms.ModelForm):
 
         labels = {
             'id_fuente': "Fuente de Información: ",
-            'buscar_Titulo': "Como Buscar el/los título/s: ",
-            'buscar_Contenido': "Como Buscar el/los Concepto/s: ",
-            'buscar_Imagenes': "Como Buscar la/s Imagen/es: ",
-            'buscar_links': "Como Buscar el/los link/s: ",
+            'buscar_Titulo': "Como Buscar el título: ",
+            'buscar_Contenido': "Como Buscar los Conceptos: ",
+            'buscar_Imagenes': "Como Buscar las Imagenes: ",
+            'buscar_links': "Como Buscar los links: ",
         }
 
 
@@ -80,8 +80,6 @@ class Fuente_Info_Form(forms.ModelForm):
           'nombre',
           'URL',
           'tipo', 
-          #'idContenido_Original', 
-          #'idConfiguracion',
           'idPais'
         ]
 
@@ -89,8 +87,6 @@ class Fuente_Info_Form(forms.ModelForm):
             'nombre': "Nombre:",
             'URL': "URL:",
             'tipo': "Tipo:",
-            #'idContenido_Original': "ID Contenido Original", 
-            #'idConfiguracion': "ID Configuracion",
             'idPais':"ID Pais",
         }
 

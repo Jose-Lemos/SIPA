@@ -103,7 +103,7 @@ class Fuente_Informacion(models.Model):
     idPais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=True)
 
     def __str__(self): 
-        return self.nombre
+        return self.URL
     
     
 
