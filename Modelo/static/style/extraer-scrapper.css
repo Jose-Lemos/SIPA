@@ -1,0 +1,17 @@
+#html-text{
+    width: 90%;
+    height: 250px;
+    border: 2px solid black;
+    border-radius: 8px;
+    margin-left: 50px;
+}
+
+#inp-data{
+    opacity: 0;
+    visibility: hidden;
+}
+
+#inp-fuente{
+    opacity: 0;
+    visibility: hidden;
+}
