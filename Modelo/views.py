@@ -287,6 +287,7 @@ class Extraer_HTML(TemplateView):
             context['fuentes'] = self.fuentes
             context['form'] = self.form
             context["html"] = ""
+            context["id_fuente"] = id_fuente
 
             print(fuente)
 
@@ -368,6 +369,7 @@ class Extraer_HTML(TemplateView):
 
 class Contenidos_Procesados(TemplateView):
     template_name = "ContenidosExtraidos.html"
+    contenidos_originales = Contenido_Original.objects.all()
     contenidos_procesados = Contenido_Procesado.objects.all()
     links = Fuente_Informacion.objects.all()
     categorias = Categoria.objects.all()
@@ -382,6 +384,7 @@ class Contenidos_Procesados(TemplateView):
     def post(self, request, **kwargs):
         context = super().get_context_data(**kwargs)
         html = request.POST.get("data-html")
+        fuente = request.POST.get("font")
         string_html = str(html)
         string_html = string_html.rsplit(";")
         print(string_html)
@@ -394,10 +397,18 @@ class Contenidos_Procesados(TemplateView):
                 print("lista con los atributos:")
                 print(elem)
 
-        print("fuentes, categorias e imagenes:")
+        print("cont_original, fuentes, categorias e imagenes:")
+        print(self.contenidos_originales)
         print(self.links)
         print(self.categorias)
         print(self.imagenes)
+        print(fuente)
+
+        contenidos_html = []
+        ids_fuentes = []
+        for orig in self.contenidos_originales:
+            contenidos_html.append(orig.contenido)
+            ids_fuentes.append(orig.idFuente)
 
         categorias_concepto = []
         for cat in self.categorias:
@@ -411,6 +422,10 @@ class Contenidos_Procesados(TemplateView):
         for img in self.imagenes:
             imagenes_url.append(img.imagen)
 
+        if ("https://www.bas.ac.uk/" in contenidos_html and 1 in ids_fuentes):  #en realidad los debo comparar con la misma posicion en los listados
+            print("El contenido original ya existe y es exactamente igual que antes")
+        else:
+            print("NOPE")
 
         if ("https://www.bas.ac.uk/" in links_url):
             print("La fuente de INFO Ya eexiste")

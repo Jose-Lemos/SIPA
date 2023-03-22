@@ -86,7 +86,8 @@
         <form action="{% url 'contenidos' %}" method="post">
             {% csrf_token %}
             <p>{{ html }}</p>
-            <input name="data-html" value="{{ html }}"/>
+            <input type="text" name="data-html" value="{{ html }}"/>
+            <input type="number" name="font" value="{{ id_fuente }}">
             <div class="text-center"><button type="submit" class="btn btn-success">Crear Artículos</button></div>
         </form>
         
