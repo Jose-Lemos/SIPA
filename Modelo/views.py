@@ -19,7 +19,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 
 # Modelos necesarios para las vistas
-from .models import Contenido_Procesado, Pais, Usuario, Categoria, Fuente_Informacion, Contenido_Original
+from .models import Contenido_Procesado, Pais, Usuario, Categoria, Fuente_Informacion, Contenido_Original, Adjunto
 from .forms import UsuarioForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form
 # Create your views here.
 
@@ -368,7 +368,10 @@ class Extraer_HTML(TemplateView):
 
 class Contenidos_Procesados(TemplateView):
     template_name = "ContenidosExtraidos.html"
-    queryset = Contenido_Procesado.objects.all()
+    contenidos_procesados = Contenido_Procesado.objects.all()
+    links = Fuente_Informacion.objects.all()
+    categorias = Categoria.objects.all()
+    imagenes = Adjunto.objects.all()
     context_object_name = "contenidos"
 
     def get_context_data(self, **kwargs):
@@ -390,6 +393,40 @@ class Contenidos_Procesados(TemplateView):
             if(elem[0] != ""):
                 print("lista con los atributos:")
                 print(elem)
+
+        print("fuentes, categorias e imagenes:")
+        print(self.links)
+        print(self.categorias)
+        print(self.imagenes)
+
+        categorias_concepto = []
+        for cat in self.categorias:
+            categorias_concepto.append(cat.concepto)
+
+        links_url = []
+        for lnk in self.links:
+            links_url.append(lnk.URL)
+        
+        imagenes_url = []
+        for img in self.imagenes:
+            imagenes_url.append(img.imagen)
+
+
+        if ("https://www.bas.ac.uk/" in links_url):
+            print("La fuente de INFO Ya eexiste")
+        else:
+            print("NOPE")
+
+        
+        if ("Antarctica" in categorias_concepto):
+            print("La CATEGORIA Ya eexiste!!")
+        else:
+            print("CAT NOT")
+
+        if ("https://www.bas.ac.uk/wp-content/uploads/2015/03/10010588-edited-400x250.jpg" in imagenes_url):
+            print("La IMAGEN Ya eexiste!!")
+        else:
+            print("IMG NOT")
 
         #print(string_html)
         #context['form'] = self.queryset
