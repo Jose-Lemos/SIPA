@@ -338,8 +338,8 @@ class Extraer_HTML(TemplateView):
                     new_art = Articulo(
                         title_art, links_sections[0], imgs_sections[0])
                     if not (new_art.titulo == ""):
-                        context["html"] += "{"+title_art+" - "
-                        context["html"] += links_sections[0]+" - "
+                        context["html"] += "{"+title_art+"|"  #| utilizado para separar las claves
+                        context["html"] += links_sections[0]+"|"  #| utilizado para separar las claves
                         context["html"] += imgs_sections[0]+"};"
                         articles.append(new_art)
                     # print(new_art)
@@ -380,12 +380,18 @@ class Contenidos_Procesados(TemplateView):
         context = super().get_context_data(**kwargs)
         html = request.POST.get("data-html")
         string_html = str(html)
-        string_html = string_html.replace(" ", "")
         string_html = string_html.rsplit(";")
-        print("Guardando articulo:!!")
-        print(html)
-        print("list html:")
         print(string_html)
+        print("list html:")
+        for elem in string_html:
+            elem = elem.replace("{", "")
+            elem = elem.replace("}", "")
+            elem = elem.rsplit("|")
+            if(elem[0] != ""):
+                print("lista con los atributos:")
+                print(elem)
+
+        #print(string_html)
         #context['form'] = self.queryset
         return self.render_to_response(context)
 
