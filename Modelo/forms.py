@@ -43,11 +43,11 @@ class Configuracion_Fuente_Info_Form(forms.ModelForm):
         ]
 
         labels = {
-            'id_fuente': "Fuente de Información: ",
-            'buscar_Titulo': "Como Buscar el título: ",
-            'buscar_Contenido': "Como Buscar los Conceptos: ",
-            'buscar_Imagenes': "Como Buscar las Imagenes: ",
-            'buscar_links': "Como Buscar los links: ",
+            'id_fuente': 'Fuente de Información: ',
+            'buscar_Titulo': 'Como Buscar el título: ',
+            'buscar_Contenido': 'Como Buscar los Conceptos: ',
+            'buscar_Imagenes': 'Como Buscar las Imagenes: ',
+            'buscar_links': 'Como Buscar los links: ',
         }
 
 

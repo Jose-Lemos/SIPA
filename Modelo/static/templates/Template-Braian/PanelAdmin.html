@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administracion</title>
+    <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'style/CSS-Braian/StylePanelAdmin.css'%}">
+</head>
+
+<body>
+    <div class="container-header">
+        
+        <div class="container-title">
+            Panel de Administracion
+        </div> 
+        <div class="container-links">
+            <a href="http://127.0.0.1:8000/api/extraer-html/" class="recolection-link">Recolectar informacion</a>
+            <a href="#" class="update-link">Actualizar informacion</a>
+            <span class="user-pic" onclick="toggleMenu()">Username</span>
+        </div>
+        <div class="sub-menu-wrap" id="subMenu">
+            <div class="sub-menu">
+                <div class="user-info">
+                    <h4>Mi cuenta</h4>
+                </div>
+                <hr>
+                <a class="sub-menu-link" href="PerfilUsuario.html" >
+                    <i class="fa-solid fa-user icon-profile"></i>
+                    <p>Mi perfil</p>
+                    <span>></span>
+                </a>
+                <a class="sub-menu-link" href="Inicio de sesion.html" >
+                    <i class="fa-sharp fa-solid fa-right-from-bracket icon-logout"></i>
+                    <p>Cerrar Sesion</p>
+                    <span>></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+        <div class="container-table">
+            <table class="tabla-1">
+                <tr>
+                    <th class="thead">Aplicacion</th>
+                </tr>
+                <tr class="filas">
+                    <td><a href="http://127.0.0.1:8000/api/categorias/">Categorias</a></tr>
+                </tr>
+                <tr class="filas">
+                    <td><a href="http://127.0.0.1:8000/api/fuentes-informacion/">Fuentes de informacion</a> </td>
+                </tr>
+                <tr class="filas">
+                    <td><a href="http://127.0.0.1:8000/api/paises/">Paises</a></td>
+                </tr>
+            </table>
+    
+
+        <table class="tabla-1">
+            <tr>
+                <th class="thead">Autorizacion y Autenticacion</th>
+            </tr>
+            <tr class="filas">
+                <td><a href="http://127.0.0.1:8000/api/usuarios/">Usuarios</a></td>     
+            </tr>
+        </table>
+    </div>
+    <script src="{% static 'scripts/JS-Braian/main.js' %}"></script>
+</body>
+</html>

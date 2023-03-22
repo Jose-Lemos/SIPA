@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'style/CSS-Braian/StyleListadoUsuarios.css'%}">
+    <title>Listado de Usuarios</title>
+</head>
+<body>
+    <input type="checkbox" id="check">
+    <label for="check">
+        <i class="fa-solid fa-bars" id="btn"></i>
+        <i class="fa-solid fa-xmark" id="cancel"></i>
+    </label>
+    <div class="sidebar">      
+        <header>Menu</header>
+        <ul>
+            <li><a href="http://127.0.0.1:8000/api/admin/">Panel de administracion</a></li>
+            <li><a href="http://127.0.0.1:8000/api/categorias/">Categorias</a></li>
+            <li><a href="http://127.0.0.1:8000/api/fuentes-informacion/">Fuentes de informacion</a></li>
+            <li><a href="http://127.0.0.1:8000/api/paises/">Paises</a></li>
+            <li><a href="http://127.0.0.1:8000/api/usuarios/">Usuarios</a></li>
+        </ul>
+    </div>
+
+    <div class="container-tabla-btn-add">
+        <a href="" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
+        <table class="table-fill">
+            <thead>
+                <tr>
+                    <th class="th-1">Nombre</th>
+                    <th class="th-2">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="table-hover">
+                {% for usuario in Usuarios %}
+                <tr>
+                    <td class="td-name">January</td>
+                    <td class="td-options">
+                        <a class="button-trash" href="">
+                            <i class="fa-solid fa-trash-can "></i>
+                            Eliminar
+                        </a> 
+                        <a class="button-modify" href="">
+                            <i class="fa-solid fa-pencil "></i>
+                            Modificar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>     
+    <div class="modal-container">
+        <div class="modal modal-close">
+            <div class="header-container"><h4>Formulario Agregar Categoria</h4></div>
+            <div class="form-container">
+                <form action="">
+                    {% csrf_token %}
+                    <label for="">Nombre de Usuario</label>
+                    <input type="text" class="input-name" placeholder="Escriba el nombre de usuario">
+                    <div class="container-btn">
+                        <input type="submit" value="Guardar" class="btn-save">
+                        <input type="button" value="Cancelar" class="btn-cancel">
+                    </div>    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-container-delete">
+        <div class="modal-delete modal-delete-close">
+            <div class="header-container"><h4>Eliminar Usuario</h4></div>
+            <div class="form-container">
+                <form action="">
+                    {% csrf_token %}
+                    <p class="question">¿Seguro que quiere eliminar el usuario?</p>
+                    <div class="container-btn-delete">
+                        <input type="submit" value="Eliminar" class="btn-delete">
+                        <input type="button" value="Cancelar" class="btn-cancel-delete">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-container-modify">
+        <div class="modal-modify modal-modify-close">
+            <div class="header-container"><h4>Modificar usuario</h4></div>
+            <div class="form-container">
+                <form action="">
+                    {% csrf_token %}
+                    <label for="">Nuevo nombre de usuario</label>
+                    <input type="text" class="input-name" placeholder="Escriba el nuevo nombre de usuario">
+                    <div class="container-btn">
+                        <input type="submit" value="Modificar" class="btn-modify">
+                        <input type="button" value="Cancelar" class="btn-cancel-modify">
+                    </div> 
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'scripts/JS-Braian/modal.js' %}"></script>
+    <script src="{% static 'scripts/JS-Braian/modalDelete.js' %}"></script>
+    <script src="{% static 'scripts/JS-Braian/modalModify.js' %}"></script>
+</body>
+</html>

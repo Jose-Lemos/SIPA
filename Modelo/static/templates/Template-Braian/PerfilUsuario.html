@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style/CSS-Braian/StylePerfilUsuario.css'%}">
+    <title>Perfil de usuario</title>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Mi cuenta
+                        <span class="user-pic" onclick="toggleMenu()">Username</span>
+                    </div>
+                    
+                    <div class="sub-menu-wrap" id="subMenu">
+                        <div class="sub-menu">
+                            <div class="user-info">
+                                <h4>Mi cuenta</h4>
+                            </div>
+                            <hr>
+                            <a class="sub-menu-link" href="PerfilUsuario.html" >
+                                <i class="fa-solid fa-user icon-profile"></i>
+                                <p>Mi perfil</p>
+                                <span>></span>
+                            </a>
+                            <a class="sub-menu-link" href="Inicio de sesion.html" >
+                                <i class="fa-sharp fa-solid fa-right-from-bracket icon-logout"></i>
+                                <p>Cerrar Sesion</p>
+                                <span>></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div role="tabpanel">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <!-- <a for="" href="" aria-controls="profile" role="tab" data-toggle="tab" >Perfil</a> -->
+                                    <label for="radio-1" class="label-profile">Perfil</label>
+                                </li>
+                                <li role="presentation">
+                                    <!-- <a href="" aria-controls="edit" role="tab" data-toggle="tab">Actualizar la informacion</a> -->
+                                    <label for="radio-2" class="label-update">Actualizar informacion</label>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-tabs">
+            <input type="radio" name="radio" id="radio-1">
+            <div class="container-profile">
+                <table>
+                    <tr>
+                        <th>Nombre Usuario</th>
+                        <td>Braian Mamani</td>
+                    </tr>
+                    <tr>
+                        <th>Creado el</th>
+                        <td>fecha creacion</td>
+                    </tr>
+                    <tr>
+                        <th>Ultima modificacion</th>
+                        <td>12-20-10</td>
+                    </tr>
+                </table>
+            </div>
+            <input type="radio" name="radio" id="radio-2">
+            <div class="container-profile-update">
+                <form action="">
+                    <div class="input-label-user">
+                        <label for="" class="label-username">Nuevo nombre de usuario:</label>
+                        <input type="text" placeholder="Username">
+                    </div>
+                    <div class="input-label-password">
+                        <label for="" class="label-password">Nueva contraseña:</label>
+                        <input type="password" placeholder="Password">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'scripts/JS-Braian/main.js' %}"></script>
+</body>
+</html>

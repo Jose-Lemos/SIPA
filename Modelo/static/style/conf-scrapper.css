@@ -1,0 +1,22 @@
+.content-form{
+    opacity: 0;
+}
+
+.content-form-toggle{
+    opacity: 1;
+}
+
+.row.form-group{
+    background-color: burlywood;
+    margin-top: 20px;
+}
+
+#form-secc{
+    width: 1000px;
+    margin-left: 150px;
+}
+
+.content-forms{
+    background-color: coral;
+}
+

@@ -1,4 +1,4 @@
-#Módulos necesarios para la API
+# Módulos necesarios para la API
 from email import message
 import json
 from re import template
@@ -8,33 +8,45 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-#Modulos necesarios para las vistas comunes
+# Modulos necesarios para las vistas comunes
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView, DetailView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 
-#módulos necesarios para el WebScrapping
+# módulos necesarios para el WebScrapping
 import urllib.request
 from bs4 import BeautifulSoup
 
-#Modelos necesarios para las vistas
-from .models import Pais, Usuario, Categoria, Fuente_Informacion
-from .forms import UsuarioForm,CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form
+# Modelos necesarios para las vistas
+from .models import Contenido_Procesado, Pais, Usuario, Categoria, Fuente_Informacion, Contenido_Original
+from .forms import UsuarioForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form
 # Create your views here.
 
-#Api de usuarios
+# Api de usuarios
+
+
+class Articulo:
+    def __init__(self, titulo, link_pagina, link_imagen):
+        self.titulo = titulo
+        self.pagina = link_pagina
+        self.imagen = link_imagen
+
+    def __str__(self):
+        texto = "Titulo-Articulo: {0} - Link: {1} - Imagen: {2}"
+        return texto.format(self.titulo, self.pagina, self.imagen)
+
+
 class UsuariosView(View):
     @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs) :
-        return super().dispatch(request, *args, **kwargs)   
-
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
-        
+
         usuarios = list(Usuario.objects.values())
 
-        if len(usuarios)>0:
+        if len(usuarios) > 0:
             datos = {'message': 'Éxito', 'usuarios': usuarios}
         else:
             datos = {'message': 'No se encontraron Usuarios...'}
@@ -43,11 +55,11 @@ class UsuariosView(View):
 
     def post(self, request, nombreN, contraseñaN):
         nuevoUsuario = {"nombre": nombreN, "contraseña": contraseñaN}
-        Usuario.objects.create(nombre = nuevoUsuario['nombreN'], contraseña = nuevoUsuario['contraseñaN'])
+        Usuario.objects.create(
+            nombre=nuevoUsuario['nombreN'], contraseña=nuevoUsuario['contraseñaN'])
         jd = json.loads(request.body)
         datos = {'message': 'Éxito'}
         return JsonResponse(datos)
-
 
     def put(self, request):
         pass
@@ -56,17 +68,20 @@ class UsuariosView(View):
         pass
 
 
-#Vistas de Usuarios
+# Vistas de Usuarios
 class loginView(TemplateView):
-    template_name = 'login.html'
+    template_name = 'inicio de sesion.html'
+
 
 class logoutView(TemplateView):
     template_name = 'logout.html'
 
+
 class listar_Usuarios(ListView):
     queryset = Usuario.objects.all()
     context_object_name = "Usuarios"
-    template_name = 'Listado usuarios.html'
+    template_name = 'ListadoUsuarios.html'
+
 
 class UsuarioCreateView(CreateView):
     model = Usuario
@@ -75,8 +90,8 @@ class UsuarioCreateView(CreateView):
     template_name = "Agregar usuario.html"
     success_url = reverse_lazy('Usuarios')
 
-    #def get_context_data(self, **kwargs):
-        #context = super().get_context_data(**kwargs)
+    # def get_context_data(self, **kwargs):
+    # context = super().get_context_data(**kwargs)
 
     def post(self, request, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,11 +105,9 @@ class UsuarioCreateView(CreateView):
         new_User.is_superuser = is_super
         new_User.save()
 
-        #context = self.get_context_data(**kwargs)
-        #return self.render_to_response(context)
-       
+        # context = self.get_context_data(**kwargs)
+        # return self.render_to_response(context)
 
-          
 
 class modificar_Usuario(UpdateView):
     model = Usuario
@@ -102,16 +115,20 @@ class modificar_Usuario(UpdateView):
     template_name = "Agregar usuario.html"
     success_url = reverse_lazy('Usuarios')
 
+
 class eliminar_Usuario(DeleteView):
     model = Usuario
     template_name = "usuario_confirm_delete.html"
     success_url = reverse_lazy('Usuarios')
 
-#Vistas de las categorías
+# Vistas de las categorías
+
+
 class listar_Categorias(ListView):
     queryset = Categoria.objects.all()
     context_object_name = "Categorias"
-    template_name = 'Listado Categorias.html'
+    template_name = 'ListadoCategorias.html'
+
 
 class agregar_categoria(CreateView):
     model = Categoria
@@ -119,6 +136,7 @@ class agregar_categoria(CreateView):
     queryset = Categoria.objects.all()
     template_name = "Agregar categoria.html"
     success_url = reverse_lazy('categorias')
+
 
 class modificar_categoria(UpdateView):
     model = Categoria
@@ -133,11 +151,12 @@ class eliminar_categoria(DeleteView):
     success_url = reverse_lazy('categorias')
 
 
-#Vistas de las fuentes de información
+# Vistas de las fuentes de información
 class listar_Fuente_informacion(ListView):
     queryset = Fuente_Informacion.objects.all()
     context_object_name = "Fuentes"
-    template_name = 'Listado Fuentes de informacion.html'
+    template_name = 'ListadoFuentes.html'
+
 
 class agregar_fuente_info(CreateView):
     model = Fuente_Informacion
@@ -146,10 +165,11 @@ class agregar_fuente_info(CreateView):
     template_name = "Agregar fuente de informacion.html"
     success_url = reverse_lazy('fuentes-informacion')
 
+
 class modificar_fuente_info(UpdateView):
     model = Fuente_Informacion
     form_class = Fuente_Info_Form
-    template_name = "modificar fuente informacion.html"
+    template_name = "ListadoFuentes.html"
     success_url = reverse_lazy('fuentes-informacion')
 
 
@@ -158,11 +178,26 @@ class eliminar_fuente_info(DeleteView):
     template_name = "fuente_info_confirm_delete.html"
     success_url = reverse_lazy('fuentes-informacion')
 
-#Vistas de los paises
-class listar_Paises(ListView):
+# Vistas de los paises
+
+
+class listar_Paises(View):
+    model = Pais
+    form_class = PaisForm
     queryset = Pais.objects.all()
     context_object_name = "Paises"
-    template_name = 'Listado paises.html'
+    template_name = 'ListadoPaises.html'
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context['Paises'] = self.queryset
+        context['form'] = self.form_class
+        print(self.kwargs)
+        return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
 
 class agregar_pais(CreateView):
     model = Pais
@@ -171,75 +206,186 @@ class agregar_pais(CreateView):
     template_name = "Agregar pais.html"
     success_url = reverse_lazy('paises')
 
+
 class modificar_pais(UpdateView):
     model = Pais
     form_class = PaisForm
-    template_name = "Agregar pais.html"
+    template_name = "Paises.html"
     success_url = reverse_lazy('paises')
+
 
 class eliminar_pais(DeleteView):
     model = Pais
     template_name = "pais_confirm_delete.html"
     success_url = reverse_lazy('paises')
 
-#Vista del Panel Principal
+# Vista del Panel Principal
+
+
 class Panel_Administracion_View(TemplateView):
-    template_name = 'Panel de administracion.html'
+    template_name = 'PanelAdmin.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
 
 
-#Vista de Pantalla Principal
+# Vista de Pantalla Principal
 class Pantalla_Principal_View(TemplateView):
-    template_name = 'Pantalla Principal.html'
+    template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
 
 
-#Vistas de los contenidos
+# Vistas de los contenidos
 class Visualizar_Contenido_View(TemplateView):
-    template_name = 'Visualizacion de contenido.html'
+    template_name = 'VisualizarContenido.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-    
 
 
-class Configurar_Scrapper(TemplateView):
-    template_name = "ConfigurarScrapper.html"
-    form = Configuracion_Fuente_Info_Form
+class Extraer_HTML(TemplateView):
+    template_name = "ExtraerHTML.html"
+    fuentes = Fuente_Informacion.objects.all()
+    form = Contenido_Original
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['fuentes'] = self.fuentes
         context['form'] = self.form
+        context["html"] = ""
         return context
-    
-    def post(self, request, **kwargs):
-        id_fuente = request.POST.get("id_fuente")
-        fuente = Fuente_Informacion.objects.get(id=id_fuente)
-        title = request.POST.get("buscar_Titulo")
-        contenido = request.POST.get("buscar_Contenido")
-        imgs = request.POST.get("buscar_Imagenes")
-        links = request.POST.get("buscar_links")
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form
+
         
+
+    def post(self, request, **kwargs):
+        id_fuente = request.POST.get('fuente-id')
+        fuente = Fuente_Informacion.objects.get(id=id_fuente)
+        tag_title = request.POST.get("etiqueta-title1")
+        tag_contenedor = request.POST.get("etiqueta-seccion1")
+
         if request.method == "POST":
-            if id_fuente and title and contenido and imgs and links:
-                print("id_fuente: ",id_fuente)
-                print("fuente: ", fuente)
-                print("title: ",title)
-                print("contenido: ", contenido)
-                print("imagenes: ", imgs)
-                print("links: ", links)
-                url = fuente.URL
-                page = urllib.request.urlopen(url).read().decode()  #Este parámetro define la URL de donde se van a obtener los elementos
-                soup = BeautifulSoup(page, 'html.parser')
-                #print(soup)
-                return self.render_to_response(context)
-            
+            context = super().get_context_data(**kwargs)
+
+            #if(context["html"] != ""):
+             #   return redirect("contenidos")
+
+            print("id_fuente: ", id_fuente)
+            print("fuente: ", fuente)
+            print("tag_title: ", tag_title)
+            print("tag_contenedor: ", tag_contenedor)
+
+            url = fuente.URL
+            # Este parámetro define la URL de donde se van a obtener los elementos
+            page = urllib.request.urlopen(url).read().decode()
+            soup = BeautifulSoup(page, 'html.parser')
+
+            context['fuentes'] = self.fuentes
+            context['form'] = self.form
+            context["html"] = ""
+
+            print(fuente)
+
+            articles = []
+
+            for sec in soup.find_all(tag_contenedor):
+                title_art = ""
+                h2 = sec.find_all(tag_title)
+                links = sec.find_all('a')
+                imgs = sec.find_all('img')
+
+                titles = []
+                for h in h2:
+                    padre_title = h.parent
+                    if padre_title.get("class") == sec.get("class"):
+                        # print(sec.get('class'))
+                        title_art = h.string
+                        titles.append(title_art)
+                    # if h2 is not None:
+
+                        # print(h2.string)
+
+                    # h4 = sec.find('h4')
+                    # if h4 is not None:
+                    #    print(h4.string)
+
+                links_sections = []
+                for link in links:
+                    padre_lnk = link.parent
+                    if padre_lnk.get('class') == sec.get('class'):
+                        if not (link.get("href") in links_sections):
+                            links_sections.append(link.get("href"))
+                        # print("link: ",link.get('href'))
+
+                imgs_sections = []
+                for img in imgs:
+                    padre_img = img.parent
+                    link_img = padre_img.get("href")
+                    if padre_img.get('class') == sec.get('class'):
+                        imgs_sections.append(img.get("src"))
+                        # print("imagen: ",img.get('src'))
+                    else:
+                        if link_img is not None:
+                            if link_img in links_sections:
+                                imgs_sections.append(
+                                    img.get("src"))
+
+                if not ((len(links_sections) == 0) or (len(imgs_sections) == 0) or (title_art == None)):
+                    new_art = Articulo(
+                        title_art, links_sections[0], imgs_sections[0])
+                    if not (new_art.titulo == ""):
+                        context["html"] += "{"+title_art+" - "
+                        context["html"] += links_sections[0]+" - "
+                        context["html"] += imgs_sections[0]+"};"
+                        articles.append(new_art)
+                    # print(new_art)
+                elif (len(links_sections) == 0):
+                    if (len(imgs_sections) > 0):
+                        new_art = Articulo(
+                            title_art, "vacio", imgs_sections[0])
+                        if not (new_art.titulo == ""):
+                            articles.append(new_art)
+                elif (len(imgs_sections) == 0):
+                    if (len(links_sections) > 0):
+                        new_art = Articulo(
+                            title_art, links_sections[0], "vacio")
+                        if not (new_art.titulo == ""):
+                            articles.append(new_art)
+                else:
+                    print("solo titulo: ", title_art)
+                    if title_art != "":
+                        print("solo titulo: ", title_art)
+
+            for art in articles:
+                print(art)
+
+            return self.render_to_response(context)
+
+
+class Contenidos_Procesados(TemplateView):
+    template_name = "ContenidosExtraidos.html"
+    queryset = Contenido_Procesado.objects.all()
+    context_object_name = "contenidos"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        #context['form'] = self.queryset
+        return context
+
+    def post(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        html = request.POST.get("data-html")
+        string_html = str(html)
+        string_html = string_html.replace(" ", "")
+        string_html = string_html.rsplit(";")
+        print("Guardando articulo:!!")
+        print(html)
+        print("list html:")
+        print(string_html)
+        #context['form'] = self.queryset
+        return self.render_to_response(context)
+

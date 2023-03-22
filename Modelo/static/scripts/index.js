@@ -35,3 +35,30 @@ const cookie = {
   })
 })()
 
+const content_form = document.getElementsByClassName("content-form");
+
+document.getElementById("btn-selec").addEventListener("click", ()=>{
+  content_form.classList.add("content-form-toggle")
+});
+
+
+var html_extract = document.getElementById("container-html-extract");
+
+String.prototype.allIndexesOf = function(c, n) {
+  var indexes = [];
+  n = n || 0;
+  while ((n = this.indexOf(c, n)) >= 0) {
+  indexes.push(n++);
+  }
+  return indexes;
+}
+
+function cargarArticulosExtraidos(art_text){
+  art_string = String(art_text);
+  puntos_coma = art_string.allIndexesOf(";");
+
+  for (elem in puntos_coma){
+    var pi = "";
+    
+  }
+}

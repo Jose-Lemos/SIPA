@@ -50,15 +50,7 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
 
 
 
-class Contenido_Original(models.Model):
-    fecha_acceso = models.DateField(default = timezone.now(), null = False, blank = None)
-    contenido = models.TextField()
 
-    def get_absolute_url(self):
-        return reverse('contenido', kwargs={'pk': self.pk})
-
-    def __str__(self):
-        return self.contenido
 
 
 
@@ -101,19 +93,11 @@ class Fuente_Informacion(models.Model):
     nivel = models.PositiveIntegerField(default=1)
     fecha = models.DateField(default=timezone.now())
     idPais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=True)
+    idPadre = models.IntegerField(default=0)
 
     def __str__(self): 
         return self.URL
     
-    
-
-class Links(models.Model):
-    URL = models.URLField(max_length= 200, null = False, blank = None)
-    es_parte_de = models.ForeignKey(Fuente_Informacion, on_delete=models.CASCADE)
-    fecha = models.DateField(default=timezone.now())
-
-    def __str__(self):
-        return self.URL
 
 
 
@@ -129,6 +113,18 @@ class Configuracion_Fuente_Informacion(models.Model):
 
     def __str__(self):
         return self.buscar_Titulo
+    
+
+class Contenido_Original(models.Model):
+    fecha_acceso = models.DateField(default = timezone.now(), null = False, blank = None)
+    contenido = models.TextField()
+    idFuente = models.ForeignKey(Fuente_Informacion, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('contenido', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.contenido
 
 
 class Contenido_Procesado(models.Model):
@@ -138,7 +134,6 @@ class Contenido_Procesado(models.Model):
     anotacion = models.TextField()
     idAdjunto = models.ForeignKey( Adjunto, null=False, blank=False, on_delete=models.CASCADE)
     idContenido_Original = models.ForeignKey(Contenido_Original, null=False, blank=False, on_delete=models.CASCADE)
-    idFuente = models.ForeignKey(Fuente_Informacion, on_delete=models.CASCADE)
     idCategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
 
     def __str__(self):

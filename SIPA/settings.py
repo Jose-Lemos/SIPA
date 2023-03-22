@@ -56,7 +56,7 @@ ROOT_URLCONF = 'SIPA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates'],
+        'DIRS': ['C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates/Template-Braian'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,9 +127,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates",
-    "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/style",
-    "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/scripts"
+    "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/",
 ]
 
 # Default primary key field type

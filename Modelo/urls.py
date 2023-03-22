@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import (Panel_Administracion_View, Pantalla_Principal_View, UsuariosView, Visualizar_Contenido_View, 
+from .views import (Panel_Administracion_View, Pantalla_Principal_View, UsuariosView, Visualizar_Contenido_View, Contenidos_Procesados,
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
-loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, 
-modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Configurar_Scrapper)
+loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML,
+modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView)
 
 
 urlpatterns = [
@@ -38,8 +38,10 @@ urlpatterns = [
     #path de Navegacion
     path('admin/', Panel_Administracion_View.as_view(), name = "admin"),
     path('home/', Pantalla_Principal_View.as_view(), name = "home"),
+    path('contenidos/', Contenidos_Procesados.as_view(), name="contenidos"),
     path('contenido/', Visualizar_Contenido_View.as_view(), name = 'contenido'),
 
     #path Recoleccion
-    path('configuracion-scrapper/', Configurar_Scrapper.as_view(), name="configurar-scrapper"),
+    #path('configuracion-scrapper/', Configurar_Scrapper.as_view(), name="configurar-scrapper"),
+    path('extraer-html/', Extraer_HTML.as_view(), name="extraer-html"),
 ]
