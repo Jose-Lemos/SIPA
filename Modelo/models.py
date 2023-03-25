@@ -67,8 +67,8 @@ class Pais(models.Model):
     
 
 class Adjunto(models.Model):
-    nombre = models.CharField(max_length=50, null = False, blank = None, unique=True)
-    imagen = models.ImageField(upload_to='adjuntos', default='adjunto.png')
+    nombre = models.CharField(max_length=250, null = False, blank = None, unique=True)
+    imagen = models.ImageField(upload_to='adjuntos', default='adjunto.png', max_length=250)
 
     def __str__(self):
         return self.nombre
@@ -88,7 +88,7 @@ class Categoria(models.Model):
 
 class Fuente_Informacion(models.Model):
     nombre = models.CharField(max_length=100, null = False, blank = None)
-    URL = models.URLField(max_length= 200, null = False, blank = None)
+    URL = models.URLField(max_length= 200, null = False, blank = None, unique=True)
     tipo = models.CharField(max_length=50)
     nivel = models.PositiveIntegerField(default=1)
     fecha = models.DateField(default=timezone.now())
@@ -117,7 +117,7 @@ class Configuracion_Fuente_Informacion(models.Model):
 
 class Contenido_Original(models.Model):
     fecha_acceso = models.DateField(default = timezone.now(), null = False, blank = None)
-    contenido = models.TextField()
+    contenido = models.TextField(max_length=255)
     idFuente = models.ForeignKey(Fuente_Informacion, on_delete=models.CASCADE)
 
     def get_absolute_url(self):

@@ -288,6 +288,7 @@ class Extraer_HTML(TemplateView):
             context['form'] = self.form
             context["html"] = ""
             context["id_fuente"] = id_fuente
+            context["page"] = soup
 
             print(fuente)
 
@@ -385,19 +386,31 @@ class Contenidos_Procesados(TemplateView):
         context = super().get_context_data(**kwargs)
         html = request.POST.get("data-html")
         fuente = request.POST.get("font")
+        page = request.POST.get("page-html")
         string_html = str(html)
         string_html = string_html.rsplit(";")
-        print(string_html)
+
+        self.contenidos_originales = Contenido_Original.objects.all()
+        self.contenidos_procesados = Contenido_Procesado.objects.all()
+        self.links = Fuente_Informacion.objects.all()
+        self.categorias = Categoria.objects.all()
+        self.imagenes = Adjunto.objects.all()
+
+        articulos = []
+
+        #print(string_html)
+        print("page: "+page)
         print("list html:")
         for elem in string_html:
             elem = elem.replace("{", "")
             elem = elem.replace("}", "")
             elem = elem.rsplit("|")
             if(elem[0] != ""):
-                print("lista con los atributos:")
-                print(elem)
+                articulos.append(elem)
+                #print("lista con los atributos:")
+                #print(elem)
 
-        print("cont_original, fuentes, categorias e imagenes:")
+        print("cont_original, fuentes, categorias e imagenes Antes del Scrapping:")
         print(self.contenidos_originales)
         print(self.links)
         print(self.categorias)
@@ -422,26 +435,62 @@ class Contenidos_Procesados(TemplateView):
         for img in self.imagenes:
             imagenes_url.append(img.imagen)
 
-        if ("https://www.bas.ac.uk/" in contenidos_html and 1 in ids_fuentes):  #en realidad los debo comparar con la misma posicion en los listados
-            print("El contenido original ya existe y es exactamente igual que antes")
-        else:
-            print("NOPE")
+        print("listas: ")
+        for arti in articulos:
+            print(arti)
 
-        if ("https://www.bas.ac.uk/" in links_url):
-            print("La fuente de INFO Ya eexiste")
-        else:
-            print("NOPE")
+            if ((fuente in ids_fuentes) and (page in contenidos_html)):  #en realidad los debo comparar con la misma posicion en los listados
+                print("El contenido original ya existe y es exactamente igual que antes")
+                newContOriginal = Contenido_Original.objects.get(idFuente = fuente)
+            else:
+                print("NOPE")
+                fuentePerteneciente = Fuente_Informacion.objects.get(id = fuente)
+                newContOriginal = Contenido_Original(contenido = page, idFuente = fuentePerteneciente)
+                newContOriginal.save()
 
-        
-        if ("Antarctica" in categorias_concepto):
-            print("La CATEGORIA Ya eexiste!!")
-        else:
-            print("CAT NOT")
+            
+            if (arti[0] in categorias_concepto):  #Consulto si el titulo ya existe en la tabla de Categorias
+                print("La CATEGORIA "+ arti[0] +" Ya eexiste en la BD!!")
+                newCategoria = Categoria.objects.get(concepto = arti[0])
+            else:
+                print("CAT NOT")
+                newCategoria = Categoria(concepto = arti[0])
+                newCategoria.save()
 
-        if ("https://www.bas.ac.uk/wp-content/uploads/2015/03/10010588-edited-400x250.jpg" in imagenes_url):
-            print("La IMAGEN Ya eexiste!!")
-        else:
-            print("IMG NOT")
+
+            if (arti[1] in links_url):  #Consulto si la url ya existe en la tabla de FuenteInfo
+                print("La fuente de INFO"+ arti[1] +"Ya eexiste")
+                newFuente = Fuente_Informacion.objects.get(URL = arti[1])
+            else:
+                print("NOPE")
+                fuentePadre = Fuente_Informacion.objects.get(id=fuente)
+                nameP = fuentePadre.nombre
+                typeP = fuentePadre.tipo
+                levelP = fuentePadre.nivel + 1
+                paisP = fuentePadre.idPais
+                newFuente = Fuente_Informacion(nombre = nameP, URL = arti[1], tipo = typeP, nivel = levelP, idPais = paisP, idPadre = fuente)
+                newFuente.save()
+
+
+            if (arti[2] in imagenes_url):  #Consulto si la imagen ya existe en la tabla de Adjuntos
+                print("La IMAGEN"+ arti[2] +"Ya eexiste en la BD!!")
+                newImage = Adjunto.objects.get(imagen = arti[2])
+            else:
+                print("IMG NOT")
+                newImage = Adjunto(nombre = arti[2], imagen = arti[2])
+                newImage.save()
+
+            existeCP = False  #realizar una mejor validacion para los contenidos procesados creados
+            for content in self.contenidos_procesados:
+                if ((content.idCategoria == newCategoria.id) and (content.idContenido_Original == newContOriginal.id) and (content.idAdjunto == newImage.id) and (content.titulo == newCategoria.concepto)):
+                    existeCP = True
+                
+            if existeCP == False:
+                newContenidoProcesado = Contenido_Procesado(titulo = newCategoria.concepto, idContenido_Original = newContOriginal, idCategoria = newCategoria, idAdjunto = newImage)
+                newContenidoProcesado.save()
+            else:
+                print("el Contenido Procesado ya Existe en la BD!!!")
+            
 
         #print(string_html)
         #context['form'] = self.queryset
