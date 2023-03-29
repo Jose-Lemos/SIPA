@@ -7,8 +7,11 @@ admin.site.register(Usuario)
 admin.site.register(Pais)
 admin.site.register(Fuente_Informacion)
 admin.site.register(Configuracion_Fuente_Informacion)
-admin.site.register(Contenido_Original)
 admin.site.register(Contenido_Procesado)
 admin.site.register(Categoria)
 admin.site.register(Adjunto)
+
+@admin.register(Contenido_Original)
+class ContOrigAdmin(admin.ModelAdmin):
+    list_display = ("id", "idFuente")
 

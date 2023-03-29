@@ -22,10 +22,41 @@ from bs4 import BeautifulSoup
 from .models import Contenido_Procesado, Pais, Usuario, Categoria, Fuente_Informacion, Contenido_Original, Adjunto
 from .forms import UsuarioForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form
 # Create your views here.
-
+import os
 # Api de usuarios
 
 
+def descargarImagen(url, fuente, nombre_fichero):
+    #ruta_completa = ruta_fichero + nombre_fichero
+    #urllib.request.urlretrieve(url, ruta_completa)
+    path_imagenes = os.path.join(os.path.join(os.path.expanduser('~')), 'Pictures')
+    path_base = os.path.join(path_imagenes, 'Images-Scrapp') 
+    path_img_fuente = os.path.join(path_base, fuente)
+    path_img_fuente_file = os.path.join(path_img_fuente, nombre_fichero)
+
+    if(os.path.isdir(path_base)):
+        print("el path base existe")
+    else:
+        os.mkdir(path_base)
+        print("se creó el path base: "+path_base)
+
+
+    if (os.path.isdir(path_img_fuente)):
+        print("la carpeta para las imagenes de la fuente ya existe")
+    else:
+        os.mkdir(path_img_fuente)
+        print("se creó la carpeta para las img de la fuente: "+path_img_fuente)
+
+
+    if (os.path.isfile(path_img_fuente_file)):
+        print("la imagen ya existe en la carpeta de la fuente!!")
+    else:
+        print("se creó la img en la carpeta de la fuente....")
+        urllib.request.urlretrieve(url, path_img_fuente_file)
+    
+    return path_img_fuente_file
+
+#descargarImagen("https://www.bas.ac.uk/wp-content/uploads/2015/03/cbox-00001510-400x250.jpg","BAS", "cbox-00001510-400x250.jpg")
 class Articulo:
     def __init__(self, titulo, link_pagina, link_imagen):
         self.titulo = titulo
@@ -411,7 +442,8 @@ class Contenidos_Procesados(TemplateView):
                 #print(elem)
 
         print("cont_original, fuentes, categorias e imagenes Antes del Scrapping:")
-        print(self.contenidos_originales)
+        #print(self.contenidos_originales)
+        print(self.contenidos_procesados)
         print(self.links)
         print(self.categorias)
         print(self.imagenes)
@@ -420,8 +452,10 @@ class Contenidos_Procesados(TemplateView):
         contenidos_html = []
         ids_fuentes = []
         for orig in self.contenidos_originales:
-            contenidos_html.append(orig.contenido)
-            ids_fuentes.append(orig.idFuente)
+            if not(orig.contenido in contenidos_html):
+                contenidos_html.append(orig.contenido)
+            if not(orig.idFuente in ids_fuentes):
+                ids_fuentes.append(orig.idFuente)
 
         categorias_concepto = []
         for cat in self.categorias:
@@ -435,18 +469,28 @@ class Contenidos_Procesados(TemplateView):
         for img in self.imagenes:
             imagenes_url.append(img.imagen)
 
+        contenidos_proc_tit = []
+        for proc in self.contenidos_procesados:
+            contenidos_proc_tit.append(proc.titulo)
+
+        fuentePerteneciente = Fuente_Informacion.objects.get(id = fuente)
+        if (fuentePerteneciente in ids_fuentes):
+            #if()
+            print("fuente: "+fuente)
+            print("fuente perteneciente:"+fuentePerteneciente.URL)
+            print(ids_fuentes)
+            print("El contenido original ya existe y es exactamente igual que antes")
+            newContOriginal = Contenido_Original.objects.get(idFuente = fuentePerteneciente)
+        else:
+            print("NOPE")
+            print("fuente: "+fuente)
+            print(ids_fuentes)
+            newContOriginal = Contenido_Original(contenido = page, idFuente = fuentePerteneciente)
+            newContOriginal.save()
+
         print("listas: ")
         for arti in articulos:
             print(arti)
-
-            if ((fuente in ids_fuentes) and (page in contenidos_html)):  #en realidad los debo comparar con la misma posicion en los listados
-                print("El contenido original ya existe y es exactamente igual que antes")
-                newContOriginal = Contenido_Original.objects.get(idFuente = fuente)
-            else:
-                print("NOPE")
-                fuentePerteneciente = Fuente_Informacion.objects.get(id = fuente)
-                newContOriginal = Contenido_Original(contenido = page, idFuente = fuentePerteneciente)
-                newContOriginal.save()
 
             
             if (arti[0] in categorias_concepto):  #Consulto si el titulo ya existe en la tabla de Categorias
@@ -457,14 +501,20 @@ class Contenidos_Procesados(TemplateView):
                 newCategoria = Categoria(concepto = arti[0])
                 newCategoria.save()
 
-
+            
             if (arti[1] in links_url):  #Consulto si la url ya existe en la tabla de FuenteInfo
                 print("La fuente de INFO"+ arti[1] +"Ya eexiste")
                 newFuente = Fuente_Informacion.objects.get(URL = arti[1])
             else:
                 print("NOPE")
+                name_link = str(arti[1])
+                name_link = name_link.rsplit("/")
+                if (len(name_link) > 1):
+                    name_ext = name_link[len(name_link)-2]
+                else:
+                    name_ext = arti[1]
                 fuentePadre = Fuente_Informacion.objects.get(id=fuente)
-                nameP = fuentePadre.nombre
+                nameP = fuentePadre.nombre +"-"+ name_ext
                 typeP = fuentePadre.tipo
                 levelP = fuentePadre.nivel + 1
                 paisP = fuentePadre.idPais
@@ -477,19 +527,33 @@ class Contenidos_Procesados(TemplateView):
                 newImage = Adjunto.objects.get(imagen = arti[2])
             else:
                 print("IMG NOT")
-                newImage = Adjunto(nombre = arti[2], imagen = arti[2])
+                name_img = str(arti[2])
+                name_img = name_img.rsplit("/")
+                if (len(name_img) > 0):
+                    name_ext = name_img[len(name_img)-1]
+                else:
+                    name_ext = arti[2]
+                
+                concep = str(newCategoria.concepto)
+                concep = concep.replace(" ","-")
+                name_ext = concep + "-" + name_ext
+                print("name_ext: " + name_ext)
+                
+                #img_des = descargarImagen(arti[2], fuentePerteneciente.nombre, name_ext)
+                newImage = Adjunto(nombre = name_ext, imagen = arti[2], URL = arti[2])
                 newImage.save()
 
-            existeCP = False  #realizar una mejor validacion para los contenidos procesados creados
-            for content in self.contenidos_procesados:
-                if ((content.idCategoria == newCategoria.id) and (content.idContenido_Original == newContOriginal.id) and (content.idAdjunto == newImage.id) and (content.titulo == newCategoria.concepto)):
-                    existeCP = True
+            #existeCP = False  #realizar una mejor validacion para los contenidos procesados creados
+            #for content in self.contenidos_procesados:
+             #   if ((content.idCategoria == newCategoria.id) and (content.idContenido_Original == newContOriginal.id) and (content.idAdjunto == newImage.id) and (content.titulo == newCategoria.concepto)):
+              #      existeCP = True
                 
-            if existeCP == False:
+            if newCategoria.concepto in contenidos_proc_tit:
+                print("el Contenido Procesado ya Existe en la BD!!!")
+            else:
                 newContenidoProcesado = Contenido_Procesado(titulo = newCategoria.concepto, idContenido_Original = newContOriginal, idCategoria = newCategoria, idAdjunto = newImage)
                 newContenidoProcesado.save()
-            else:
-                print("el Contenido Procesado ya Existe en la BD!!!")
+                
             
 
         #print(string_html)

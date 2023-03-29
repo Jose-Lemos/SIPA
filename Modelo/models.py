@@ -68,7 +68,8 @@ class Pais(models.Model):
 
 class Adjunto(models.Model):
     nombre = models.CharField(max_length=250, null = False, blank = None, unique=True)
-    imagen = models.ImageField(upload_to='adjuntos', default='adjunto.png', max_length=250)
+    imagen = models.ImageField(upload_to='adjuntos/', default='adjunto.png', max_length=250)
+    URL = models.URLField(max_length= 200, null = False, blank = None, unique=True)
 
     def __str__(self):
         return self.nombre
