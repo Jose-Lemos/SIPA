@@ -40,6 +40,10 @@ header
   user-select: none;
 }
 
+.sidebar ul li{
+  height: 75px;
+}
+
 .sidebar ul a
 {
   display: block;

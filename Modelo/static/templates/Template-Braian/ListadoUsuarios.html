@@ -18,11 +18,13 @@
     <div class="sidebar">      
         <header>Menu</header>
         <ul>
-            <li><a href="http://127.0.0.1:8000/api/admin/">Panel de administracion</a></li>
-            <li><a href="http://127.0.0.1:8000/api/categorias/">Categorias</a></li>
-            <li><a href="http://127.0.0.1:8000/api/fuentes-informacion/">Fuentes de informacion</a></li>
-            <li><a href="http://127.0.0.1:8000/api/paises/">Paises</a></li>
-            <li><a href="http://127.0.0.1:8000/api/usuarios/">Usuarios</a></li>
+            <li><a href="{% url 'admin' %}">Panel de administracion</a></li>
+            <li><a href="{% url 'categorias' %}">Categorias</a></li>
+            <li><a href="{% url 'panel-contenidos-originales' %}">Contenidos Originales</a></li>
+            <li><a href="{% url 'panel-contenidos-procesados' %}">Contenidos Procesados</a></li>
+            <li><a href="{% url 'fuentes-informacion' %}">Fuentes de informacion</a></li>
+            <li><a href="{% url 'paises' %}">Paises</a></li>
+            <li><a href="{% url 'usuarios' %}">Usuarios</a></li>
         </ul>
     </div>
 

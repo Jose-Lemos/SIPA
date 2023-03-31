@@ -560,3 +560,12 @@ class Contenidos_Procesados(TemplateView):
         #context['form'] = self.queryset
         return self.render_to_response(context)
 
+class Panel_Contenidos_Proceasados(ListView):
+    queryset = Contenido_Procesado.objects.all()
+    context_object_name = "Contenidos"
+    template_name = 'ListadoContenidoProcesado.html'
+
+class Panel_Contenidos_Originales(ListView):
+    queryset = Contenido_Original.objects.all()
+    context_object_name = "Contenidos"
+    template_name = 'ListadoContenidoOriginal.html'

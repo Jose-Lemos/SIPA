@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import (Panel_Administracion_View, Pantalla_Principal_View, UsuariosView, Visualizar_Contenido_View, Contenidos_Procesados,
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
-loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML,
-modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView)
+loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML, Panel_Contenidos_Originales,
+modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Panel_Contenidos_Proceasados)
 
 
 urlpatterns = [
@@ -34,6 +34,12 @@ urlpatterns = [
     path('agregar-pais/', agregar_pais.as_view(), name = "agregar-pais"),
     path('modificar-pais/<int:pk>', modificar_pais.as_view(), name = "modificar-pais"),
     path('eliminar-pais/<int:pk>', eliminar_pais.as_view(), name="eliminar-pais"),
+
+    #path de CRUD de contenidos procesados
+    path('contenidos-procesados/', Panel_Contenidos_Proceasados.as_view(), name="panel-contenidos-procesados"),
+
+    #path de CRUD de contenidos originales
+    path('contenidos-originales/', Panel_Contenidos_Originales.as_view(), name="panel-contenidos-originales"),
 
     #path de Navegacion
     path('admin/', Panel_Administracion_View.as_view(), name = "admin"),

@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'style/CSS-Braian/StyleListado.css'%}">
-    <title>Listado de categorias</title>
+    <link rel="stylesheet" href="{% static 'style/CSS-Braian/StyleFuentes.css'%}">
+    <title>Listado de Contenidos Procesados</title>
 </head>
 <body>
     <input type="checkbox" id="check">
@@ -27,48 +27,59 @@
             <li><a href="{% url 'usuarios' %}">Usuarios</a></li>
         </ul>
     </div>
-    
 
     <div class="container-tabla-btn-add">
         <a href="" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         <table class="table-fill">
             <thead>
                 <tr>
-                    <th class="th-1">Nombre</th>
-                    <th class="th-2">Fecha</th>
-                    <th class="th-3">Opciones</th>
+                    <th class="th-1">Titulo</th>
+                    <th class="th-2">Contenido</th>
+                    <th class="th-3">Adjunto</th>
+                    <th class="th-4">Categoria</th>
+                    <th class="th-5">Fecha</th>
+                    <th class="th-6">Opciones</th>
                 </tr>
             </thead>
             <tbody class="table-hover">
-                {% for categoria in Categorias %}
+                {% for contenidoP in Contenidos %}
                 <tr>
-                    <td> {{ categoria.concepto}} </td>
-                    <td> {{ categoria.fecha }} </td>
+                    <td class="td-nombre">{{contenidoP.titulo}}</td>
+                    <td class="td-url">{{contenidoP.contenido}}</td>
+                    <td class="td-tipo">{{contenidoP.idAdjunto}}</td>
+                    <td class="td-nivel">{{contenidoP.idCategoria}}</td>
+                    <td class="td-fecha">{{contenidoP.fecha_Creacion}}</td>
                     <td class="td-options">
                         <a class="button-trash" href="">
                             <i class="fa-solid fa-trash-can "></i>
                             Eliminar
                         </a> 
-                        <a  class="button-modify"href="" >
+                        <a class="button-modify" href="">
                             <i class="fa-solid fa-pencil "></i>
                             Modificar
                         </a>
                     </td>
                 </tr>
                 {% endfor %}
-                
             </tbody>
         </table>
-    </div>     
-        
+    </div>
     <div class="modal-container">
         <div class="modal modal-close">
-            <div class="header-container"><h4>Formulario Agregar Categoria</h4></div>
+            <div class="header-container"><h4>Formulario Agregar Fuente de informacion</h4></div>
             <div class="form-container">
                 <form action="">
                     {% csrf_token %}
-                    <label for="">Nombre de categoria</label>
-                    <input type="text" class="input-name" placeholder="Escriba el nombre de categoria">
+                    <label for="">Nombre de Fuente de informacion</label>
+                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
+                    <label for="">URL</label>
+                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
+                    <label for="">Tipo</label>
+                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
+                    <label for="">Nivel</label>
+                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
+                    <label for="">Fecha</label>
+                    <input type="date" class="input-txt" placeholder="Escriba el nombre de categoria">
                     <div class="container-btn">
                         <input type="submit" value="Guardar" class="btn-save">
                         <input type="button" value="Cancelar" class="btn-cancel">
@@ -77,7 +88,6 @@
             </div>
         </div>
     </div>
-    
     <div class="modal-container-delete">
         <div class="modal-delete modal-delete-close">
             <div class="header-container"><h4>Eliminar Categoria</h4></div>
@@ -96,23 +106,30 @@
 
     <div class="modal-container-modify">
         <div class="modal-modify modal-modify-close">
-            <div class="header-container"><h4>Modificar Categoria</h4></div>
+            <div class="header-container"><h4>Modificar Fuente de informacion</h4></div>
             <div class="form-container">
                 <form action="">
                     {% csrf_token %}
-                    <label for="">Nuevo nombre de categoria</label>
-                    <input type="text" class="input-name" placeholder="Escriba el nuevo nombre de categoria">
+                    <label for="">Nuevo nombre de Fuente de informacion</label>
+                    <input type="text" class="input-txt" placeholder="Escriba el nuevo nombre de categoria">
+                    <label for="">URL</label>
+                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
+                    <label for="">Tipo</label>
+                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
+                    <label for="">Nivel</label>
+                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
+                    <label for="">Fecha</label>
+                    <input type="date" class="input-txt" placeholder="Escriba el nombre de categoria">
                     <div class="container-btn">
-                        <input type="submit" value="Modificar" class="btn-modify"></input>
-                        <input type="button" value="Cancelar" class="btn-cancel-modify"></input>
+                        <input type="submit" value="Modificar" class="btn-modify">
+                        <input type="button" value="Cancelar" class="btn-cancel-modify">
                     </div> 
                 </form>
             </div>
         </div>
     </div>
-
     <script src="{% static 'scripts/JS-Braian/modal.js' %}"></script>
     <script src="{% static 'scripts/JS-Braian/modalDelete.js' %}"></script>
     <script src="{% static 'scripts/JS-Braian/modalModify.js' %}"></script>
 </body>
-</html>
+</html>    
