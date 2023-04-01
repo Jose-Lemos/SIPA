@@ -11,20 +11,29 @@
 
 header
 {
-    height: 170px;
+    height: 100px;
     background: #0575E6;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #021B79, #0575E6);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #021B79, #0575E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 
+body
+{
+    /* background-color: #eceaff; */
+    background: #2C3E50;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
 .tittle
 {
     color: #fff;
-    font-size: 60px;
+    font-size: 50px;
     font-weight: 500;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .user-pic
@@ -200,7 +209,7 @@ form
     margin-left: 200px;
     width: 1000px;
     height: 70px;
-    display: inline-block;
+    display: flex;
 }
 
 .container-select-btn-1,.container-select-btn-2,.container-select-btn-3,.container-select-btn-4
@@ -589,8 +598,6 @@ form
 
 .filter-btn
 {
-    position: relative;
-    top: -130px;
     color: #fff;
     padding: 15px;
     height: 50px;
@@ -624,6 +631,7 @@ form
     margin-bottom: 10px;
     border: 2px solid #ddd;
     border-radius: 5px;
+    justify-content: space-around;
 }
 
 .container-document
@@ -637,12 +645,7 @@ form
 
 .container-information
 {
-    display: inline-block;
-    position: relative;
-    top: -70px;
-    left: 10px;
-    width: 465px;
-    height: 150px;
+    margin-left: 400px;
 }
 
 .container-title

@@ -52,18 +52,14 @@
                     </span>
                 </div>
                 <ul class="list-items-1">
+                    {% for categ in Categorias %}
                     <li class="item-1">
                         <span class="checkbox">
                             <i class="fa-solid fa-check check-icon"></i>
                         </span>
-                        <span class="item-text">Categoria 1</span>
+                        <span class="item-text">{{categ}}</span>
                     </li>
-                    <li class="item-1">
-                        <span class="checkbox">
-                            <i class="fa-solid fa-check check-icon"></i>
-                        </span>
-                        <span class="item-text">Categoria 1</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
 
@@ -75,18 +71,14 @@
                     </span>
                 </div>
                 <ul class="list-items-2">
+                    {% for font in Fuentes %}
                     <li class="item-2">
                         <span class="checkbox-2">
                             <i class="fa-solid fa-check check-icon-2"></i>
                         </span>
-                        <span class="item-text">Categoria 1</span>
+                        <span class="item-text">{{font.nombre}}</span>
                     </li>
-                    <li class="item-2">
-                        <span class="checkbox-2">
-                            <i class="fa-solid fa-check check-icon-2"></i>
-                        </span>
-                        <span class="item-text">Categoria 1</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
 
@@ -98,18 +90,14 @@
                     </span>
                 </div>
                 <ul class="list-items-3">
+                    {% for pais in Paises %}
                     <li class="item-3">
                         <span class="checkbox-3">
                             <i class="fa-solid fa-check check-icon-3"></i>
                         </span>
-                        <span class="item-text">Categoria 1</span>
+                        <span class="item-text">{{pais}}</span>
                     </li>
-                    <li class="item-3">
-                        <span class="checkbox-3">
-                            <i class="fa-solid fa-check check-icon-3"></i>
-                        </span>
-                        <span class="item-text">Categoria 1</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
 
@@ -121,56 +109,37 @@
                     </span>
                 </div>
                 <ul class="list-items-4">
+                    {% for fech in Fechas %}
                     <li class="item-4">
                         <span class="checkbox-4">
                             <i class="fa-solid fa-check check-icon-4"></i>
                         </span>
-                        <span class="item-text">Categoria 1</span>
+                        <span class="item-text">{{fech}}</span>
                     </li>
-                    <li class="item-4">
-                        <span class="checkbox-4">
-                            <i class="fa-solid fa-check check-icon-4"></i>
-                        </span>
-                        <span class="item-text">Categoria 1</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             
-            <button type="submit" class="filter-btn">
-                <span class="filter-icon"><i class="fa-solid fa-filter"></i></span>
-                Filtrar
-            </button>
+            <div >
+                <button type="submit" class="filter-btn">
+                    <span class="filter-icon"><i class="fa-solid fa-filter"></i></span>
+                    Filtrar
+                </button>
+            </div>
+            
         </div>
     </form>
 
+    {% for content in Contenidos %}
     <div class="container-content">
-        <div class="container-document"></div>
+        <div class="container-document"><img src="{{content.idAdjunto}}" alt="img-cont"></div>
         <div class="container-information">
-            <div class="container-title"><a href="{% url 'contenido' %}"><h3 class="title-document">Titulo del documento</h3></a></div>
-            <div class="container-description"><span class="description">Descripcion del documento</span></div>
+            <a href="{% url 'contenido' %}"><h3 class="title-document">{{content.titulo}}</h3></a>
+            <span class="description">contenido creado: {{content.fecha_Creacion}}</span>
+            <p>Extraído de: {{content.idContenido_Original.idFuente}}</p>
         </div>
     </div>
-    <div class="container-content">
-        <div class="container-document"></div>
-        <div class="container-information">
-            <div class="container-title"><a href="VisualizarContenido.html"><h3 class="title-document">Titulo del documento</h3></a></div>
-            <div class="container-description"><span class="description">Descripcion del documento</span></div>
-        </div>
-    </div>
-    <div class="container-content">
-        <div class="container-document"></div>
-        <div class="container-information">
-            <div class="container-title"><a href="VisualizarContenido.html"><h3 class="title-document">Titulo del documento</h3></a></div>
-            <div class="container-description"><span class="description">Descripcion del documento</span></div>
-        </div>
-    </div>
-    <div class="container-content">
-        <div class="container-document"></div>
-        <div class="container-information">
-            <div class="container-title"><a href="VisualizarContenido.html"><h3 class="title-document">Titulo del documento</h3></a></div>
-            <div class="container-description"><span class="description">Descripcion del documento</span></div>
-        </div>
-    </div>
+    {% endfor %}
 
     {% load static %}
     <script src="{% static 'scripts/JS-Braian/main.js' %}"></script>

@@ -267,6 +267,18 @@ class Pantalla_Principal_View(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        cont_procesado = Contenido_Procesado.objects.all()
+        fechas_cont = []
+
+        for cont in cont_procesado:
+            if not(cont.fecha_Creacion in fechas_cont):
+                fechas_cont.append(cont.fecha_Creacion)
+
+        context["Contenidos"] = cont_procesado
+        context["Categorias"] = Categoria.objects.all()
+        context["Fuentes"] = Fuente_Informacion.objects.all()
+        context["Paises"] = Pais.objects.all()
+        context["Fechas"] = fechas_cont
         return context
 
 
