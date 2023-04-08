@@ -131,6 +131,11 @@ p , span
 }
 
 
+.container{
+    justify-content: center;
+    align-items: center;
+}
+
 .container .input
 {
     border: 0;
