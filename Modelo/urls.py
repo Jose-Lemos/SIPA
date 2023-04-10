@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (Panel_Administracion_View, Pantalla_Principal_View, UsuariosView, Visualizar_Contenido_View, Contenidos_Procesados,
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
 loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML, Panel_Contenidos_Originales,
-modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Panel_Contenidos_Proceasados)
+modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Panel_Contenidos_Proceasados, Panel_Adjuntos)
 
 
 urlpatterns = [
@@ -40,6 +40,9 @@ urlpatterns = [
 
     #path de CRUD de contenidos originales
     path('contenidos-originales/', Panel_Contenidos_Originales.as_view(), name="panel-contenidos-originales"),
+
+    #path de CRUD de Adjuntos
+    path('adjuntos/', Panel_Adjuntos.as_view(), name="adjuntos"),
 
     #path de Navegacion
     path('admin/', Panel_Administracion_View.as_view(), name = "admin"),

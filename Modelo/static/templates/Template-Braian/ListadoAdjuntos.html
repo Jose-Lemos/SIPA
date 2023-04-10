@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'style/CSS-Braian/StyleFuentes.css'%}">
-    <title>Listado de categorias</title>
+    <title>Listado de Adjuntos</title>
 </head>
 <body>
     <input type="checkbox" id="check">
@@ -36,15 +36,17 @@
             <thead>
                 <tr>
                     <th class="th-1">Nombre</th>
-                    <th class="th-2">Fecha</th>
-                    <th class="th-3">Opciones</th>
+                    <th class="th-2">URL</th>
+                    <th class="th-3">Fecha</th>
+                    <th class="th-4">Opciones</th>
                 </tr>
             </thead>
             <tbody class="table-hover">
-                {% for categoria in Categorias %}
+                {% for adjunto in Adjuntos %}
                 <tr>
-                    <td> {{ categoria.concepto}} </td>
-                    <td> {{ categoria.fecha }} </td>
+                    <td class="td-nombre"> {{ adjunto.nombre }} </td>
+                    <td class="td-url"> {{ adjunto.URL }} </td>
+                    <td class="td-fecha"> {{ adjunto.fecha_creacion }} </td>
                     <td class="td-options">
                         <a class="button-trash" href="">
                             <i class="fa-solid fa-trash-can "></i>

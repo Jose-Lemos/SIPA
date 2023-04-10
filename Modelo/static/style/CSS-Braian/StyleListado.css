@@ -41,7 +41,7 @@ header
 }
 
 .sidebar ul li{
-  height: 75px;
+  height: 69px;
 }
 
 .sidebar ul a
@@ -160,7 +160,7 @@ ul li:hover a
     border-radius:3px;
     border-collapse: collapse;
     border: 2px #494b4b;
-    height: 320px;
+    height: auto;
     max-width: 900px;
     position: relative;
     top: 35px;
@@ -168,6 +168,7 @@ ul li:hover a
     width: 800px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     animation: float 5s infinite;
+    margin-bottom: 20px;
 }
  
 .back

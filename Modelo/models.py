@@ -60,7 +60,7 @@ class Usuario(PermissionsMixin, AbstractBaseUser):
 class Pais(models.Model):
     nombre = models.CharField(max_length = 50, null = False, blank = None, unique=True)
     idioma = models.CharField(max_length = 250, null = False, blank = None)
-
+    fecha_creacion = models.DateField(default = timezone.now(), null = False, blank = None)
 
     def __str__(self):
         return self.nombre
@@ -70,6 +70,7 @@ class Adjunto(models.Model):
     nombre = models.CharField(max_length=250, null = False, blank = None, unique=True)
     imagen = models.ImageField(upload_to='adjuntos/', default='adjunto.png', max_length=250)
     URL = models.URLField(max_length= 200, null = False, blank = None, unique=True)
+    fecha_creacion = models.DateField(default = timezone.now(), null = False, blank = None)
 
     def __str__(self):
         return self.URL

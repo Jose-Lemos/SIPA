@@ -581,3 +581,8 @@ class Panel_Contenidos_Originales(ListView):
     queryset = Contenido_Original.objects.all()
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoOriginal.html'
+
+class Panel_Adjuntos(ListView):
+    queryset = Adjunto.objects.all()
+    context_object_name = "Adjuntos"
+    template_name = "ListadoAdjuntos.html"

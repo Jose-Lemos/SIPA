@@ -15,6 +15,7 @@ body
   font-family: "Roboto", helvetica, arial, sans-serif;
   font-size: 16px;
   font-weight: 400;
+  padding-bottom: 10px;
     /* text-rendering: optimizeLegibility; */
     
 }
@@ -41,7 +42,7 @@ header
 }
 
 .sidebar ul li{
-  height: 75px;
+  height: 69px;
 }
 
 .sidebar ul a
@@ -161,14 +162,15 @@ ul li:hover a
   border-radius:3px;
   border-collapse: collapse;
   border: 2px #494b4b;
-  height: 320px;
+  height: auto;
   max-width: 1200px;
   position: relative;
   top: 35px;
   padding:5px;
-  width: 1200px;
+  width: auto;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   animation: float 5s infinite;
+  margin-bottom: 20px;
 }
 
 
