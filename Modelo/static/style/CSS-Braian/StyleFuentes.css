@@ -134,6 +134,7 @@ ul li:hover a
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: auto;
 }
 
 .buscador-input-btn{
@@ -267,7 +268,7 @@ a
   cursor: pointer;
   margin: auto;
   position: relative;
-  left: 50px;
+  left: 38px;
  }
 
  .button-modify:hover
@@ -305,7 +306,7 @@ td {
   text-align:left;
   vertical-align:middle;
   font-weight:300;
-  width: 300px;
+  width: 400px;
   font-size:15px;
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
 }
@@ -352,35 +353,6 @@ table .td-fecha:nth-child(5)
   width: auto;
 }
 
-.modal-container, .modal-container-modify
-{
-  opacity: 0;
-  visibility: hidden;
-  position: fixed;
-  z-index: 1000;
-  width: 100%;
-  height: 120vh;
-  top: -60px;
-  left: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal, .modal-modify
-{
-  width: 35%;
-  height: 72%;
-  background: #232526;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  justify-content:space-evenly;
-  position: relative;
-  transition: transform 0.8s;
-  transform: translateY(0%);
-  /* overflow: hidden; */
-}
 
 .header-container
 {
@@ -487,41 +459,8 @@ form
   background: #e48519;
 }
 
-.modal-close, .modal-modify-close
-{
-  transform: translateY(-200%);
-}
-
-.modal-container-delete
-{
-  opacity: 0;
-  visibility: hidden;
-  position: fixed;
-  z-index: 1000;
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 
-.modal-delete
-{
-  width: 28%;
-  height: 25%;
-  background: #232526;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  justify-content:space-evenly;
-  position: relative;
-  transition: transform 0.7s;
-  transform: translateY(0%);
-  /* overflow: hidden; */
-}
 
 
 .container-btn-delete
@@ -563,10 +502,7 @@ form
   background: #e69941;
 }
 
-.modal-delete-close
-{
-  transform: translateY(-300%);
-}
+
 
 .btn-modify
 {

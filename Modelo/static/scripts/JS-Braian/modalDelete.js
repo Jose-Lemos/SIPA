@@ -37,4 +37,10 @@ window.addEventListener("click", function(e){
             modalContainer.style.visibility = "hidden";
         },300)
     }
-})
+});
+
+const eliminarButton = document.getElementById("eliminar-fuente");
+eliminarButton.addEventListener("click", (event)=>{
+    event.preventDefault();
+    console.log("eliminando fuente");
+});

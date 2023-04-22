@@ -71,59 +71,5 @@
             </tbody>
         </table>
     </div>     
-        
-    <div class="modal-container">
-        <div class="modal modal-close">
-            <div class="header-container"><h4>Formulario Agregar Categoria</h4></div>
-            <div class="form-container">
-                <form action="">
-                    {% csrf_token %}
-                    <label for="">Nombre de categoria</label>
-                    <input type="text" class="input-name" placeholder="Escriba el nombre de categoria">
-                    <div class="container-btn">
-                        <input type="submit" value="Guardar" class="btn-save">
-                        <input type="button" value="Cancelar" class="btn-cancel">
-                    </div>    
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    <div class="modal-container-delete">
-        <div class="modal-delete modal-delete-close">
-            <div class="header-container"><h4>Eliminar Categoria</h4></div>
-            <div class="form-container">
-                <form action="">
-                    {% csrf_token %}
-                    <p class="question">¿Seguro que quiere eliminar la categoria?</p>
-                    <div class="container-btn-delete">
-                        <input type="submit" value="Eliminar" class="btn-delete">
-                        <input type="button" value="Cancelar" class="btn-cancel-delete">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-container-modify">
-        <div class="modal-modify modal-modify-close">
-            <div class="header-container"><h4>Modificar Categoria</h4></div>
-            <div class="form-container">
-                <form action="">
-                    {% csrf_token %}
-                    <label for="">Nuevo nombre de categoria</label>
-                    <input type="text" class="input-name" placeholder="Escriba el nuevo nombre de categoria">
-                    <div class="container-btn">
-                        <input type="submit" value="Modificar" class="btn-modify"></input>
-                        <input type="button" value="Cancelar" class="btn-cancel-modify"></input>
-                    </div> 
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script src="{% static 'scripts/JS-Braian/modal.js' %}"></script>
-    <script src="{% static 'scripts/JS-Braian/modalDelete.js' %}"></script>
-    <script src="{% static 'scripts/JS-Braian/modalModify.js' %}"></script>
 </body>
 </html>
