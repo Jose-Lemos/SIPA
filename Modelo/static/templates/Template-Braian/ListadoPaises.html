@@ -5,36 +5,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'style/CSS-Braian/StyleListadoPaises.css'%}">
+    
+    <link rel="stylesheet" href="{% static 'style/CSS-Braian/StyleFuentes.css'%}">
+    <link rel="stylesheet" href="{% static 'style/sidebar.css' %}">
     <title>Listado de Paises</title>
 </head>
 <body>
-    <input type="checkbox" id="check">
-    <label for="check">
-        <i class="fa-solid fa-bars" id="btn"></i>
-        <i class="fa-solid fa-xmark" id="cancel"></i>
-    </label>
-    <div class="sidebar">      
-        <header>Menu</header>
-        <ul>
-            <li><a href="{% url 'admin' %}">Panel de administracion</a></li>
-            <li><a href="{% url 'adjuntos' %}">Adjuntos</a></li>
-            <li><a href="{% url 'categorias' %}">Categorias</a></li>
-            <li><a href="{% url 'panel-contenidos-originales' %}">Contenidos Originales</a></li>
-            <li><a href="{% url 'panel-contenidos-procesados' %}">Contenidos Procesados</a></li>
-            <li><a href="{% url 'fuentes-informacion' %}">Fuentes de informacion</a></li>
-            <li><a href="{% url 'paises' %}">Paises</a></li>
-            <li><a href="{% url 'usuarios' %}">Usuarios</a></li>
-        </ul>
-    </div>
+    {% include 'sidebar.html' %}
     
 
-    </div>
     <div class="container-tabla-btn-add">
-        <a href="" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
+        <div class="container-buscador">
+            {% include 'buscadorListados.html' %}
+            <a href="" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
+        </div>
         <table class="table-fill">
             <thead>
                 <tr>
@@ -57,10 +42,10 @@
                             <i class="fa-solid fa-trash-can "></i>
                             Eliminar
                         </a> 
-                        <button  class="button-modify" href="">
+                        <a class="button-modify" href="">
                             <i class="fa-solid fa-pencil "></i>
                             Modificar
-                        </button>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -68,5 +53,7 @@
             </tbody>
         </table>
     </div> 
+    <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>

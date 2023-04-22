@@ -5,39 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
     <link rel="stylesheet" href="{% static 'style/CSS-Braian/StyleFuentes.css'%}">
     <title>Listado de Fuentes de informacion</title>
 </head>
 <body>
-    <input type="checkbox" id="check">
-    <label for="check">
-        <i class="fa-solid fa-bars" id="btn"></i>
-        <i class="fa-solid fa-xmark" id="cancel"></i>
-    </label>
-    <div class="sidebar">      
-        <header>Menu</header>
-        <ul>
-            <li><a href="{% url 'admin' %}">Panel de administracion</a></li>
-            <li><a href="{% url 'adjuntos' %}">Adjuntos</a></li>
-            <li><a href="{% url 'categorias' %}">Categorias</a></li>
-            <li><a href="{% url 'panel-contenidos-originales' %}">Contenidos Originales</a></li>
-            <li><a href="{% url 'panel-contenidos-procesados' %}">Contenidos Procesados</a></li>
-            <li><a href="{% url 'fuentes-informacion' %}">Fuentes de informacion</a></li>
-            <li><a href="{% url 'paises' %}">Paises</a></li>
-            <li><a href="{% url 'usuarios' %}">Usuarios</a></li>
-        </ul>
-    </div>
+    {% include 'sidebar.html' %}
 
     <div class="container-tabla-btn-add">
         <div class="container-buscador">
-            <div class="buscador-input-btn">
-                <input id="inp-buscador" class="form-control" type="text" placeholder="Search" aria-label="Search" name="buscador">
-                <div id="btn-buscar-container" class="btn btn_common">
-                    <i id="btn-buscar" class="fa-solid fa-magnifying-glass icon-search"></i>
-                </div>
-            </div>
-            <a href="" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
+            {% include 'buscadorListados.html' %}
+            <a href="{% url 'agregar-fuente-info' %}" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
         
         <table class="table-fill">
@@ -74,72 +53,7 @@
             </tbody>
         </table>
     </div>
-    <div class="modal-container">
-        <div class="modal modal-close">
-            <div class="header-container"><h4>Formulario Agregar Fuente de informacion</h4></div>
-            <div class="form-container">
-                <form action="">
-                    {% csrf_token %}
-                    <label for="">Nombre de Fuente de informacion</label>
-                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
-                    <label for="">URL</label>
-                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
-                    <label for="">Tipo</label>
-                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
-                    <label for="">Nivel</label>
-                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
-                    <label for="">Fecha</label>
-                    <input type="date" class="input-txt" placeholder="Escriba el nombre de categoria">
-                    <div class="container-btn">
-                        <input type="submit" value="Guardar" class="btn-save">
-                        <input type="button" value="Cancelar" class="btn-cancel">
-                    </div>    
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal-container-delete">
-        <div class="modal-delete modal-delete-close">
-            <div class="header-container"><h4>Eliminar Categoria</h4></div>
-            <div class="form-container">
-                <form action="">
-                    {% csrf_token %}
-                    <p class="question">¿Seguro que quiere eliminar la categoria?</p>
-                    <div class="container-btn-delete">
-                        <input type="submit" value="Eliminar" class="btn-delete" id="eliminar-fuente">
-                        <input type="button" value="Cancelar" class="btn-cancel-delete">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-container-modify">
-        <div class="modal-modify modal-modify-close">
-            <div class="header-container"><h4>Modificar Fuente de informacion</h4></div>
-            <div class="form-container">
-                <form action="">
-                    {% csrf_token %}
-                    <label for="">Nuevo nombre de Fuente de informacion</label>
-                    <input type="text" class="input-txt" placeholder="Escriba el nuevo nombre de categoria">
-                    <label for="">URL</label>
-                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
-                    <label for="">Tipo</label>
-                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
-                    <label for="">Nivel</label>
-                    <input type="text" class="input-txt" placeholder="Escriba el nombre de categoria">
-                    <label for="">Fecha</label>
-                    <input type="date" class="input-txt" placeholder="Escriba el nombre de categoria">
-                    <div class="container-btn">
-                        <input type="submit" value="Modificar" class="btn-modify">
-                        <input type="button" value="Cancelar" class="btn-cancel-modify">
-                    </div> 
-                </form>
-            </div>
-        </div>
-    </div>
-    <script src="{% static 'scripts/JS-Braian/modal.js' %}"></script>
-    <script src="{% static 'scripts/JS-Braian/modalDelete.js' %}"></script>
-    <script src="{% static 'scripts/JS-Braian/modalModify.js' %}"></script>
+    <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>           

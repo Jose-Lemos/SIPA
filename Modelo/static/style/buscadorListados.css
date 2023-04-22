@@ -1,0 +1,29 @@
+.buscador-input-btn{
+    display: flex;
+}
+  
+#inp-buscador{
+    width: 400px;
+    height: 50px;
+    padding-left: 10px;
+}
+  
+#btn-buscar-container{
+    position: relative;
+    height: 50px;
+    width: 50px;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #2277d3;
+    background-color: #2277d3;
+    color: #fff;
+    margin-left: 4px;
+}
+  
+#btn-buscar-container:first-child{
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    top: 55%;
+    left: 50%;
+}

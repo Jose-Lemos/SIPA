@@ -193,7 +193,7 @@ class agregar_fuente_info(CreateView):
     model = Fuente_Informacion
     form_class = Fuente_Info_Form
     queryset = Fuente_Informacion.objects.all()
-    template_name = "Agregar fuente de informacion.html"
+    template_name = "AgregarFuenteInformacion.html"
     success_url = reverse_lazy('fuentes-informacion')
 
 
