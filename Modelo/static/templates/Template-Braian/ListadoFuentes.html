@@ -9,9 +9,13 @@
 <body>
     
     {% block content %}
-        <h2>Listado de Fuentes de Información</h2>
+        
         <div class="container-buscador">
-            {% include 'buscadorListados.html' %}
+            <div class="tag-buscador">
+                <h2>Fuentes de Información</h2>
+                {% include 'buscadorListados.html' %}
+            </div>
+            
             <a href="{% url 'agregar-fuente-info' %}" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
         

@@ -36,7 +36,9 @@ body
   width: auto;
 }
 
-
+.tag-buscador{
+    display: flex;
+}
 
 
 .btn-add
@@ -397,4 +399,13 @@ form
 .btn-cancel-modify:hover
 {
   background: #d6211b;
+}
+
+h2{
+    color: white;
+    display: inline-block;
+    text-align: center;
+    margin-right: 12px;
+    margin-bottom: 0;
+    padding-top: 5px;
 }

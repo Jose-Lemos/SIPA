@@ -9,8 +9,13 @@
 <body>
     
     {% block content %}
+        
         <div class="container-buscador">
-            {% include 'buscadorListados.html' %}
+            <div class="tag-buscador">
+                <h2>Categorias</h2>
+                {% include 'buscadorListados.html' %}
+            </div>
+            
             <a href="" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
         <table class="table-fill">

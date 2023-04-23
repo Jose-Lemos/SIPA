@@ -1,41 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'panel_agregar_base.html' %}
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    {% load static %}
-        <link rel="stylesheet" href="{% static 'style/fuentes.css' %}">
-        <link rel="stylesheet" href="{% static 'style/sidebar.css' %}">
-    {% block content %}
+    {% block title %}
     <title>Agregar Fuente de Informacion</title>
+    {% endblock %}
 </head>
 <body>
-    <input type="checkbox" id="check">
-    <label for="check">
-        <i class="fa-solid fa-bars" id="btn"></i>
-        <i class="fa-solid fa-xmark" id="cancel"></i>
-    </label>
-    <div class="sidebar">      
-        <header>Menu</header>
-        <ul>
-            <li><a href="{% url 'admin' %}">Panel de administracion</a></li>
-            <li><a href="{% url 'adjuntos' %}">Adjuntos</a></li>
-            <li><a href="{% url 'categorias' %}">Categorias</a></li>
-            <li><a href="{% url 'panel-contenidos-originales' %}">Contenidos Originales</a></li>
-            <li><a href="{% url 'panel-contenidos-procesados' %}">Contenidos Procesados</a></li>
-            <li><a href="{% url 'fuentes-informacion' %}">Fuentes de informacion</a></li>
-            <li><a href="{% url 'paises' %}">Paises</a></li>
-            <li><a href="{% url 'usuarios' %}">Usuarios</a></li>
-        </ul>
-    </div>
-    <div class="mx-auto justify-content-center text-center">
-        <h1 >Agregar Fuente de Informacion:</h1> 
-    </div>
+    {% block content %}
+        <div class="mx-auto justify-content-center text-center">
+            <h1 >Agregar Fuente de Informacion:</h1> 
+        </div>
     
-    {% endblock %}
 
         <div class = "card-body card-block mx-auto">
             {% load static %}
@@ -69,5 +43,6 @@
                 
             </form>
         </div>
+    {% endblock %}
 </body>
 </html>
