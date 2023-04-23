@@ -167,6 +167,13 @@ class agregar_adjunto(CreateView):
     success_url = reverse_lazy('adjuntos')
 
 
+class modificar_adjunto(UpdateView):
+    model = Adjunto
+    form_class = AdjuntoForm
+    template_name = "ModificarAdjunto.html"
+    success_url = reverse_lazy('adjuntos')
+
+
 # Vistas de las categorías
 class listar_Categorias(ListView):
     queryset = Categoria.objects.all()
@@ -185,7 +192,7 @@ class agregar_categoria(CreateView):
 class modificar_categoria(UpdateView):
     model = Categoria
     form_class = CategoriaForm
-    template_name = "modificar categorias.html"
+    template_name = "ModificarCategoria.html"
     success_url = reverse_lazy('categorias')
 
 
@@ -213,7 +220,7 @@ class agregar_fuente_info(CreateView):
 class modificar_fuente_info(UpdateView):
     model = Fuente_Informacion
     form_class = Fuente_Info_Form
-    template_name = "ListadoFuentes.html"
+    template_name = "ModificarFuenteInfo.html"
     success_url = reverse_lazy('fuentes-informacion')
 
 
@@ -242,7 +249,7 @@ class agregar_pais(CreateView):
 class modificar_pais(UpdateView):
     model = Pais
     form_class = PaisForm
-    template_name = "Paises.html"
+    template_name = "ModificarPais.html"
     success_url = reverse_lazy('paises')
 
 

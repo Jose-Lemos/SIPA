@@ -3,7 +3,7 @@ from .views import (Panel_Administracion_View, Pantalla_Principal_View, Usuarios
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
 loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML, Panel_Contenidos_Originales,
 modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Panel_Contenidos_Proceasados, Panel_Adjuntos,
-agregar_adjunto)
+agregar_adjunto, modificar_adjunto)
 
 
 urlpatterns = [
@@ -19,6 +19,8 @@ urlpatterns = [
     #path de CRUD de Adjuntos
     path('adjuntos/', Panel_Adjuntos.as_view(), name="adjuntos"),    
     path('agregar-adjunto/', agregar_adjunto.as_view(), name="agregar-adjunto"),
+    path('modificar-adjunto/<int:pk>', modificar_adjunto.as_view(), name = "modificar-adjunto"),
+
 
     #path de CRUD de categorias
     path('categorias/', listar_Categorias.as_view(), name= "categorias"),
