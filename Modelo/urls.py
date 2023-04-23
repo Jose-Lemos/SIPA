@@ -3,7 +3,7 @@ from .views import (Panel_Administracion_View, Pantalla_Principal_View, Usuarios
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
 loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML, Panel_Contenidos_Originales,
 modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Panel_Contenidos_Proceasados, Panel_Adjuntos,
-agregar_adjunto, modificar_adjunto)
+agregar_adjunto, modificar_adjunto, eliminar_adjunto, eliminar_contenido_original, eliminar_contenido_procesado)
 
 
 urlpatterns = [
@@ -20,6 +20,7 @@ urlpatterns = [
     path('adjuntos/', Panel_Adjuntos.as_view(), name="adjuntos"),    
     path('agregar-adjunto/', agregar_adjunto.as_view(), name="agregar-adjunto"),
     path('modificar-adjunto/<int:pk>', modificar_adjunto.as_view(), name = "modificar-adjunto"),
+    path('eliminar-adjunto/<int:pk>', eliminar_adjunto.as_view(), name = "eliminar-adjunto"),
 
 
     #path de CRUD de categorias
@@ -42,9 +43,11 @@ urlpatterns = [
 
     #path de CRUD de contenidos procesados
     path('contenidos-procesados/', Panel_Contenidos_Proceasados.as_view(), name="panel-contenidos-procesados"),
+    path('eliminar-contenido-procesado/<int:pk>', eliminar_contenido_procesado.as_view(), name="eliminar-contenido-procesado"),
 
     #path de CRUD de contenidos originales
     path('contenidos-originales/', Panel_Contenidos_Originales.as_view(), name="panel-contenidos-originales"),
+    path('eliminar-contenido-original/<int:pk>', eliminar_contenido_original.as_view(), name="eliminar-contenido-original"),
 
 
 

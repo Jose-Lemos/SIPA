@@ -173,6 +173,11 @@ class modificar_adjunto(UpdateView):
     template_name = "ModificarAdjunto.html"
     success_url = reverse_lazy('adjuntos')
 
+class eliminar_adjunto(DeleteView):
+    model = Adjunto
+    template_name = "EliminarAdjunto.html"
+    success_url = reverse_lazy('adjuntos')
+
 
 # Vistas de las categorías
 class listar_Categorias(ListView):
@@ -198,7 +203,7 @@ class modificar_categoria(UpdateView):
 
 class eliminar_categoria(DeleteView):
     model = Categoria
-    template_name = "categoria_confirm_delete.html"
+    template_name = "EliminarCategoria.html"
     success_url = reverse_lazy('categorias')
 
 
@@ -226,7 +231,7 @@ class modificar_fuente_info(UpdateView):
 
 class eliminar_fuente_info(DeleteView):
     model = Fuente_Informacion
-    template_name = "fuente_info_confirm_delete.html"
+    template_name = "EliminarFuenteInfo.html"
     success_url = reverse_lazy('fuentes-informacion')
 
 
@@ -255,7 +260,7 @@ class modificar_pais(UpdateView):
 
 class eliminar_pais(DeleteView):
     model = Pais
-    template_name = "pais_confirm_delete.html"
+    template_name = "EliminarPais.html"
     success_url = reverse_lazy('paises')
 
 
@@ -580,13 +585,26 @@ class Contenidos_Procesados(TemplateView):
         return self.render_to_response(context)
 
 
+#CRUD de los contenidos procesados
 class Panel_Contenidos_Proceasados(ListView):
     queryset = Contenido_Procesado.objects.all()
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoProcesado.html'
 
+class eliminar_contenido_procesado(DeleteView):
+    model = Contenido_Procesado
+    template_name = "EliminarContenidoProcesado.html"
+    success_url = reverse_lazy('panel-contenidos-procesados')
+
+#CRUD de los contenidos originales
 class Panel_Contenidos_Originales(ListView):
     queryset = Contenido_Original.objects.all()
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoOriginal.html'
+
+class eliminar_contenido_original(DeleteView):
+    model = Contenido_Original
+    template_name = "EliminarContenidoOriginal.html"
+    success_url = reverse_lazy('panel-contenidos-originales')
+
 
