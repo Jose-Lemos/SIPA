@@ -20,7 +20,7 @@ from bs4 import BeautifulSoup
 
 # Modelos necesarios para las vistas
 from .models import Contenido_Procesado, Pais, Usuario, Categoria, Fuente_Informacion, Contenido_Original, Adjunto
-from .forms import UsuarioForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form
+from .forms import UsuarioForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form, AdjuntoForm
 # Create your views here.
 import os
 # Api de usuarios
@@ -152,9 +152,22 @@ class eliminar_Usuario(DeleteView):
     template_name = "usuario_confirm_delete.html"
     success_url = reverse_lazy('Usuarios')
 
+
+#Vistas de los Adjuntos
+class Panel_Adjuntos(ListView):
+    queryset = Adjunto.objects.all()
+    context_object_name = "Adjuntos"
+    template_name = "ListadoAdjuntos.html"
+
+class agregar_adjunto(CreateView):
+    model = Adjunto
+    form_class = AdjuntoForm
+    queryset = Adjunto.objects.all()
+    template_name = "AgregarAdjunto.html"
+    success_url = reverse_lazy('adjuntos')
+
+
 # Vistas de las categorías
-
-
 class listar_Categorias(ListView):
     queryset = Categoria.objects.all()
     context_object_name = "Categorias"
@@ -165,7 +178,7 @@ class agregar_categoria(CreateView):
     model = Categoria
     form_class = CategoriaForm
     queryset = Categoria.objects.all()
-    template_name = "Agregar categoria.html"
+    template_name = "AgregarCategoria.html"
     success_url = reverse_lazy('categorias')
 
 
@@ -209,32 +222,20 @@ class eliminar_fuente_info(DeleteView):
     template_name = "fuente_info_confirm_delete.html"
     success_url = reverse_lazy('fuentes-informacion')
 
+
+
 # Vistas de los paises
-
-
-class listar_Paises(View):
-    model = Pais
-    form_class = PaisForm
+class listar_Paises(ListView):
     queryset = Pais.objects.all()
     context_object_name = "Paises"
     template_name = 'ListadoPaises.html'
-
-    def get_context_data(self, **kwargs):
-        context = {}
-        context['Paises'] = self.queryset
-        context['form'] = self.form_class
-        print(self.kwargs)
-        return context
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, self.get_context_data())
 
 
 class agregar_pais(CreateView):
     model = Pais
     form_class = PaisForm
     queryset = Pais.objects.all()
-    template_name = "Agregar pais.html"
+    template_name = "AgregarPais.html"
     success_url = reverse_lazy('paises')
 
 
@@ -250,9 +251,8 @@ class eliminar_pais(DeleteView):
     template_name = "pais_confirm_delete.html"
     success_url = reverse_lazy('paises')
 
+
 # Vista del Panel Principal
-
-
 class Panel_Administracion_View(TemplateView):
     template_name = 'PanelAdmin.html'
 
@@ -572,6 +572,7 @@ class Contenidos_Procesados(TemplateView):
         #context['form'] = self.queryset
         return self.render_to_response(context)
 
+
 class Panel_Contenidos_Proceasados(ListView):
     queryset = Contenido_Procesado.objects.all()
     context_object_name = "Contenidos"
@@ -582,7 +583,3 @@ class Panel_Contenidos_Originales(ListView):
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoOriginal.html'
 
-class Panel_Adjuntos(ListView):
-    queryset = Adjunto.objects.all()
-    context_object_name = "Adjuntos"
-    template_name = "ListadoAdjuntos.html"

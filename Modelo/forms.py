@@ -101,14 +101,27 @@ class Fuente_Info_Form(forms.ModelForm):
 
 
         
+class AdjuntoForm(forms.ModelForm):
+    class Meta:
+        model = Adjunto
+        fields = [
+            'nombre',
+            'imagen',
+            'URL'
+        ]
 
+        labels={
+            'nombre': "Nombre:",
+            'imagen': "Imagen:",
+            'URL': "URL:",
+        }
 
-#class AdjuntoForm(forms.ModelForm):
-#   class Meta:
-#       model = Adjunto
-#       fields = [
-#
-#       ]
+        widgets = {
+            'nombre':forms.TextInput(attrs={'class':'form-control'}),
+            'imagen':forms.TextInput(attrs={'class':'form-control'}),
+            'URL':forms.TextInput(attrs={'class':'form-control'}),    
+        }
+
 
 
 class PaisForm(forms.ModelForm):

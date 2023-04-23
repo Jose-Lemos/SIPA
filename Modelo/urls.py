@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (Panel_Administracion_View, Pantalla_Principal_View, UsuariosView, Visualizar_Contenido_View, Contenidos_Procesados,
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
 loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML, Panel_Contenidos_Originales,
-modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Panel_Contenidos_Proceasados, Panel_Adjuntos)
+modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Panel_Contenidos_Proceasados, Panel_Adjuntos,
+agregar_adjunto)
 
 
 urlpatterns = [
@@ -15,7 +16,9 @@ urlpatterns = [
     path('modificar-usuario/<int:pk>', modificar_Usuario.as_view(), name = "modificar-usuario"),
     path('eliminar-usuario/<int:pk>', eliminar_Usuario.as_view(), name="eliminar-usuario"),
 
-    
+    #path de CRUD de Adjuntos
+    path('adjuntos/', Panel_Adjuntos.as_view(), name="adjuntos"),    
+    path('agregar-adjunto/', agregar_adjunto.as_view(), name="agregar-adjunto"),
 
     #path de CRUD de categorias
     path('categorias/', listar_Categorias.as_view(), name= "categorias"),
@@ -41,8 +44,7 @@ urlpatterns = [
     #path de CRUD de contenidos originales
     path('contenidos-originales/', Panel_Contenidos_Originales.as_view(), name="panel-contenidos-originales"),
 
-    #path de CRUD de Adjuntos
-    path('adjuntos/', Panel_Adjuntos.as_view(), name="adjuntos"),
+
 
     #path de Navegacion
     path('admin/', Panel_Administracion_View.as_view(), name = "admin"),

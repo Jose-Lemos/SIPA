@@ -1,15 +1,14 @@
 {% extends 'panel_agregar_base.html' %}
 <head>
     {% block title %}
-    <title>Agregar Fuente de Informacion</title>
+    <title>Agregar Adjunto</title>
     {% endblock %}
 </head>
 <body>
     {% block content %}
         <div class="mx-auto justify-content-center text-center">
-            <h1 >Agregar Fuente de Informacion:</h1> 
+            <h1 >Agregar Adjunto:</h1> 
         </div>
-    
 
         <div class = "card-body card-block mx-auto">
             {% load static %}
@@ -19,22 +18,16 @@
                     <div class="col col-md-3">{{ form.nombre.label }}</div>
                     <div class="col-12 col-md-9">{{ form.nombre }}</div>
                 </div>
+
+                <div class="row form-group">
+                    <div class="col col-md-3">{{ form.imagen.label }}</div>
+                    <div class="col-12 col-md-9">{{ form.imagen }}</div>
+                </div>
                 
                 <div class="row form-group">
                     <div class="col col-md-3">{{ form.URL.label }}</div>
                     <div class="col-12 col-md-9">{{ form.URL }}</div>
                 </div>
-
-                <div class="row form-group">
-                    <div class="col col-md-3">{{ form.tipo.label }}</div>
-                    <div class="col-12 col-md-9">{{ form.tipo }}</div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col col-md-3">{{ form.idPais.label }}</div>
-                    <div class="col-12 col-md-9">{{ form.idPais }}</div>
-                </div>
-
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-success"> Guardar </button>
