@@ -1,111 +1,400 @@
-:root{
-    --title-list: #1f6492;
-}
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
 
-#title-list
+
+*
 {
-    font:caption;
-    font-size: 25px;
-    background-color: var(--title-list);
-    padding: 12px;
-    color: white;
-    margin-bottom: 0px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.main-container{
-    display: flex;
-}
 
-.form-horizontal
+body 
 {
-    text-align: center;
+  background: #3c4652;
+  font-family: "Roboto", helvetica, arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  padding-bottom: 10px;
+    /* text-rendering: optimizeLegibility; */
+    
 }
 
-.navegacion{
-    width: 680px;
-    height: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--title-list);
+.container-tabla-btn-add
+{
+  margin-top: 30px;
+  margin-left: 100px;
+  width: 1200px;
+  height: 450px;
+  transition: all .5s;
 }
 
-.navegacion h2{
-    color: white;
-    margin-left: 4px;
-}
-
-.data-container{
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
+.container-buscador{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: auto;
 }
 
 
-.btn-agregar{
-    background-color:rgb(26, 235, 26);
-    font-size: 20px;
-    margin-right: 4px;
+
+
+.btn-add
+{
+  font-size: 16px;
+  font-weight: 300;
+  background: #2277d3;
+  color: #fff;
+  padding: 12px;
+  border-radius: 3px;
+  position: relative;
+  left: 0;
 }
 
-.btn-agregar a{
-    text-decoration: none;
-    color: white;
-    font-size: 18px;
+.btn-add:hover
+{
+  background: #4682cc;
 }
 
-.data-container table{
-    border: solid;
-    border-color:black;
-    width: 680px;
-    height: 100px;
-    font-size: 20px;
-    border-collapse: collapse;
-    padding: 10px;
-    font: caption;
+.icon-add
+{
+  padding-right: 5px;
 }
 
-.propiedades tr th{
-    border-bottom: 2px solid black;
-    border-right: 2px solid black;
-    font-size: 20px;
-    padding: 10px;
-    text-align: start;
-    border-collapse: collapse;
-    background-color: beige;
+/*** Table Styles **/
+
+.table-fill 
+{
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  border: 2px #494b4b;
+  height: auto;
+  max-width: 1200px;
+  position: relative;
+  top: 35px;
+  padding:5px;
+  width: auto;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+  margin-bottom: 20px;
 }
 
-tbody tr td{
-    border-bottom: 2px solid black;
-    border-right: 2px solid black;
-    padding: 10px;
-    font-size: 20px;
+
+th 
+{
+  color:#fff;;
+  background:#28282b;
+  border-bottom:1px solid #121213;
+  font-size:16px;
+  font-weight: 400;
+  padding:20px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
 }
 
-.options .btn-modificar{
-    background-color: rgb(255, 197, 5);
-    margin: 0px 2px;
+th:first-child 
+{
+  border-top-left-radius:3px;
+}
+ 
+th:last-child 
+{
+  border-top-right-radius:3px;
+  border-right:none;
+}
+  
+tr 
+{
+  border-top: 1px solid #0c0c0c;
+  border-bottom: 1px solid #0c0c0c;
+  color:#0f0f0f;
+  font-size:15px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+ 
+a
+{
+  text-decoration: none;
 }
 
-.options .btn-modificar a{
-    text-decoration: none;
-    color: white;
-    font-size: 20px;
+ .button-trash
+ {
+  background: #f02f21;
+  color: #fff;
+  padding: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: auto;
+  position: relative;
+  left: 35px;
+ }
+
+ .button-modify
+ {
+  background: #f3a107;
+  color: #fff;
+  padding: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: auto;
+  position: relative;
+  left: 38px;
+ }
+
+ .button-modify:hover
+ {
+    background: #f3c21f;
+ }
+
+ .button-trash:hover
+ {
+    background: #f75336;
+ }
+
+
+tr:first-child {
+    border-top:none;
 }
 
-.options .btn-eliminar{
-    background-color: red;
-    margin: 0px 2px;
+tr:last-child {
+    border-bottom:none;
+}
+ 
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+td {
+  background:#424141;
+  color: #fff;
+  padding:10px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300;
+  width: 400px;
+  font-size:15px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
 }
 
-.options .btn-eliminar a{
-    text-decoration: none;
-    color: white;
-    font-size: 20px;
+.td-nombre, .td-url, .td-tipo, .td-nivel, .td-fecha, .td-options
+{
+  text-align: left;
 }
 
-.options{
-    display: flex;
-    justify-content: space-between;
+td:last-child {
+  border-right: 0px;
+}
+
+th.th-1 {
+  text-align: left;
+}
+
+.th-3,.th-4,.th-5
+{
+  text-align: center;
+}
+
+.th-2
+{
+  text-align: left;
+}
+
+th.th-6 {
+  text-align: center;
+}
+
+
+table .td-nivel:nth-child(4)
+{
+  width: auto;
+}
+table .td-tipo:nth-child(3)
+{
+  width: auto;
+}
+
+table .td-fecha:nth-child(5)
+{
+  width: auto;
+}
+
+
+.header-container
+{
+  display: block;
+  background: #3C3B3F;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #605C3C, #3C3B3F);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #605C3C, #3C3B3F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 50px;
+  color: #f8b145cc;
+  text-align: center;
+  justify-content: center;
+}
+
+h4
+{
+ position: relative;
+ top: 15px;
+}
+
+form
+{
+  width: 100%;
+  height: 215px;
+  color: #fff;
+}
+
+.form-container form label
+{
+  display: block;
+  font-size: 18px;
+  position: relative;
+  top: 10px;
+  left: 50px;
+  font-weight: 300;     
+}
+
+.form-container form .input-txt
+{
+  display: block;
+  padding: 13px;
+  margin-top: 15px;
+  width: 360px;
+  margin-left: 50px;
+  outline: none;
+  font-size: 16px;
+  
+}
+
+.form-container form input:focus
+{
+  border-color:#12ecda;
+}
+
+::placeholder
+{
+  font-size: 16px;
+}
+
+.container-btn
+{
+  width: 215px;
+  height: 50px;
+  position: relative;
+  top: 30px;
+  left: 240px;  
+  
+}
+
+.btn-save
+{
+  width: 100px;
+  height: 40px;
+  margin-top: 5px;
+  margin-left: 5px;
+  border-radius: 3px;
+  border: 0;
+  cursor: pointer;
+  font-size: 15px;
+  background: #4b56f8af;
+  color: #fff;
+  
+}
+
+.btn-cancel , .btn-cancel-delete, .btn-cancel-modify
+{
+  width: 100px;
+  height: 40px;
+  margin-top: 5px;
+  border-radius: 3px;
+  border: 0;
+  cursor: pointer;
+  font-size: 15px;
+  background: #e0921d;
+  color: #fff;
+}
+
+.btn-save:hover
+{
+  background: #595d8d;
+}
+
+.btn-cancel:hover
+{
+  background: #e48519;
+}
+
+
+
+
+
+.container-btn-delete
+{
+  width: 215px;
+  height: 50px;
+  position: relative;
+  top: 30px;
+  left: 140px;
+}
+
+.question
+{
+  margin-left: 15px;
+  margin-top: 5px;
+}
+
+.btn-delete
+{
+  width: 100px;
+  height: 40px;
+  margin-top: 5px;
+  margin-left: 5px;
+  border-radius: 3px;
+  border: 0;
+  cursor: pointer;
+  font-size: 13px;
+  color: #fff;
+  background: #ec190a;
+}
+
+.btn-delete:hover
+{
+  background: #db403b;
+}
+
+.btn-cancel-delete:hover
+{
+  background: #e69941;
+}
+
+
+
+.btn-modify
+{
+  width: 100px;
+  height: 40px;
+  margin-top: 5px;
+  margin-left: 5px;
+  border-radius: 3px;
+  border: 0;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-modify:hover
+{
+  background: #ee8f22;
+}
+
+.btn-cancel-modify:hover
+{
+  background: #d6211b;
 }
