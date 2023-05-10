@@ -1,24 +1,27 @@
 from django import  forms
-from .models import Categoria, Usuario, Configuracion_Fuente_Informacion, Contenido_Original, Contenido_Procesado, Fuente_Informacion, Adjunto, Pais
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from .models import Categoria, Configuracion_Fuente_Informacion, Contenido_Original, Contenido_Procesado, Fuente_Informacion, Adjunto, Pais
 
-class UsuarioForm(forms.ModelForm):
+class RegistroForm(UserCreationForm):
     class Meta:
-        model = Usuario
+        model = User
         fields = [
+            'username',
             'email',
-            'password',
             'is_superuser',
         ]
 
         labels={
-            'email': "E-mail:",
-            'password': "Contraseña: ",
-            'is_superuser': "Es SuperUsuario?: ",
+            'username':'Nombre de Usuario:',
+            'email':'Correo:',
+            'is_superuser':'Es Admin:',
         }
 
         widgets = {
+            'username': forms.TextInput(attrs={'class':'form-control'}),
             'email': forms.EmailInput(attrs={'class':'form-control'}),
-            'contraseña':forms.PasswordInput(attrs={'class':'form-control'}),
+            #'contraseña':forms.PasswordInput(attrs={'class':'form-control'}),
             'is_superuser': forms.NullBooleanSelect(attrs={'class':'form-control'}),
         }
 

@@ -13,14 +13,22 @@ from django.views.generic import ListView, TemplateView, CreateView, UpdateView,
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth import authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # módulos necesarios para el WebScrapping
 import urllib.request
 from bs4 import BeautifulSoup
+from django.contrib.auth.forms import AuthenticationForm
 
 # Modelos necesarios para las vistas
-from .models import Contenido_Procesado, Pais, Usuario, Categoria, Fuente_Informacion, Contenido_Original, Adjunto
-from .forms import UsuarioForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form, AdjuntoForm
+from .models import Contenido_Procesado, Pais, Categoria, Fuente_Informacion, Contenido_Original, Adjunto
+from .forms import RegistroForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form, AdjuntoForm
+
+
 # Create your views here.
 import os
 # Api de usuarios
@@ -68,98 +76,116 @@ class Articulo:
         return texto.format(self.titulo, self.pagina, self.imagen)
 
 
-class UsuariosView(View):
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+# class UsuariosView(View):
+#     @method_decorator(csrf_exempt)
+#     def dispatch(self, request, *args, **kwargs):
+#         return super().dispatch(request, *args, **kwargs)
 
-    def get(self, request):
+#     def get(self, request):
 
-        usuarios = list(Usuario.objects.values())
+#         usuarios = list(User.objects.values())
 
-        if len(usuarios) > 0:
-            datos = {'message': 'Éxito', 'usuarios': usuarios}
-        else:
-            datos = {'message': 'No se encontraron Usuarios...'}
+#         if len(usuarios) > 0:
+#             datos = {'message': 'Éxito', 'usuarios': usuarios}
+#         else:
+#             datos = {'message': 'No se encontraron Usuarios...'}
 
-        return JsonResponse(datos)
+#         return JsonResponse(datos)
 
-    def post(self, request, nombreN, contraseñaN):
-        nuevoUsuario = {"nombre": nombreN, "contraseña": contraseñaN}
-        Usuario.objects.create(
-            nombre=nuevoUsuario['nombreN'], contraseña=nuevoUsuario['contraseñaN'])
-        jd = json.loads(request.body)
-        datos = {'message': 'Éxito'}
-        return JsonResponse(datos)
+#     def post(self, request, nombreN, contraseñaN):
+#         nuevoUsuario = {"nombre": nombreN, "contraseña": contraseñaN}
+#         User.objects.create(
+#             nombre=nuevoUsuario['nombreN'], contraseña=nuevoUsuario['contraseñaN'])
+#         jd = json.loads(request.body)
+#         datos = {'message': 'Éxito'}
+#         return JsonResponse(datos)
 
-    def put(self, request):
-        pass
+#     def put(self, request):
+#         pass
 
-    def delete(self, request):
-        pass
+#     def delete(self, request):
+#         pass
 
 
 # Vistas de Usuarios
-class loginView(TemplateView):
-    template_name = 'inicio de sesion.html'
+# class loginView(LoginView):
+#     template_name = 'login.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         return context
+    
+#     def post(self, request, **kwargs):
+#         name_user = request.POST.get('email-user')
+#         pass_user = request.POST.get('pass-user')
+#         print(name_user, pass_user)
+
+#         user = authenticate(username=name_user, password=pass_user)
+#         if user is not None:
+#         # A backend authenticated the credentials
+#             redirect('home')
+#         else:
+#             # No backend authenticated the credentials
+#             redirect('login')
+
 
 
 class logoutView(TemplateView):
     template_name = 'logout.html'
 
 
-class listar_Usuarios(ListView):
-    queryset = Usuario.objects.all()
+class listar_Usuarios(LoginRequiredMixin, ListView):
+    queryset = User.objects.all()
     context_object_name = "Usuarios"
     template_name = 'ListadoUsuarios.html'
 
 
-class UsuarioCreateView(CreateView):
-    model = Usuario
-    form_class = UsuarioForm
-    queryset = Usuario.objects.all()
-    template_name = "Agregar usuario.html"
-    success_url = reverse_lazy('Usuarios')
+class UsuarioCreateView(LoginRequiredMixin, CreateView):
+    model = User
+    form_class = RegistroForm
+    queryset = User.objects.all()
+    template_name = "AgregarUsuario.html"
+    success_url = reverse_lazy('usuarios')
 
     # def get_context_data(self, **kwargs):
     # context = super().get_context_data(**kwargs)
 
-    def post(self, request, **kwargs):
-        context = super().get_context_data(**kwargs)
-        email_user = request.POST["email"]
-        pass_user = request.POST["password"]
-        is_super = request.POST["is_superuser"]
+    # def post(self, request, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     email_user = request.POST["email"]
+    #     pass_user = request.POST["password"]
+    #     is_super = request.POST["is_superuser"]
 
-        new_User = Usuario()
-        new_User.email = email_user
-        new_User.password = pass_user
-        new_User.is_superuser = is_super
-        new_User.save()
+    #     new_User = Usuario()
+    #     new_User.email = email_user
+    #     new_User.password = pass_user
+    #     new_User.is_superuser = is_super
+    #     new_User.save()
 
         # context = self.get_context_data(**kwargs)
         # return self.render_to_response(context)
 
 
-class modificar_Usuario(UpdateView):
-    model = Usuario
-    form_class = UsuarioForm
+class modificar_Usuario(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UserChangeForm
     template_name = "Agregar usuario.html"
-    success_url = reverse_lazy('Usuarios')
+    success_url = reverse_lazy('usuarios')
 
 
-class eliminar_Usuario(DeleteView):
-    model = Usuario
+class eliminar_Usuario(LoginRequiredMixin, DeleteView):
+    model = User
     template_name = "usuario_confirm_delete.html"
     success_url = reverse_lazy('Usuarios')
 
 
 #Vistas de los Adjuntos
-class Panel_Adjuntos(ListView):
+class Panel_Adjuntos(LoginRequiredMixin, ListView):
     queryset = Adjunto.objects.all()
     context_object_name = "Adjuntos"
     template_name = "ListadoAdjuntos.html"
 
-class agregar_adjunto(CreateView):
+class agregar_adjunto(LoginRequiredMixin, CreateView):
     model = Adjunto
     form_class = AdjuntoForm
     queryset = Adjunto.objects.all()
@@ -167,7 +193,7 @@ class agregar_adjunto(CreateView):
     success_url = reverse_lazy('adjuntos')
 
 
-class modificar_adjunto(UpdateView):
+class modificar_adjunto(LoginRequiredMixin, UpdateView):
     model = Adjunto
     form_class = AdjuntoForm
     template_name = "ModificarAdjunto.html"
@@ -180,13 +206,13 @@ class eliminar_adjunto(DeleteView):
 
 
 # Vistas de las categorías
-class listar_Categorias(ListView):
+class listar_Categorias(LoginRequiredMixin, ListView):
     queryset = Categoria.objects.all()
     context_object_name = "Categorias"
     template_name = 'ListadoCategorias.html'
 
 
-class agregar_categoria(CreateView):
+class agregar_categoria(LoginRequiredMixin, CreateView):
     model = Categoria
     form_class = CategoriaForm
     queryset = Categoria.objects.all()
@@ -194,27 +220,27 @@ class agregar_categoria(CreateView):
     success_url = reverse_lazy('categorias')
 
 
-class modificar_categoria(UpdateView):
+class modificar_categoria(LoginRequiredMixin, UpdateView):
     model = Categoria
     form_class = CategoriaForm
     template_name = "ModificarCategoria.html"
     success_url = reverse_lazy('categorias')
 
 
-class eliminar_categoria(DeleteView):
+class eliminar_categoria(LoginRequiredMixin, DeleteView):
     model = Categoria
     template_name = "EliminarCategoria.html"
     success_url = reverse_lazy('categorias')
 
 
 # Vistas de las fuentes de información
-class listar_Fuente_informacion(ListView):
+class listar_Fuente_informacion(LoginRequiredMixin, ListView):
     queryset = Fuente_Informacion.objects.all()
     context_object_name = "Fuentes"
     template_name = 'ListadoFuentes.html'
 
 
-class agregar_fuente_info(CreateView):
+class agregar_fuente_info(LoginRequiredMixin, CreateView):
     model = Fuente_Informacion
     form_class = Fuente_Info_Form
     queryset = Fuente_Informacion.objects.all()
@@ -222,14 +248,14 @@ class agregar_fuente_info(CreateView):
     success_url = reverse_lazy('fuentes-informacion')
 
 
-class modificar_fuente_info(UpdateView):
+class modificar_fuente_info(LoginRequiredMixin, UpdateView):
     model = Fuente_Informacion
     form_class = Fuente_Info_Form
     template_name = "ModificarFuenteInfo.html"
     success_url = reverse_lazy('fuentes-informacion')
 
 
-class eliminar_fuente_info(DeleteView):
+class eliminar_fuente_info(LoginRequiredMixin, DeleteView):
     model = Fuente_Informacion
     template_name = "EliminarFuenteInfo.html"
     success_url = reverse_lazy('fuentes-informacion')
@@ -237,13 +263,13 @@ class eliminar_fuente_info(DeleteView):
 
 
 # Vistas de los paises
-class listar_Paises(ListView):
+class listar_Paises(LoginRequiredMixin, ListView):
     queryset = Pais.objects.all()
     context_object_name = "Paises"
     template_name = 'ListadoPaises.html'
 
 
-class agregar_pais(CreateView):
+class agregar_pais(LoginRequiredMixin, CreateView):
     model = Pais
     form_class = PaisForm
     queryset = Pais.objects.all()
@@ -251,21 +277,21 @@ class agregar_pais(CreateView):
     success_url = reverse_lazy('paises')
 
 
-class modificar_pais(UpdateView):
+class modificar_pais(LoginRequiredMixin, UpdateView):
     model = Pais
     form_class = PaisForm
     template_name = "ModificarPais.html"
     success_url = reverse_lazy('paises')
 
 
-class eliminar_pais(DeleteView):
+class eliminar_pais(LoginRequiredMixin, DeleteView):
     model = Pais
     template_name = "EliminarPais.html"
     success_url = reverse_lazy('paises')
 
 
 # Vista del Panel Principal
-class Panel_Administracion_View(TemplateView):
+class Panel_Administracion_View(LoginRequiredMixin,TemplateView):
     template_name = 'PanelAdmin.html'
 
     def get_context_data(self, **kwargs):
@@ -274,7 +300,7 @@ class Panel_Administracion_View(TemplateView):
 
 
 # Vista de Pantalla Principal
-class Pantalla_Principal_View(TemplateView):
+class Pantalla_Principal_View(LoginRequiredMixin,TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
@@ -295,7 +321,7 @@ class Pantalla_Principal_View(TemplateView):
 
 
 # Vistas de los contenidos
-class Visualizar_Contenido_View(TemplateView):
+class Visualizar_Contenido_View(LoginRequiredMixin, TemplateView):
     template_name = 'VisualizarContenido.html'
 
     def get_context_data(self, **kwargs):
@@ -303,7 +329,7 @@ class Visualizar_Contenido_View(TemplateView):
         return context
 
 
-class Extraer_HTML(TemplateView):
+class Extraer_HTML(LoginRequiredMixin, TemplateView):
     template_name = "ExtraerHTML.html"
     fuentes = Fuente_Informacion.objects.all()
     form = Contenido_Original
@@ -423,7 +449,7 @@ class Extraer_HTML(TemplateView):
             return self.render_to_response(context)
 
 
-class Contenidos_Procesados(TemplateView):
+class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
     template_name = "ContenidosExtraidos.html"
     contenidos_originales = Contenido_Original.objects.all()
     contenidos_procesados = Contenido_Procesado.objects.all()
@@ -586,23 +612,23 @@ class Contenidos_Procesados(TemplateView):
 
 
 #CRUD de los contenidos procesados
-class Panel_Contenidos_Proceasados(ListView):
+class Panel_Contenidos_Proceasados(LoginRequiredMixin, ListView):
     queryset = Contenido_Procesado.objects.all()
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoProcesado.html'
 
-class eliminar_contenido_procesado(DeleteView):
+class eliminar_contenido_procesado(LoginRequiredMixin, DeleteView):
     model = Contenido_Procesado
     template_name = "EliminarContenidoProcesado.html"
     success_url = reverse_lazy('panel-contenidos-procesados')
 
 #CRUD de los contenidos originales
-class Panel_Contenidos_Originales(ListView):
+class Panel_Contenidos_Originales(LoginRequiredMixin, ListView):
     queryset = Contenido_Original.objects.all()
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoOriginal.html'
 
-class eliminar_contenido_original(DeleteView):
+class eliminar_contenido_original(LoginRequiredMixin, DeleteView):
     model = Contenido_Original
     template_name = "EliminarContenidoOriginal.html"
     success_url = reverse_lazy('panel-contenidos-originales')

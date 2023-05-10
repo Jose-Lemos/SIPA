@@ -147,4 +147,6 @@ LOGIN_REDIRECT_URL = reverse_lazy('home')
 
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
-AUTH_USER_MODEL = 'Modelo.Usuario'  #  where user is the app name and User is the model class name
+LOGIN_URL = '/api/login/'
+
+AUTH_USER_MODEL = 'auth.User'  #  where user is the app name and User is the model class name

@@ -1,16 +1,18 @@
 from django.urls import path
-from .views import (Panel_Administracion_View, Pantalla_Principal_View, UsuariosView, Visualizar_Contenido_View, Contenidos_Procesados,
+from django.contrib.auth.views import LoginView, LogoutView
+from .views import (Panel_Administracion_View, Pantalla_Principal_View, Visualizar_Contenido_View, Contenidos_Procesados,
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
-loginView, listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML, Panel_Contenidos_Originales,
+listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML, Panel_Contenidos_Originales,
 modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Panel_Contenidos_Proceasados, Panel_Adjuntos,
 agregar_adjunto, modificar_adjunto, eliminar_adjunto, eliminar_contenido_original, eliminar_contenido_procesado)
 
 
 urlpatterns = [
-    path('login/', loginView.as_view(), name='login'),
-    path('logout/', logoutView.as_view(), name='logout'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 
     #path de CRUD de usuarios
+    
     path('usuarios/', listar_Usuarios.as_view(), name='usuarios'),
     path('agregar-usuario/', UsuarioCreateView.as_view(), name = "agregar-usuario"),
     path('modificar-usuario/<int:pk>', modificar_Usuario.as_view(), name = "modificar-usuario"),

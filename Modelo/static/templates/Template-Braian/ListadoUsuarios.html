@@ -16,7 +16,7 @@
                 {% include 'buscadorListados.html' %}
             </div>
             
-            <a href="" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
+            <a href="{% url 'agregar-usuario' %}" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
         <table class="table-fill">
             <thead>
@@ -30,9 +30,9 @@
             <tbody class="table-hover">
                 {% for usuario in Usuarios %}
                 <tr>
-                    <td class="td-nombre">1</td>
-                    <td class="td-url">User</td>
-                    <td class="td-tipo">userfalse@gmail.com</td>
+                    <td class="td-nombre">{{usuario.id}}</td>
+                    <td class="td-url">{{usuario.username}}</td>
+                    <td class="td-tipo">{{usuario.email}}</td>
                     <td class="td-options">
                         <a class="button-trash" href="">
                             <i class="fa-solid fa-trash-can "></i>

@@ -11,10 +11,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </head>
 <body>
+    
+    
     <header>
+        {% if request.user.is_staff %}
+        <a href="{% url 'admin' %}">panel de administracion</a>
+        {% endif %}
         <span class="user-pic" onclick="toggleMenu()">Username</span>
         <p class="tittle">Nombre de la app</p>
+        
+        
     </header>
+    
+
     <div class="sub-menu-wrap" id="subMenu">
         <div class="sub-menu">
             <div class="user-info">
@@ -26,7 +35,7 @@
                 <p>Mi perfil</p>
                 <span>></span>
             </a>
-            <a class="sub-menu-link" href="Inicio de sesion.html" >
+            <a class="sub-menu-link" href="{% url 'logout' %}" >
                 <i class="fa-sharp fa-solid fa-right-from-bracket icon-logout"></i>
                 <p>Cerrar Sesion</p>
                 <span>></span>
@@ -163,6 +172,7 @@
     <script src="{% static 'scripts/JS-Braian/Paises.js' %}"></script>
     <script src="{% static 'scripts/JS-Braian/Fechas.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    
 </body>
 
 </html>
