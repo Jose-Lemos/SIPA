@@ -18,6 +18,8 @@
                 
             <a href="" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
+
+        {% if Contenidos %}
         <table class="table-fill">
             <thead>
                 <tr>
@@ -51,6 +53,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <p class="text-bg-info " id="text-not-model">No existen Contenidos Procesados en la Base de Datos. Puedes agregar Contenidos Procesados con el botón "+ Agregar"</p>
+        {% endif %}
     {% endblock %}
 </body>
 </html>    

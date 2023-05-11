@@ -15,10 +15,10 @@
     
     <header>
         {% if request.user.is_staff %}
-        <a href="{% url 'admin' %}">panel de administracion</a>
+        <a href="{% url 'admin' %}" class="text-white text-decoration-none">panel de administracion</a>
         {% endif %}
-        <span class="user-pic" onclick="toggleMenu()">Username</span>
-        <p class="tittle">Nombre de la app</p>
+        <span class="user-pic" onclick="toggleMenu()">{{user.username}}</span>
+        <p class="tittle">Frozen Data</p>
         
         
     </header>
@@ -30,11 +30,6 @@
                 <h4>Mi cuenta</h4>
             </div>
             <hr>
-            <a class="sub-menu-link" href="PerfilUsuario.html" >
-                <i class="fa-solid fa-user icon-profile"></i>
-                <p>Mi perfil</p>
-                <span>></span>
-            </a>
             <a class="sub-menu-link" href="{% url 'logout' %}" >
                 <i class="fa-sharp fa-solid fa-right-from-bracket icon-logout"></i>
                 <p>Cerrar Sesion</p>
@@ -61,6 +56,7 @@
                         <i class="fa-solid fa-chevron-down icon-dwn"></i>
                     </span>
                 </div>
+                {% if Categorias %}
                 <ul class="list-items-1">
                     {% for categ in Categorias %}
                     <li class="item-1">
@@ -71,6 +67,7 @@
                     </li>
                     {% endfor %}
                 </ul>
+                {% endif %}
             </div>
 
             <div class="container-select-btn-2" style="z-index: 1;">
@@ -80,6 +77,7 @@
                         <i class="fa-solid fa-chevron-down icon-dwn"></i>
                     </span>
                 </div>
+                {% if Fuentes %}
                 <ul class="list-items-2">
                     {% for font in Fuentes %}
                     <li class="item-2">
@@ -90,6 +88,7 @@
                     </li>
                     {% endfor %}
                 </ul>
+                {% endif %}
             </div>
 
             <div class="container-select-btn-3" style="z-index: 1;">
@@ -99,6 +98,7 @@
                         <i class="fa-solid fa-chevron-down icon-dwn"></i>
                     </span>
                 </div>
+                {% if Paises %}
                 <ul class="list-items-3">
                     {% for pais in Paises %}
                     <li class="item-3">
@@ -109,6 +109,7 @@
                     </li>
                     {% endfor %}
                 </ul>
+                {% endif %}
             </div>
 
             <div class="container-select-btn-4" style="z-index: 1;">
@@ -118,6 +119,7 @@
                         <i class="fa-solid fa-chevron-down icon-dwn"></i>
                     </span>
                 </div>
+                {% if Fechas %}
                 <ul class="list-items-4">
                     {% for fech in Fechas %}
                     <li class="item-4">
@@ -128,6 +130,7 @@
                     </li>
                     {% endfor %}
                 </ul>
+                {% endif %}
             </div>
             
             <div >

@@ -18,6 +18,8 @@
             
             <a href="{% url 'agregar-categoria' %}" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
+
+        {% if Categorias %}
         <table class="table-fill">
             <thead>
                 <tr>
@@ -46,6 +48,9 @@
                 
             </tbody>
         </table>
+        {% else %}
+        <p class="text-bg-info " id="text-not-model">No existen Categorias en la Base de Datos. Puedes agregar Categorias con el botón "+ Agregar"</p>
+        {% endif %}
     {% endblock %}     
 </body>
 </html>
