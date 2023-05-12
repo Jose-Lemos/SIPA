@@ -161,14 +161,14 @@ class UsuarioCreateView(LoginRequiredMixin, CreateView):
 class modificar_Usuario(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserChangeForm
-    template_name = "Agregar usuario.html"
+    template_name = "ModificarUsuario.html"
     success_url = reverse_lazy('usuarios')
 
 
 class eliminar_Usuario(LoginRequiredMixin, DeleteView):
     model = User
-    template_name = "usuario_confirm_delete.html"
-    success_url = reverse_lazy('Usuarios')
+    template_name = "EliminarUsuario.html"
+    success_url = reverse_lazy('usuarios')
 
 
 #Vistas de los Adjuntos

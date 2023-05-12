@@ -26,6 +26,7 @@ body
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .container-title
@@ -47,17 +48,19 @@ body
     margin-left: 600px;
     flex-wrap: wrap;
     min-width: 400px;
+    display: flex;
 }
 
 .user-pic
 {
-    width: auto;
+    width: 100px;
     cursor: pointer;
     /* margin-left: 950px;
     margin-top: 20px; */
     font-weight: 300;
     color: #fff;
     padding: 10px;
+    display: flex;
 }
 
 .recolection-link

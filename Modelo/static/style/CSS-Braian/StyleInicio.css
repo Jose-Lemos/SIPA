@@ -15,7 +15,10 @@ header
     background: #0575E6;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #021B79, #0575E6);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #021B79, #0575E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
 }
 
 body
@@ -30,21 +33,19 @@ body
 .tittle
 {
     color: #fff;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 500;
-    text-align: center;
-    margin-top: 10px;
 }
 
 .user-pic
 {
     color: #fff;
-    font-size: 17px;
+    font-size: 20px;
     position: relative;
-    top: 30px;
-    left: 1190px;
     cursor: pointer;
     font-weight: 300;
+    margin-right: 12px;
+    display: flex;
 }
 .sub-menu-wrap
 {
@@ -146,8 +147,7 @@ p , span
 
 .search_wrap
 {
-    width: 500px;
-    margin: 30px 400px;
+    width: 300px;
 }
 
 .search_wrap .search_box
@@ -683,4 +683,14 @@ form
 
 #contents{
     margin-left: 20px;
+}
+
+#link-panel{
+    font-size: 20px;
+}
+
+#cont-panel-link img{
+    margin-left: 30px;
+    width: 80%;
+    height: 80%;
 }
