@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 # módulos necesarios para el WebScrapping
 import urllib.request
@@ -255,10 +256,36 @@ class eliminar_fuente_info(LoginRequiredMixin, DeleteView):
 
 
 # Vistas de los paises
-class listar_Paises(LoginRequiredMixin, ListView):
+class listar_Paises(LoginRequiredMixin, TemplateView):
     queryset = Pais.objects.all()
     context_object_name = "Paises"
     template_name = 'ListadoPaises.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Paises'] = self.queryset
+        context['mensaje'] = 'No existen Paises en la Base de Datos. Puedes agregar Paises con el botón "+ Agregar"'
+
+        return context
+
+    def post(self, request, **kwargs):
+        busqueda = request.POST.get("buscador")
+        context = super().get_context_data(**kwargs)
+
+        if request.method == "POST":
+            print(busqueda)
+            if busqueda:
+                paises = Pais.objects.filter(
+                    Q(nombre__icontains = busqueda)
+                )
+                if paises.exists()==True:
+                    context['Paises'] = paises
+                else:
+                    context['mensaje'] = 'No se enconrtraron Países con el nombre ingresado. Por favor ingresar otro nombre'
+            return self.render_to_response(context)
+        else:
+            return self.render_to_response(context)
+
 
 
 class agregar_pais(LoginRequiredMixin, CreateView):

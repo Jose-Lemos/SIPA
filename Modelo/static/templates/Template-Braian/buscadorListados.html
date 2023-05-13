@@ -3,9 +3,14 @@
     <link rel="stylesheet" href="{% static 'style/buscadorListados.css' %}">
 </head>
 
-<div class="buscador-input-btn">
-    <input id="inp-buscador" class="form-control" type="text" placeholder="Search" aria-label="Search" name="buscador">
-    <div id="btn-buscar-container" class="btn btn_common">
-        <i id="btn-buscar" class="fa-solid fa-magnifying-glass icon-search"></i>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="buscador-input-btn">
+        <input id="inp-buscador" class="form-control" type="text" placeholder="Search" aria-label="Search" name="buscador">
+        <div id="btn-buscar-container" class="btn btn_common">
+            
+            <button type="submit"><i id="btn-buscar" class="fa-solid fa-magnifying-glass icon-search"></i></button>
+           
+        </div>
     </div>
-</div>
+</form>
