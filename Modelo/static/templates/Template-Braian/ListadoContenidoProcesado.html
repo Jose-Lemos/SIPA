@@ -12,7 +12,7 @@
         
         <div class="container-buscador">
             <div class="tag-buscador">
-                <h2>Contenidos Procesados</h2>
+                <h2 class="w-100">Contenidos Procesados</h2>
                 {% include 'buscadorListados.html' %}
             </div>
                 
@@ -23,6 +23,7 @@
         <table class="table-fill">
             <thead>
                 <tr>
+                    <th class="th-1">ID</th>
                     <th class="th-1">Titulo</th>
                     <th class="th-2">Contenido</th>
                     <th class="th-3">Adjunto</th>
@@ -34,6 +35,7 @@
             <tbody class="table-hover">
                 {% for contenidoP in Contenidos %}
                 <tr>
+                    <td class="td-nombre">{{contenidoP.id}}</td>
                     <td class="td-nombre">{{contenidoP.titulo}}</td>
                     <td class="td-url">{{contenidoP.contenido}}</td>
                     <td class="td-tipo">{{contenidoP.idAdjunto}}</td>

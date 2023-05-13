@@ -121,7 +121,6 @@ class AdjuntoForm(forms.ModelForm):
 
         widgets = {
             'nombre':forms.TextInput(attrs={'class':'form-control'}),
-            'imagen':forms.TextInput(attrs={'class':'form-control'}),
             'URL':forms.TextInput(attrs={'class':'form-control'}),    
         }
 

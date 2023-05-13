@@ -12,7 +12,7 @@
         
         <div class="container-buscador">
             <div class="tag-buscador">
-                <h2>Fuentes de Información</h2>
+                <h2 class="w-100">Fuentes de Información</h2>
                 {% include 'buscadorListados.html' %}
             </div>
             
@@ -23,6 +23,7 @@
         <table class="table-fill">
             <thead>
                 <tr>
+                    <th class="th-1">ID</th>
                     <th class="th-1">Nombre</th>
                     <th class="th-2">URL</th>
                     <th class="th-3">Tipo</th>
@@ -34,11 +35,12 @@
             <tbody class="table-hover">
                 {% for fuente in Fuentes %}
                 <tr>
+                    <td class="td-nombre w-auto">{{fuente.id}}</td>
                     <td class="td-nombre">{{fuente.nombre}}</td>
                     <td class="td-url">{{fuente.URL}}</td>
-                    <td class="td-tipo">{{fuente.tipo}}</td>
-                    <td class="td-nivel">{{fuente.nivel}}</td>
-                    <td class="td-fecha">{{fuente.fecha}}</td>
+                    <td class="td-tipo text-center">{{fuente.tipo}}</td>
+                    <td class="td-nivel w-auto">{{fuente.nivel}}</td>
+                    <td class="td-fecha w-auto">{{fuente.fecha}}</td>
                     <td class="td-options">
                         <a class="button-trash" href="{% url 'eliminar-fuente-info' fuente.id %}">
                             <i class="fa-solid fa-trash-can "></i>

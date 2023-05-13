@@ -779,10 +779,44 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
 
 
 #CRUD de los contenidos procesados
-class Panel_Contenidos_Proceasados(LoginRequiredMixin, ListView):
+class Panel_Contenidos_Proceasados(LoginRequiredMixin, TemplateView):
     queryset = Contenido_Procesado.objects.all()
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoProcesado.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Contenidos'] = self.queryset
+        context['mensaje'] = 'No existen Contenidos en la Base de Datos. Puedes agregar Contenidos con el botón "+ Agregar" o recolectando información'
+
+        return context
+    
+    def get(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Contenidos'] = Contenido_Procesado.objects.all()
+        context['mensaje'] = 'No existen Contenidos en la Base de Datos. Puedes agregar Contenidos con el botón "+ Agregar" o recolectando información'
+
+        return self.render_to_response(context)
+
+    def post(self, request, **kwargs):
+        busqueda = request.POST.get("buscador")
+        context = super().get_context_data(**kwargs)
+
+        if request.method == "POST":
+            print(busqueda)
+            if busqueda:
+                contenidos = Contenido_Procesado.objects.filter(
+                    Q(concepto__icontains = busqueda)
+                )
+                if contenidos.exists()==True:
+                    context['Contenidos'] = contenidos
+                else:
+                    context['mensaje'] = 'No se enconrtraron Contenidos con el nombre ingresado. Por favor ingresar otro nombre'
+            else:
+                context['mensaje'] = 'Por favor ingrese un texto para realizar la búsqueda'
+            return self.render_to_response(context)
+        else:
+            return self.render_to_response(context)
 
 class eliminar_contenido_procesado(LoginRequiredMixin, DeleteView):
     model = Contenido_Procesado
@@ -790,10 +824,44 @@ class eliminar_contenido_procesado(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('panel-contenidos-procesados')
 
 #CRUD de los contenidos originales
-class Panel_Contenidos_Originales(LoginRequiredMixin, ListView):
+class Panel_Contenidos_Originales(LoginRequiredMixin, TemplateView):
     queryset = Contenido_Original.objects.all()
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoOriginal.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Contenidos'] = self.queryset
+        context['mensaje'] = 'No existen Contenidos en la Base de Datos. Puedes agregar Contenidos con el botón "+ Agregar" o recolectando información'
+
+        return context
+    
+    def get(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Contenidos'] = Contenido_Original.objects.all()
+        context['mensaje'] = 'No existen Contenidos en la Base de Datos. Puedes agregar Contenidos con el botón "+ Agregar" o recolectando información'
+
+        return self.render_to_response(context)
+
+    def post(self, request, **kwargs):
+        busqueda = request.POST.get("buscador")
+        context = super().get_context_data(**kwargs)
+
+        if request.method == "POST":
+            print(busqueda)
+            if busqueda:
+                contenidos = Contenido_Original.objects.filter(
+                    Q(concepto__icontains = busqueda)
+                )
+                if contenidos.exists()==True:
+                    context['Contenidos'] = contenidos
+                else:
+                    context['mensaje'] = 'No se enconrtraron Contenidos con el nombre ingresado. Por favor ingresar otro nombre'
+            else:
+                context['mensaje'] = 'Por favor ingrese un texto para realizar la búsqueda'
+            return self.render_to_response(context)
+        else:
+            return self.render_to_response(context)
 
 class eliminar_contenido_original(LoginRequiredMixin, DeleteView):
     model = Contenido_Original

@@ -21,18 +21,20 @@
         <table class="table-fill">
             <thead>
                 <tr>
-                    <th class="th-1">Nombre</th>
-                    <th class="th-2">URL</th>
-                    <th class="th-3">Fecha</th>
-                    <th class="th-4">Opciones</th>
+                    <th class="th-1">ID</th>
+                    <th class="th-2">Nombre</th>
+                    <th class="th-3">URL</th>
+                    <th class="th-4">Fecha</th>
+                    <th class="th-5">Opciones</th>
                 </tr>
             </thead>
             <tbody class="table-hover">
                 {% for adjunto in Adjuntos %}
                 <tr>
+                    <td class="td-nombre w-auto"> {{ adjunto.id }} </td>
                     <td class="td-nombre"> {{ adjunto.nombre }} </td>
-                    <td class="td-url"> {{ adjunto.URL }} </td>
-                    <td class="td-fecha"> {{ adjunto.fecha_creacion }} </td>
+                    <td class="td-url text-center"> {{ adjunto.URL }} </td>
+                    <td class="td-fecha text-center"> {{ adjunto.fecha_creacion }} </td>
                     <td class="td-options">
                         <a class="button-trash" href="{% url 'eliminar-adjunto' adjunto.id %}">
                             <i class="fa-solid fa-trash-can "></i>
