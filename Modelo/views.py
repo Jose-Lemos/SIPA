@@ -127,10 +127,44 @@ class logoutView(TemplateView):
     template_name = 'logout.html'
 
 
-class listar_Usuarios(LoginRequiredMixin, ListView):
+class listar_Usuarios(LoginRequiredMixin, TemplateView):
     queryset = User.objects.all()
     context_object_name = "Usuarios"
     template_name = 'ListadoUsuarios.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Usuarios'] = self.queryset
+        context['mensaje'] = 'No existen Usuarios en la Base de Datos. Puedes agregar Usuarios con el botón "+ Agregar"'
+
+        return context
+
+    def get(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Usuarios'] = User.objects.all()
+        context['mensaje'] = 'No existen Usuarios en la Base de Datos. Puedes agregar Usuarios con el botón "+ Agregar"'
+
+        return self.render_to_response(context)
+
+    def post(self, request, **kwargs):
+        busqueda = request.POST.get("buscador")
+        context = super().get_context_data(**kwargs)
+
+        if request.method == "POST":
+            print(busqueda)
+            if busqueda:
+                usuarios = User.objects.filter(
+                    Q(username__icontains = busqueda)|Q(email__icontains = busqueda)
+                )
+                if usuarios.exists()==True:
+                    context['Usuarios'] = usuarios
+                else:
+                    context['mensaje'] = 'No se enconrtraron Usuarios con el nombre o correo ingresado. Por favor ingresar otro nombre o correo para realizar la búsqueda'
+            else:
+                context['mensaje'] = 'Por favor ingrese un texto para realizar la búsqueda'
+            return self.render_to_response(context)
+        else:
+            return self.render_to_response(context)
 
 
 class UsuarioCreateView(LoginRequiredMixin, CreateView):
@@ -173,10 +207,45 @@ class eliminar_Usuario(LoginRequiredMixin, DeleteView):
 
 
 #Vistas de los Adjuntos
-class Panel_Adjuntos(LoginRequiredMixin, ListView):
+class Panel_Adjuntos(LoginRequiredMixin, TemplateView):
     queryset = Adjunto.objects.all()
     context_object_name = "Adjuntos"
     template_name = "ListadoAdjuntos.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Adjuntos'] = self.queryset
+        context['mensaje'] = 'No existen Adjuntos en la Base de Datos. Puedes agregar Adjuntos con el botón "+ Agregar"'
+
+        return context
+
+    def get(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Adjuntos'] = Adjunto.objects.all()
+        context['mensaje'] = 'No existen Adjuntos en la Base de Datos. Puedes agregar Adjuntos con el botón "+ Agregar"'
+
+        return self.render_to_response(context)
+
+    def post(self, request, **kwargs):
+        busqueda = request.POST.get("buscador")
+        context = super().get_context_data(**kwargs)
+
+        if request.method == "POST":
+            print(busqueda)
+            if busqueda:
+                adjuntos = Adjunto.objects.filter(
+                    Q(nombre__icontains = busqueda)
+                )
+                if adjuntos.exists()==True:
+                    context['Adjuntos'] = adjuntos
+                else:
+                    context['mensaje'] = 'No se enconrtraron Adjuntos con el nombre ingresado. Por favor ingresar otro nombre para realizar la búsqueda'
+            else:
+                context['mensaje'] = 'Por favor ingrese un texto para realizar la búsqueda'
+            return self.render_to_response(context)
+        else:
+            return self.render_to_response(context)
+
 
 class agregar_adjunto(LoginRequiredMixin, CreateView):
     model = Adjunto
@@ -199,10 +268,46 @@ class eliminar_adjunto(DeleteView):
 
 
 # Vistas de las categorías
-class listar_Categorias(LoginRequiredMixin, ListView):
+class listar_Categorias(LoginRequiredMixin, TemplateView):
     queryset = Categoria.objects.all()
     context_object_name = "Categorias"
     template_name = 'ListadoCategorias.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Categorias'] = self.queryset
+        context['mensaje'] = 'No existen Categorias en la Base de Datos. Puedes agregar Categorias con el botón "+ Agregar"'
+
+        return context
+    
+    def get(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Categorias'] = Categoria.objects.all()
+        context['mensaje'] = 'No existen Categorias en la Base de Datos. Puedes agregar Categorias con el botón "+ Agregar"'
+
+        return self.render_to_response(context)
+
+
+    def post(self, request, **kwargs):
+        busqueda = request.POST.get("buscador")
+        context = super().get_context_data(**kwargs)
+        #categorias = Categoria.objects.all()
+
+        if request.method == "POST":
+            print(busqueda)
+            if busqueda:
+                categorias = Categoria.objects.filter(
+                    Q(concepto__icontains = busqueda)
+                )
+                if categorias.exists()==True:
+                    context['Categorias'] = categorias
+                else:
+                    context['mensaje'] = 'No se encontraron Categorias con el nombre ingresado. Por favor ingresar otro nombre para realizar la búsqueda'
+            else:
+                context['mensaje'] = 'Por favor ingrese un texto para realizar la búsqueda'
+            return self.render_to_response(context)
+        else:
+            return self.render_to_response(context)
 
 
 class agregar_categoria(LoginRequiredMixin, CreateView):
@@ -227,10 +332,44 @@ class eliminar_categoria(LoginRequiredMixin, DeleteView):
 
 
 # Vistas de las fuentes de información
-class listar_Fuente_informacion(LoginRequiredMixin, ListView):
+class listar_Fuente_informacion(LoginRequiredMixin, TemplateView):
     queryset = Fuente_Informacion.objects.all()
     context_object_name = "Fuentes"
     template_name = 'ListadoFuentes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Fuentes'] = self.queryset
+        context['mensaje'] = 'No existen Fuentes de Información en la Base de Datos. Puedes agregar Fuentes de Información con el botón "+ Agregar"'
+
+        return context
+    
+    def get(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Fuentes'] = Fuente_Informacion.objects.all()
+        context['mensaje'] = 'No existen Fuentes de Información en la Base de Datos. Puedes agregar Fuentes de Información con el botón "+ Agregar"'
+
+        return self.render_to_response(context)
+
+    def post(self, request, **kwargs):
+        busqueda = request.POST.get("buscador")
+        context = super().get_context_data(**kwargs)
+
+        if request.method == "POST":
+            print(busqueda)
+            if busqueda:
+                fuentes = Fuente_Informacion.objects.filter(
+                    Q(nombre__icontains = busqueda)|Q(URL__icontains = busqueda)
+                )
+                if fuentes.exists()==True:
+                    context['Fuentes'] = fuentes
+                else:
+                    context['mensaje'] = 'No se enconrtraron Fuentes de Información con el nombre ingresado. Por favor ingresar otro nombre'
+            else:
+                context['mensaje'] = 'Por favor ingrese un texto para realizar la búsqueda'
+            return self.render_to_response(context)
+        else:
+            return self.render_to_response(context)
 
 
 class agregar_fuente_info(LoginRequiredMixin, CreateView):
@@ -267,6 +406,13 @@ class listar_Paises(LoginRequiredMixin, TemplateView):
         context['mensaje'] = 'No existen Paises en la Base de Datos. Puedes agregar Paises con el botón "+ Agregar"'
 
         return context
+    
+    def get(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Paises'] = Pais.objects.all()
+        context['mensaje'] = 'No existen Paises en la Base de Datos. Puedes agregar Paises con el botón "+ Agregar"'
+
+        return self.render_to_response(context)
 
     def post(self, request, **kwargs):
         busqueda = request.POST.get("buscador")
@@ -282,6 +428,8 @@ class listar_Paises(LoginRequiredMixin, TemplateView):
                     context['Paises'] = paises
                 else:
                     context['mensaje'] = 'No se enconrtraron Países con el nombre ingresado. Por favor ingresar otro nombre'
+            else:
+                context['mensaje'] = 'Por favor ingrese un texto para realizar la búsqueda'
             return self.render_to_response(context)
         else:
             return self.render_to_response(context)
