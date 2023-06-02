@@ -19,6 +19,12 @@
             <a href="" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
 
+        {% if is_paginated %}
+        <div class="mt-2">
+            {% include 'paginator.html' %}
+        </div>
+        {% endif %}
+
         {% if Contenidos %}
         <table class="table-fill">
             <thead>
@@ -35,18 +41,18 @@
             <tbody class="table-hover">
                 {% for contenidoP in Contenidos %}
                 <tr>
-                    <td class="td-nombre">{{contenidoP.id}}</td>
+                    <td class="td-nombre w-auto">{{contenidoP.id}}</td>
                     <td class="td-nombre">{{contenidoP.titulo}}</td>
                     <td class="td-url">{{contenidoP.contenido}}</td>
                     <td class="td-tipo">{{contenidoP.idAdjunto}}</td>
                     <td class="td-nivel">{{contenidoP.idCategoria}}</td>
-                    <td class="td-fecha">{{contenidoP.fecha_Creacion}}</td>
+                    <td class="td-fecha w-auto">{{contenidoP.fecha_Creacion}}</td>
                     <td class="td-options">
                         <a class="button-trash" href="{% url 'eliminar-contenido-procesado' contenidoP.id %}">
                             <i class="fa-solid fa-trash-can "></i>
                             Eliminar
                         </a> 
-                        <a class="button-modify" href="">
+                        <a class="button-modify" href="#">
                             <i class="fa-solid fa-pencil "></i>
                             Modificar
                         </a>

@@ -133,7 +133,7 @@ class listar_Usuarios(LoginRequiredMixin, ListView):
     model = User
     context_object_name = "Usuarios"
     template_name = 'ListadoUsuarios.html'
-    paginate_by = 10
+    paginate_by = 8
 
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -193,7 +193,7 @@ class Panel_Adjuntos(LoginRequiredMixin, ListView):
     model = Adjunto
     context_object_name = "Adjuntos"
     template_name = "ListadoAdjuntos.html"
-    paginate_by = 10
+    paginate_by = 4
 
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -235,7 +235,7 @@ class listar_Categorias(LoginRequiredMixin, ListView):
     model = Categoria
     context_object_name = "Categorias"
     template_name = 'ListadoCategorias.html'
-    paginate_by = 10
+    paginate_by = 8
 
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -276,7 +276,7 @@ class listar_Fuente_informacion(LoginRequiredMixin, ListView):
     model = Fuente_Informacion
     context_object_name = "Fuentes"
     template_name = 'ListadoFuentes.html'
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -717,7 +717,7 @@ class Panel_Contenidos_Proceasados(LoginRequiredMixin, ListView):
     model = Contenido_Procesado
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoProcesado.html'
-    paginate_by = 10
+    paginate_by = 4
 
 
     def get_queryset(self):
@@ -741,7 +741,7 @@ class Panel_Contenidos_Originales(LoginRequiredMixin, ListView):
     model = Contenido_Original.objects.all()
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoOriginal.html'
-    paginate_by = 10
+    paginate_by = 4
 
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")

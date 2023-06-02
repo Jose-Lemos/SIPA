@@ -19,6 +19,14 @@
             <a href="{% url 'agregar-pais' %}" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
 
+        {% if is_paginated %}
+        <div class="mt-2 ">
+            {% include 'paginator.html' %}
+        </div>
+        {% endif %}
+
+        
+
         {% if Paises %}
         <table class="table-fill">
             <thead>

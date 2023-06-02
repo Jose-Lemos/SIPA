@@ -17,6 +17,13 @@
             </div>
             <a href="{% url 'agregar-adjunto' %}" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
+
+        {% if is_paginated %}
+        <div class="mt-2 ">
+            {% include 'paginator.html' %}
+        </div>
+        {% endif %}
+
         {% if Adjuntos %}
         <table class="table-fill">
             <thead>

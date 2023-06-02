@@ -19,6 +19,12 @@
             <a href="{% url 'agregar-categoria' %}" class="btn-add"><i class="fa-solid fa-plus icon-add"></i>Agregar</a>
         </div>
 
+        {% if is_paginated %}
+        <div class="mt-2">
+            {% include 'paginator.html' %}
+        </div>
+        {% endif %}
+
         {% if Categorias %}
         <table class="table-fill">
             <thead>
