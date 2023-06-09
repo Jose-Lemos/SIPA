@@ -19,6 +19,9 @@ import urllib.request
 from bs4 import BeautifulSoup
 from django.contrib.auth.forms import AuthenticationForm
 
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
 # Modelos necesarios para las vistas
 from .models import Contenido_Procesado, Pais, Categoria, Fuente_Informacion, Contenido_Original, Adjunto
 from .forms import RegistroForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form, AdjuntoForm
@@ -442,7 +445,86 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
         context["html"] = ""
         return context
 
-        
+    def get_tags_btfl_soup(self, secciones, tag_title, context):
+        articles = []
+        #print("estamos en la funcion tags")
+        for sec in secciones:
+            title_art = ""
+            h2 = sec.find_all(tag_title)
+            links = sec.find_all('a')
+            imgs = sec.find_all('img')
+
+            titles = []
+            for h in h2:
+                padre_title = h.parent
+                if padre_title.get("class") == sec.get("class"):
+                        # print(sec.get('class'))
+                    title_art = h.string
+                    titles.append(title_art)
+                    # if h2 is not None:
+
+                        # print(h2.string)
+
+                    # h4 = sec.find('h4')
+                    # if h4 is not None:
+                    #    print(h4.string)
+
+            links_sections = []
+            for link in links:
+                padre_lnk = link.parent
+                if padre_lnk.get('class') == sec.get('class'):
+                    if not (link.get("href") in links_sections):
+                        links_sections.append(link.get("href"))
+                        # print("link: ",link.get('href'))
+
+            imgs_sections = []
+            for img in imgs:
+                padre_img = img.parent
+                link_img = padre_img.get("href")
+                if padre_img.get('class') == sec.get('class'):
+                    imgs_sections.append(img.get("src"))
+                        # print("imagen: ",img.get('src'))
+                else:
+                    if link_img is not None:
+                        if link_img in links_sections:
+                            imgs_sections.append(
+                                img.get("src"))
+
+            if not ((len(links_sections) == 0) or (len(imgs_sections) == 0) or (title_art == None)):
+                new_art = Articulo(
+                        title_art, links_sections[0], imgs_sections[0])
+                if not (new_art.titulo == ""):
+                    context["html"] += "{"+title_art+"|"  #| utilizado para separar las claves
+                    context["html"] += links_sections[0]+"|"  #| utilizado para separar las claves
+                    context["html"] += imgs_sections[0]+"};"
+                    articles.append(new_art)
+                    # print(new_art)
+            elif (len(links_sections) == 0):
+                if (len(imgs_sections) > 0):
+                    new_art = Articulo(
+                            title_art, "vacio", imgs_sections[0])
+                    if not (new_art.titulo == ""):
+                        articles.append(new_art)    
+            elif (len(imgs_sections) == 0):
+                if (len(links_sections) > 0):
+                    new_art = Articulo(
+                            title_art, links_sections[0], "vacio")
+                    if not (new_art.titulo == ""):
+                        articles.append(new_art)    
+            else:
+                print("solo titulo: ", title_art)
+                if title_art != "":
+                    print("solo titulo: ", title_art)
+
+        return articles
+
+
+    def get_tag_attrs_btfl_soup(self, soup, tag, attr_tag, val_attr):
+        seccion = []
+
+        seccion = soup.find_all(tag, attrs={attr_tag:val_attr})
+
+        return seccion
 
     def post(self, request, **kwargs):
         id_fuente = request.POST.get('fuente-id')
@@ -450,14 +532,24 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
         tag_title = request.POST.get("etiqueta-title1")
         tag_contenedor = request.POST.get("etiqueta-seccion1")
 
+        attr_contenedor = request.POST.get("atributo-seccion1")
+        attr_title = request.POST.get("atributo-title1")
+
+        value_attr_contenedor = request.POST.get("value-attr-inp-cont")
+        value_attr_title = request.POST.get("value-attr-inp-title")
+
         if request.method == "POST":
             context = super().get_context_data(**kwargs)
 
             #if(context["html"] != ""):
              #   return redirect("contenidos")
 
-            print("id_fuente: ", id_fuente)
-            print("fuente: ", fuente)
+            print("attr cont:", attr_contenedor )
+            print("attr title:", attr_title)
+            print("value attr cont:", value_attr_contenedor)
+            print("value attr title:", value_attr_title)
+            # print("id_fuente: ", id_fuente)
+            # print("fuente: ", fuente)
             print("tag_title: ", tag_title)
             print("tag_contenedor: ", tag_contenedor)
 
@@ -472,80 +564,115 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
             context["id_fuente"] = id_fuente
             context["page"] = soup
 
-            print(fuente)
+            #print(fuente)
+
+              #Para extraer sólo con el tag con BS
 
             articles = []
+            secciones = soup.find_all(tag_contenedor)
+            if (value_attr_contenedor == "") or (attr_contenedor is ""):
+                articles = self.get_tags_btfl_soup(secciones, tag_title, context)
+            else:
+                print("ingresaron attr del cont")
+                seccion_cont = self.get_tag_attrs_btfl_soup(soup, tag_contenedor, attr_contenedor, value_attr_contenedor)
 
-            for sec in soup.find_all(tag_contenedor):
-                title_art = ""
-                h2 = sec.find_all(tag_title)
-                links = sec.find_all('a')
-                imgs = sec.find_all('img')
-
-                titles = []
-                for h in h2:
-                    padre_title = h.parent
-                    if padre_title.get("class") == sec.get("class"):
-                        # print(sec.get('class'))
-                        title_art = h.string
-                        titles.append(title_art)
-                    # if h2 is not None:
-
-                        # print(h2.string)
-
-                    # h4 = sec.find('h4')
-                    # if h4 is not None:
-                    #    print(h4.string)
-
-                links_sections = []
-                for link in links:
-                    padre_lnk = link.parent
-                    if padre_lnk.get('class') == sec.get('class'):
-                        if not (link.get("href") in links_sections):
-                            links_sections.append(link.get("href"))
-                        # print("link: ",link.get('href'))
-
-                imgs_sections = []
-                for img in imgs:
-                    padre_img = img.parent
-                    link_img = padre_img.get("href")
-                    if padre_img.get('class') == sec.get('class'):
-                        imgs_sections.append(img.get("src"))
-                        # print("imagen: ",img.get('src'))
+                if (len(seccion_cont) == 0):#falta preguntar or el attr de title
+                    print("no se encontró el contenedor ingresado")
+                    if (value_attr_title == "") or (attr_title == ""):     
+                        articles = self.get_tags_btfl_soup(secciones, tag_title, context)
                     else:
-                        if link_img is not None:
-                            if link_img in links_sections:
-                                imgs_sections.append(
-                                    img.get("src"))
+                       
+                        title = self.get_tag_attrs_btfl_soup(soup, tag_title, attr_title, value_attr_title)
 
-                if not ((len(links_sections) == 0) or (len(imgs_sections) == 0) or (title_art == None)):
-                    new_art = Articulo(
-                        title_art, links_sections[0], imgs_sections[0])
-                    if not (new_art.titulo == ""):
-                        context["html"] += "{"+title_art+"|"  #| utilizado para separar las claves
-                        context["html"] += links_sections[0]+"|"  #| utilizado para separar las claves
-                        context["html"] += imgs_sections[0]+"};"
-                        articles.append(new_art)
-                    # print(new_art)
-                elif (len(links_sections) == 0):
-                    if (len(imgs_sections) > 0):
-                        new_art = Articulo(
-                            title_art, "vacio", imgs_sections[0])
-                        if not (new_art.titulo == ""):
-                            articles.append(new_art)
-                elif (len(imgs_sections) == 0):
-                    if (len(links_sections) > 0):
-                        new_art = Articulo(
-                            title_art, links_sections[0], "vacio")
-                        if not (new_art.titulo == ""):
-                            articles.append(new_art)
+                        if title:
+                            print("title",title)  #debo hacer las correspondencias entre los titulos y las secciones extraidas ambas con los atributos CSS
+                        else:
+                            articles = self.get_tags_btfl_soup(secciones, tag_title, context)
                 else:
-                    print("solo titulo: ", title_art)
-                    if title_art != "":
-                        print("solo titulo: ", title_art)
+                    print("se encontró contenedor con el attr ingresado")
+                    if (value_attr_title == "") or (attr_title == ""):
+                        articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
+                    else:
+                        title = self.get_tag_attrs_btfl_soup(soup, tag_title, attr_title, value_attr_title)
 
-            for art in articles:
-                print(art)
+                        if title:
+                            print("tile:",title)  #debo hacer las correspondencias entre los titulos y las secciones extraidas ambas con los atributos CSS
+                        else:
+                            articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
+            # for sec in soup.find_all(tag_contenedor):
+            #     title_art = ""
+            #     h2 = sec.find_all(tag_title)
+            #     links = sec.find_all('a')
+            #     imgs = sec.find_all('img')
+
+            #     titles = []
+            #     for h in h2:
+            #         padre_title = h.parent
+            #         if padre_title.get("class") == sec.get("class"):
+            #             # print(sec.get('class'))
+            #             title_art = h.string
+            #             titles.append(title_art)
+            #         # if h2 is not None:
+
+            #             # print(h2.string)
+
+            #         # h4 = sec.find('h4')
+            #         # if h4 is not None:
+            #         #    print(h4.string)
+
+            #     links_sections = []
+            #     for link in links:
+            #         padre_lnk = link.parent
+            #         if padre_lnk.get('class') == sec.get('class'):
+            #             if not (link.get("href") in links_sections):
+            #                 links_sections.append(link.get("href"))
+            #             # print("link: ",link.get('href'))
+
+            #     imgs_sections = []
+            #     for img in imgs:
+            #         padre_img = img.parent
+            #         link_img = padre_img.get("href")
+            #         if padre_img.get('class') == sec.get('class'):
+            #             imgs_sections.append(img.get("src"))
+            #             # print("imagen: ",img.get('src'))
+            #         else:
+            #             if link_img is not None:
+            #                 if link_img in links_sections:
+            #                     imgs_sections.append(
+            #                         img.get("src"))
+
+            #     if not ((len(links_sections) == 0) or (len(imgs_sections) == 0) or (title_art == None)):
+            #         new_art = Articulo(
+            #             title_art, links_sections[0], imgs_sections[0])
+            #         if not (new_art.titulo == ""):
+            #             context["html"] += "{"+title_art+"|"  #| utilizado para separar las claves
+            #             context["html"] += links_sections[0]+"|"  #| utilizado para separar las claves
+            #             context["html"] += imgs_sections[0]+"};"
+            #             articles.append(new_art)
+            #         # print(new_art)
+            #     elif (len(links_sections) == 0):
+            #         if (len(imgs_sections) > 0):
+            #             new_art = Articulo(
+            #                 title_art, "vacio", imgs_sections[0])
+            #             if not (new_art.titulo == ""):
+            #                 articles.append(new_art)
+            #     elif (len(imgs_sections) == 0):
+            #         if (len(links_sections) > 0):
+            #             new_art = Articulo(
+            #                 title_art, links_sections[0], "vacio")
+            #             if not (new_art.titulo == ""):
+            #                 articles.append(new_art)
+            #     else:
+            #         print("solo titulo: ", title_art)
+            #         if title_art != "":
+            #             print("solo titulo: ", title_art)
+
+            if articles:
+
+                for art in articles:
+                    print(art)
+            else:
+                pass
 
             return self.render_to_response(context)
 
