@@ -140,6 +140,7 @@ class Contenido_Procesado(models.Model):
     idAdjunto = models.ForeignKey( Adjunto, null=False, blank=False, on_delete=models.CASCADE)
     idContenido_Original = models.ForeignKey(Contenido_Original, null=False, blank=False, on_delete=models.CASCADE)
     idCategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    html = models.TextField(default="")
 
     def __str__(self):
         return self.titulo

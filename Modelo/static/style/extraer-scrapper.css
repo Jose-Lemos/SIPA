@@ -18,9 +18,8 @@ body{
 }
 
 
-#html-text{
+.html-text{
     width: 90%;
-    height: 250px;
     border: 2px solid black;
     border-radius: 8px;
     margin-left: 50px;

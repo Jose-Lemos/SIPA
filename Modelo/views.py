@@ -64,14 +64,15 @@ def descargarImagen(url, fuente, nombre_fichero):
 
 #descargarImagen("https://www.bas.ac.uk/wp-content/uploads/2015/03/cbox-00001510-400x250.jpg","BAS", "cbox-00001510-400x250.jpg")
 class Articulo:
-    def __init__(self, titulo, link_pagina, link_imagen):
+    def __init__(self, titulo, link_pagina, link_imagen, html):
         self.titulo = titulo
         self.pagina = link_pagina
         self.imagen = link_imagen
+        self.html = html
 
     def __str__(self):
-        texto = "Titulo-Articulo: {0} - Link: {1} - Imagen: {2}"
-        return texto.format(self.titulo, self.pagina, self.imagen)
+        texto = "Titulo-Articulo: {0} - Link: {1} - Imagen: {2} - HTML: {3}"
+        return texto.format(self.titulo, self.pagina, self.imagen, self.html)
 
 
 # class UsuariosView(View):
@@ -443,24 +444,30 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
         context['fuentes'] = self.fuentes
         context['form'] = self.form
         context["html"] = ""
+        context["html1"] = []
         return context
 
     def get_tags_btfl_soup(self, secciones, tag_title, context):
         articles = []
+        articulo_string = ""
+        
         #print("estamos en la funcion tags")
         for sec in secciones:
+            #print("seccion:", sec.prettify())  #HTML en BFS
             title_art = ""
             h2 = sec.find_all(tag_title)
             links = sec.find_all('a')
             imgs = sec.find_all('img')
+            html_section = sec.prettify()
+
 
             titles = []
             for h in h2:
-                padre_title = h.parent
-                if padre_title.get("class") == sec.get("class"):
+                # padre_title = h.parent
+                # if padre_title.get("class") == sec.get("class"):
                         # print(sec.get('class'))
-                    title_art = h.string
-                    titles.append(title_art)
+                title_art = h.string
+                titles.append(title_art)
                     # if h2 is not None:
 
                         # print(h2.string)
@@ -471,58 +478,144 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
 
             links_sections = []
             for link in links:
-                padre_lnk = link.parent
-                if padre_lnk.get('class') == sec.get('class'):
-                    if not (link.get("href") in links_sections):
-                        links_sections.append(link.get("href"))
+                # padre_lnk = link.parent
+                # if padre_lnk.get('class') == sec.get('class'):
+                if not (link.get("href") in links_sections):
+                    links_sections.append(link.get("href"))
                         # print("link: ",link.get('href'))
 
             imgs_sections = []
             for img in imgs:
-                padre_img = img.parent
-                link_img = padre_img.get("href")
-                if padre_img.get('class') == sec.get('class'):
+                if not (img.get("src") in imgs_sections):
                     imgs_sections.append(img.get("src"))
-                        # print("imagen: ",img.get('src'))
-                else:
-                    if link_img is not None:
-                        if link_img in links_sections:
-                            imgs_sections.append(
-                                img.get("src"))
+                # padre_img = img.parent
+                # link_img = padre_img.get("href")
+                # # if padre_img.get('class') == sec.get('class'):
+                # #     imgs_sections.append(img.get("src"))
+                # #         # print("imagen: ",img.get('src'))
+                # # else:
+                # if link_img is not None:
+                #     if link_img in links_sections:
+                #         imgs_sections.append(
+                #             img.get("src"))
 
             if not ((len(links_sections) == 0) or (len(imgs_sections) == 0) or (title_art == None)):
                 new_art = Articulo(
-                        title_art, links_sections[0], imgs_sections[0])
+                        title_art, links_sections[0], imgs_sections[0], html_section)
                 if not (new_art.titulo == ""):
-                    context["html"] += "{"+title_art+"|"  #| utilizado para separar las claves
-                    context["html"] += links_sections[0]+"|"  #| utilizado para separar las claves
-                    context["html"] += imgs_sections[0]+"};"
+                    
+                    #articulo_string = "{"+title_art+"|"+links_sections[0]+"|"+imgs_sections[0]+"|"+html_section+"};"
+                    articulo_string += "{"+title_art+"|"  #| utilizado para separar las claves
+                    articulo_string += links_sections[0]+"|"  #| utilizado para separar las claves
+                    articulo_string += imgs_sections[0]+"|"
+                    articulo_string += html_section+"};" 
                     articles.append(new_art)
                     # print(new_art)
             elif (len(links_sections) == 0):
                 if (len(imgs_sections) > 0):
                     new_art = Articulo(
-                            title_art, "vacio", imgs_sections[0])
+                            title_art, "vacio", imgs_sections[0], html_section)
                     if not (new_art.titulo == ""):
                         articles.append(new_art)    
             elif (len(imgs_sections) == 0):
                 if (len(links_sections) > 0):
                     new_art = Articulo(
-                            title_art, links_sections[0], "vacio")
+                            title_art, links_sections[0], "vacio", html_section)
                     if not (new_art.titulo == ""):
                         articles.append(new_art)    
             else:
                 print("solo titulo: ", title_art)
                 if title_art != "":
                     print("solo titulo: ", title_art)
-
+        context["html"] = articulo_string
+        articulo_string = articulo_string.replace("|",", ")
+        articulo_string = articulo_string.rsplit(";")
+        articulo_string = [art for art in articulo_string if art != ""]
+        context["html1"] = articulo_string
         return articles
 
 
     def get_tag_attrs_btfl_soup(self, soup, tag, attr_tag, val_attr):
+        print("se intenta obtener el articulo con el atributo con BeautifulSoup")
         seccion = []
 
         seccion = soup.find_all(tag, attrs={attr_tag:val_attr})
+
+        return seccion
+    
+    def get_tag_selenium(self, url, tag_name):
+        seccion = []
+        driver = webdriver.Chrome()  # Replace with the appropriSate WebDriver for your browser
+        driver.implicitly_wait(5)  # Set the waiting time to 5 seconds
+
+        driver.get(url)
+
+        articles = driver.find_elements(By.TAG_NAME, tag_name)
+
+
+        #actions = ActionChains(driver)
+
+
+        time.sleep(2)  # Wait for 2 seconds (adjust as needed)
+
+
+        for article in articles:
+            print("se está obteniendo el articulo con el tag desde selenium")
+            #print(article.text.strip())
+            #print(article.get_attribute("outerHTML"))  #HTML en SLM
+            #print("TAg IMG"+article.find_element(By.TAG_NAME,"img").get_attribute("outerHTML"))  #Para los links e imágenes
+            tag = BeautifulSoup(""+article.get_attribute("outerHTML"), "html.parser")
+            links = tag.find_all('a')
+            imgs = tag.find_all('img')
+
+            for link in links:
+                print(link.get("href"))
+
+            for img in imgs:
+                print(img.get("src"))
+            #print("BeautifullSoup"+tag.get_text())
+            #actions.move_to_element(article).perform()
+            seccion.append(tag)
+        
+
+        driver.save_screenshot("C:/Users/progr/Downloads/articles.png")
+        driver.quit()
+
+        return seccion
+    
+    def get_attr_selenium(self, url, tag, attr, value_attr):
+        seccion = []
+        driver = webdriver.Chrome()  # Replace with the appropriSate WebDriver for your browser
+        driver.implicitly_wait(5)  # Set the waiting time to 5 seconds
+
+        driver.get(url)
+
+        if (attr == "class"):
+            value_attr = value_attr.replace(" ", ".")
+            selector = tag+"."+value_attr   #para buscar por CLASS
+        else:
+            selector = tag+"#"+value_attr  #para buscar por ID
+
+        articles = driver.find_elements(By.CSS_SELECTOR, selector)
+
+        for article in articles:
+            print("se está obteniendo el articulo desde selenium con el ATTR")
+            #print(article.text.strip())
+            #print(article.get_attribute("outerHTML"))
+            #print("TAg IMG"+article.find_element(By.TAG_NAME,"img").get_attribute("outerHTML"))  #Para los links e imágenes
+            tag = BeautifulSoup(""+article.get_attribute("outerHTML"), "html.parser")
+            #links = tag.find_all('a')
+            #imgs = tag.find_all('img')
+
+            # for link in links:
+            #     print(link.get("href"))
+
+            # for img in imgs:
+            #     print(img.get("src"))
+            #print("BeautifullSoup"+tag.get_text())
+            #actions.move_to_element(article).perform()
+            seccion.append(tag)
+
 
         return seccion
 
@@ -570,26 +663,36 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
 
             articles = []
             secciones = soup.find_all(tag_contenedor)
-            if (value_attr_contenedor == "") or (attr_contenedor is ""):
+            if (value_attr_contenedor == "") or (attr_contenedor == ""):
                 articles = self.get_tags_btfl_soup(secciones, tag_title, context)
+
+                if (len(articles)==0):
+                    articles = self.get_tag_selenium(url, tag_contenedor)
+
             else:
                 print("ingresaron attr del cont")
                 seccion_cont = self.get_tag_attrs_btfl_soup(soup, tag_contenedor, attr_contenedor, value_attr_contenedor)
 
                 if (len(seccion_cont) == 0):#falta preguntar or el attr de title
-                    print("no se encontró el contenedor ingresado")
-                    if (value_attr_title == "") or (attr_title == ""):     
-                        articles = self.get_tags_btfl_soup(secciones, tag_title, context)
-                    else:
-                       
-                        title = self.get_tag_attrs_btfl_soup(soup, tag_title, attr_title, value_attr_title)
+                    print("no se encontró el contenedor ingresado con el ATTR en BFS")
 
-                        if title:
-                            print("title",title)  #debo hacer las correspondencias entre los titulos y las secciones extraidas ambas con los atributos CSS
-                        else:
+                    seccion_cont = self.get_attr_selenium(url, tag_contenedor, attr_contenedor, value_attr_contenedor)
+
+                    if (len(seccion_cont) == 0):
+                        if (value_attr_title == "") or (attr_title == ""):    
                             articles = self.get_tags_btfl_soup(secciones, tag_title, context)
+                        else:
+                        
+                            title = self.get_tag_attrs_btfl_soup(soup, tag_title, attr_title, value_attr_title)
+
+                            if title:
+                                print("title",title)  #debo hacer las correspondencias entre los titulos y las secciones extraidas ambas con los atributos CSS
+                            else:
+                                articles = self.get_tags_btfl_soup(secciones, tag_title, context)
+                    else:
+                        articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
                 else:
-                    print("se encontró contenedor con el attr ingresado")
+                    print("se encontró contenedor con el attr ingresado con BFS")
                     if (value_attr_title == "") or (attr_title == ""):
                         articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
                     else:
@@ -672,7 +775,8 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
                 for art in articles:
                     print(art)
             else:
-                pass
+                
+                print("no se pudo crear un articulo")
 
             return self.render_to_response(context)
 
@@ -753,7 +857,6 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
 
         fuentePerteneciente = Fuente_Informacion.objects.get(id = fuente)
         if (fuentePerteneciente in ids_fuentes):
-            #if()
             print("fuente: "+fuente)
             print("fuente perteneciente:"+fuentePerteneciente.URL)
             print(ids_fuentes)
@@ -816,16 +919,10 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
                 concep = concep.replace(" ","-")
                 name_ext = concep + "-" + name_ext
                 print("name_ext: " + name_ext)
-                
-                #img_des = descargarImagen(arti[2], fuentePerteneciente.nombre, name_ext)
+
                 newImage = Adjunto(nombre = name_ext, imagen = arti[2], URL = arti[2])
                 newImage.save()
-
-            #existeCP = False  #realizar una mejor validacion para los contenidos procesados creados
-            #for content in self.contenidos_procesados:
-             #   if ((content.idCategoria == newCategoria.id) and (content.idContenido_Original == newContOriginal.id) and (content.idAdjunto == newImage.id) and (content.titulo == newCategoria.concepto)):
-              #      existeCP = True
-                
+        
             if newCategoria.concepto in contenidos_proc_tit:
                 print("el Contenido Procesado ya Existe en la BD!!!")
             else:
