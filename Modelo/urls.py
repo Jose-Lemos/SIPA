@@ -59,7 +59,7 @@ urlpatterns = [
     path('admin/', Panel_Administracion_View.as_view(), name = "admin"),
     path('home/', Pantalla_Principal_View.as_view(), name = "home"),
     path('contenidos/', Contenidos_Procesados.as_view(), name="contenidos"),
-    path('contenido/', Visualizar_Contenido_View.as_view(), name = 'contenido'),
+    path('contenido/<int:pk>', Visualizar_Contenido_View.as_view(), name = 'contenido'),
 
     #path Recoleccion
     #path('configuracion-scrapper/', Configurar_Scrapper.as_view(), name="configurar-scrapper"),

@@ -36,10 +36,14 @@
     <div class="container">
         <a href="{% url 'home' %}" class="arrow-back"><i class="fa-sharp fa-solid fa-arrow-left-long icon-arrow"></i></a>
         <div class="container-content-description">
-            <div class="content-visualizer">Aqui va el pdf</div>
+            <div class="content-visualizer">
+                <a href="{{contenido_procesado.idAdjunto}}"><img class="card-img-top img-fluid" style="height: 264px;" src="{{contenido_procesado.idAdjunto}}" alt="Card image cap"></a>
+                <div class="title-cont">{{contenido_procesado.titulo}}</div>
+            </div>
+
             <div class="description">
-                <label for="">Titulo del documento</label>
-                <label for="">Descripcion del documento</label>
+                <label for="">{{contenido_procesado.titulo}}</label>
+                <label for="">Extraído de: {{contenido_procesado.idContenido_Original.idFuente}} - {{contenido_procesado.fecha_Creacion}}</label>
             </div>
         </div>
         <div class="container-btn">

@@ -155,20 +155,12 @@
                 <div class="card" style="width: 25rem; justify-content: center; align-items: center; z-index: 0;">
                     <a href="{{content.idAdjunto}}"><img class="card-img-top img-fluid" src="{{content.idAdjunto}}" alt="Card image cap"></a>
                     <div class="card-body">
-                        <a href="{% url 'contenido' %}"><h5 class="card-title">{{content.titulo}}</h5></a>
+                        <a href="{% url 'contenido' content.id %}"><h5 class="card-title">{{content.titulo}}</h5></a>
                         <p class="card-text">contenido creado: {{content.fecha_Creacion}}</p>
                         <p class="card-text"><small class="text-muted">Extraído de: {{content.idContenido_Original.idFuente}}</small></p>
                     </div>
                 </div>
             </div>
-            
-            <!--<div class="container-document"><img src="{{content.idAdjunto}}" alt="img-cont"></div>
-            <div class="container-information">
-                <a href="{% url 'contenido' %}"><h3 class="title-document">{{content.titulo}}</h3></a>
-                <span class="description">contenido creado: {{content.fecha_Creacion}}</span>
-                <p>Extraído de: {{content.idContenido_Original.idFuente}}</p>
-            </div>-->
-        <!--</div>-->
         {% endfor %}
     </div>
     

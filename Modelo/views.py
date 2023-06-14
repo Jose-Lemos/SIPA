@@ -426,11 +426,13 @@ class Pantalla_Principal_View(LoginRequiredMixin,TemplateView):
 
 
 # Vistas de los contenidos
-class Visualizar_Contenido_View(LoginRequiredMixin, TemplateView):
+class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
+    model = Contenido_Procesado
     template_name = 'VisualizarContenido.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print("context: "+ str(context["contenido_procesado"].id))
         return context
 
 
@@ -503,12 +505,17 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
                 new_art = Articulo(
                         title_art, links_sections[0], imgs_sections[0], html_section)
                 if not (new_art.titulo == ""):
-                    
+                    html_section = html_section.replace("&amp;", "and")
                     #articulo_string = "{"+title_art+"|"+links_sections[0]+"|"+imgs_sections[0]+"|"+html_section+"};"
                     articulo_string += "{"+title_art+"|"  #| utilizado para separar las claves
                     articulo_string += links_sections[0]+"|"  #| utilizado para separar las claves
                     articulo_string += imgs_sections[0]+"|"
                     articulo_string += html_section+"};" 
+
+                    context["html"] += "{"+title_art+"|"
+                    context["html"] += links_sections[0]+"|"
+                    context["html"] += imgs_sections[0]+"|"
+                    context["html"] += html_section+"};"
                     articles.append(new_art)
                     # print(new_art)
             elif (len(links_sections) == 0):
@@ -527,7 +534,7 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
                 print("solo titulo: ", title_art)
                 if title_art != "":
                     print("solo titulo: ", title_art)
-        context["html"] = articulo_string
+
         articulo_string = articulo_string.replace("|",", ")
         articulo_string = articulo_string.rsplit(";")
         articulo_string = [art for art in articulo_string if art != ""]
@@ -578,7 +585,7 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
             seccion.append(tag)
         
 
-        driver.save_screenshot("C:/Users/progr/Downloads/articles.png")
+        #driver.save_screenshot("C:/Users/progr/Downloads/articles.png")
         driver.quit()
 
         return seccion
@@ -651,11 +658,16 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
             page = urllib.request.urlopen(url).read().decode()
             soup = BeautifulSoup(page, 'html.parser')
 
+            head_foot = ""
+            head_foot += str(soup.header)
+            head_foot += str(soup.nav)
+            head_foot += str(soup.footer)
+
             context['fuentes'] = self.fuentes
             context['form'] = self.form
             context["html"] = ""
             context["id_fuente"] = id_fuente
-            context["page"] = soup
+            context["page"] = head_foot
 
             #print(fuente)
 
@@ -812,8 +824,8 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
         articulos = []
 
         #print(string_html)
-        print("page: "+page)
-        print("list html:")
+        #print("page: "+page)
+        #print("list html:")
         for elem in string_html:
             elem = elem.replace("{", "")
             elem = elem.replace("}", "")
@@ -922,11 +934,13 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
 
                 newImage = Adjunto(nombre = name_ext, imagen = arti[2], URL = arti[2])
                 newImage.save()
-        
+
+            
+            html_section = arti[3]
             if newCategoria.concepto in contenidos_proc_tit:
                 print("el Contenido Procesado ya Existe en la BD!!!")
             else:
-                newContenidoProcesado = Contenido_Procesado(titulo = newCategoria.concepto, idContenido_Original = newContOriginal, idCategoria = newCategoria, idAdjunto = newImage)
+                newContenidoProcesado = Contenido_Procesado(titulo = newCategoria.concepto, idContenido_Original = newContOriginal, idCategoria = newCategoria, idAdjunto = newImage, html = html_section)
                 newContenidoProcesado.save()
                 
             
