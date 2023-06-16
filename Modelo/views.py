@@ -403,13 +403,24 @@ class Panel_Administracion_View(LoginRequiredMixin,TemplateView):
 
 
 # Vista de Pantalla Principal
-class Pantalla_Principal_View(LoginRequiredMixin,TemplateView):
+class Pantalla_Principal_View(LoginRequiredMixin, ListView):
+    model = Contenido_Procesado
     template_name = 'index.html'
+    context_object_name = "Contenidos"
     paginate_by = 6
+
+    def get_queryset(self):
+        txt_buscador = self.request.GET.get("buscador")
+
+        if txt_buscador:
+            Contenidos = Contenido_Procesado.objects.filter(titulo__icontains = txt_buscador)
+        else:
+            Contenidos = Contenido_Procesado.objects.all()
+        
+        return Contenidos
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        paginate_by = 6
         cont_procesado = Contenido_Procesado.objects.all()
         fechas_cont = []
 
@@ -417,7 +428,7 @@ class Pantalla_Principal_View(LoginRequiredMixin,TemplateView):
             if not(cont.fecha_Creacion in fechas_cont):
                 fechas_cont.append(cont.fecha_Creacion)
 
-        context["Contenidos"] = cont_procesado
+        #context["Contenidos"] = cont_procesado
         context["Categorias"] = Categoria.objects.all()
         context["Fuentes"] = Fuente_Informacion.objects.all()
         context["Paises"] = Pais.objects.all()
@@ -432,7 +443,23 @@ class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print("context: "+ str(context["contenido_procesado"].id))
+        contenido_procesado = context["contenido_procesado"]
+        contenidos_similares = []
+        obj_contenidos = Contenido_Procesado.objects.all()
+
+        for cont in obj_contenidos:
+            if (cont != contenido_procesado):
+                if (cont.idCategoria == contenido_procesado.idCategoria):
+                    contenidos_similares.append(cont)
+                elif (str(cont.html).rsplit(">")[0] == str(contenido_procesado.html).rsplit(">")[0]):
+                    contenidos_similares.append(cont)
+
+        # print("contenidos relacionados: "+ str(contenidos_similares))
+        # print("context fuente: "+ str(context["contenido_procesado"].idContenido_Original.idFuente))
+        # print("html: " + str(context["contenido_procesado"].html).rsplit(">")[0])
+        if (len(contenidos_similares) > 4):
+            contenidos_similares = contenidos_similares[:4]
+        context["contenido_relacionado"] = contenidos_similares
         return context
 
 

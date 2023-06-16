@@ -22,14 +22,7 @@
         
         {% endif %}
         <div class="container">
-            <div class="search_wrap search_wrap_1" style="justify-content: center; align-items: center;">
-                <div class="search_box">
-                    <input type="text" class="input" placeholder="Buscar...">
-                    <div class="btn btn_common">
-                        <i class="fa-solid fa-magnifying-glass icon-search"></i>
-                    </div>
-                </div>
-            </div>
+            {% include 'buscadorListados.html' %}
         </div>
         <span class="user-pic" onclick="toggleMenu()">{{user.username}} <i class="fa-solid fa-chevron-down icon-dwn"></i></span>
         <a id="link-panel" href="{% url 'admin' %}" class="text-white text-decoration-none w-25">panel de administracion</a>
@@ -53,7 +46,7 @@
     </div>
     
     <form action="">
-        <div class="filters">
+        <div class="filters mt-2">
             <div class="container-select-btn-1" style="z-index: 1;">
                 <div class="select-btn-1">
                     <span class="btn-text">Categorias: Todas</span>
@@ -147,6 +140,12 @@
             
         </div>
     </form>
+
+    {% if is_paginated %}
+        <div class="mt-3 " style="margin-bottom: 10px;">
+            {% include 'paginator.html' %}
+        </div>
+    {% endif %}
 
     <div class="row row-cols-1 row-cols-md-3 g-4" id="contents">
         {% for content in Contenidos %}

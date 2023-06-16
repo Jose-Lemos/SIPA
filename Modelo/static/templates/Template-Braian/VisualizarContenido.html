@@ -57,23 +57,14 @@
             
         </div>
         <div class="container-related-content">
+            {% for cont in contenido_relacionado %}
             <div class="container-miniature">
-                <div class="miniature"></div>
-                <p>Titulo y fecha</p>    
+                <div class="miniature">
+                    <a href="{{cont.idAdjunto.URL}}"><img src="{{cont.idAdjunto}}" alt="contenido-relacionado" style="width: 176px; height: 135px;"></a>
+                </div>
+                <p>{{ cont.titulo }} - {{ cont.fecha_Creacion }}</p>    
             </div>
-            <div class="container-miniature">
-                <div class="miniature"></div>
-                <p>Titulo y fecha</p>
-            </div>
-            <div class="container-miniature">
-                <div class="miniature"></div>
-                <p>Titulo y fecha</p>
-            </div>
-            <div class="container-miniature">
-                <div class="miniature"></div>
-                <p>Titulo y fecha</p>
-            </div>    
-            
+            {% endfor %}
         </div>
     </div>
 
