@@ -464,9 +464,14 @@ class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
 
 
 class Extraer_HTML(LoginRequiredMixin, TemplateView):
-    template_name = "ExtraerHTML.html"
+    template_name = "ExtraerInformacion.html"
     fuentes = Fuente_Informacion.objects.all()
     form = Contenido_Original
+
+    # def get(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     print(context)
+    #     return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -474,6 +479,7 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
         context['form'] = self.form
         context["html"] = ""
         context["html1"] = []
+        print(context)
         return context
 
     def get_tags_btfl_soup(self, secciones, tag_title, context):
@@ -1024,5 +1030,23 @@ class eliminar_contenido_original(LoginRequiredMixin, DeleteView):
     model = Contenido_Original
     template_name = "EliminarContenidoOriginal.html"
     success_url = reverse_lazy('panel-contenidos-originales')
+
+class select_fuente_info(LoginRequiredMixin, ListView):
+    model = Fuente_Informacion
+    template_name = "SelectFuenteInfo.html"
+    context_object_name = "Fuentes"
+    paginate_by = 5
+
+    def get_queryset(self):
+        txt_buscador = self.request.GET.get("buscador")
+
+        if txt_buscador:
+            Fuentes = Fuente_Informacion.objects.filter(
+                    Q(nombre__icontains = txt_buscador)|Q(URL__icontains = txt_buscador)
+                )
+        else:
+            Fuentes = Fuente_Informacion.objects.all().order_by("id")
+        
+        return Fuentes
 
 

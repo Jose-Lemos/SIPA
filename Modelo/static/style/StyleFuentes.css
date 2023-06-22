@@ -1,0 +1,110 @@
+*
+{
+    padding: 0;
+    margin: 0;
+}
+
+header
+{
+    background-color: #2b208a;
+    padding: 15px;
+    display: flex;
+}
+
+i
+{
+    color: #fff;
+    font-size: 22px; 
+}
+
+    
+
+h1
+{
+    color: #fff;
+    font-size: 17px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+    margin-left: 20px;
+}
+
+.contenedor-tabla
+{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+table 
+{
+    border-spacing: 0;
+    width: 600px;
+    top: 40px;
+    background-color: #292828;
+    border-radius: 5px;
+}
+
+thead
+{
+    background:#0f0f0f;
+    border-radius: 10px;
+}
+
+td, th
+{
+    padding: 10px;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.th-nombre-fuente
+{
+    width: 100%;
+    text-align: left;
+    padding: 15px;
+    border-top-left-radius: 5px;
+}
+
+.th-opciones
+{
+    width: 100%;
+    text-align: left;
+    padding: 15px;
+    border-top-right-radius: 5px;
+}
+
+
+
+button
+{
+    background-color: #3742d6;
+    color: #fff;
+    font-size: 15px;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+
+button:hover
+{
+    background-color: #434cd6;
+}
+
+
+
+.td-enlace
+{
+    padding-right: 15px;
+}
+
+.th-opciones
+{
+    padding-left: 18px;
+}
+
+tr:nth-child(even)
+{
+    background-color: #413f3f;
+}
+
