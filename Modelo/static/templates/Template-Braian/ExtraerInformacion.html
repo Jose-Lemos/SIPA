@@ -36,94 +36,109 @@
             <h1 class="extr-inf">Extraccion de informacion</h1>
         </header>
 
-        <a class="boton-fuentes" href="{% url 'seleccionar-fuente' %}">Elegir fuente de informacion</a>
-        <div class="fuente-seleccionada">
-            <p>Fuente de informacion elegida:</p>
-            <input type="text" id="url-input" readonly class="nombre-url" required>
-        </div>
         
-        <p class="parrafo-select">Seleccione en cada caso la etiqueta y el atributo a buscar:</p>
         
-        <form action="" id="select-block" method="post">
+        
+        
+        <form action="" id="select-block" method="post" style="flex-direction: column;">
             {% csrf_token %}
-            <div class="three-items">
-                <div class="item-5">
-                    <label for="tag-seccion1">Contenedor:</label>
-                                <select name="etiqueta-seccion1" id="tag-seccion1" required>
-                                    <option value="" selected=""></option>
-                                    <option value="section">section</option>
-                                    <option value="article">article</option>
-                                    <option value="header">header</option>
-                                    <option value="body">body</option>
-                                    <option value="footer">footer</option>
-                                    <option value="div">div</option>
-                                    <option value="ul">ul</option>
-                                    <option value="ol">ol</option>
-                                    <option value="li">li</option>
-                                    <option value="h1">h1</option>
-                                    <option value="h2">h2</option>
-                                    <option value="h3">h3</option>
-                                    <option value="h4">h4</option>
-                                    <option value="h5">h5</option>
-                                    <option value="h6">h6</option>
-                                    <option value="p">p</option>
-                                    
-            
-                                </select>
-                </div>
-                <div class="item-6">
-                    <label for="attr-seccion1">Atributo CSS:</label>
-                                <select name="atributo-seccion1" id="attr-seccion1">
-                                    <option value="" selected=""></option>
-                                    <option value="id">id</option>
-                                    <option value="class">class</option>
-                                    
-                                    
-            
-                                </select>
-                                
-                </div>
-                <div class="item-7">
-                    <label for="texto2">Valor atributo:</label>
-                    <input type="text" name="value-attr-inp-cont">
-                </div>
+            <p class="parrafo-select">Seleccione en cada caso la etiqueta y el atributo a buscar:</p>
+            <a class="boton-fuentes" href="{% url 'seleccionar-fuente' %}">Elegir fuente de informacion</a>
+            <div class="fuente-seleccionada">
+                <p>Fuente de informacion elegida:</p>
+                <input type="text" id="url-input" readonly class="nombre-url" value="{{fuente}}" required name="fuente-id">
             </div>
-            
-            <div class="four-items">
-                <div class="item-1">
-                    <label for="tag-title1">Título:</label>
-                    <select name="etiqueta-title1" id="tag-title1" required>
-                        <option value="" selected=""></option>
-                        <option value="title">title</option>
-                        <option value="h1">h1</option>
-                        <option value="h2">h2</option>
-                        <option value="h3">h3</option>
-                        <option value="h4">h4</option>
-                        <option value="h5">h5</option>
-                        <option value="h6">h6</option>
-                        <option value="p">p</option>
-                        <option value="a">a</option> 
-                        <option value="strong">strong</option> 
-
-                    </select>
+            <div class="tags-search" style="display: flex; padding-top: 20px;">
+                <div class="three-items">
+                    <div class="item-5">
+                        <label for="tag-seccion1">Contenedor HTML:</label>
+                                    <select name="etiqueta-seccion1" id="tag-seccion1" required>
+                                        <option value="" selected=""></option>
+                                        <option value="section">section</option>
+                                        <option value="article">article</option>
+                                        <option value="header">header</option>
+                                        <option value="body">body</option>
+                                        <option value="footer">footer</option>
+                                        <option value="div">div</option>
+                                        <option value="ul">ul</option>
+                                        <option value="ol">ol</option>
+                                        <option value="li">li</option>
+                                        <option value="h1">h1</option>
+                                        <option value="h2">h2</option>
+                                        <option value="h3">h3</option>
+                                        <option value="h4">h4</option>
+                                        <option value="h5">h5</option>
+                                        <option value="h6">h6</option>
+                                        <option value="p">p</option>
+                                        
+                
+                                    </select>
+                    </div>
+                    <div class="item-6">
+                        <label for="attr-seccion1">Atributo CSS:</label>
+                                    <select name="atributo-seccion1" id="attr-seccion1">
+                                        <option value="" selected=""></option>
+                                        <option value="id">id</option>
+                                        <option value="class">class</option>
+                                        
+                                        
+                
+                                    </select>
+                                    
+                    </div>
+                    <div class="item-7">
+                        <label for="texto2">Valor atributo:</label>
+                        <input type="text" name="value-attr-inp-cont">
+                    </div>
                 </div>
                 
-                <div class="item-4">
-                    <label for="navegador">Navegador:</label>
-                    <select id="navegador" name="navegador">
-                        <option value="" selected=""></option>
-                        <option value="chrome">Chrome</option>
-                        <option value="firefox">Firefox</option>
-                        <option value="safari">Safari</option>
-                        <option value="edge">Edge</option>
-                        <option value="opera">Opera</option>
-                    </select>
+                <div class="four-items">
+                    <div class="item-1">
+                        <label for="tag-title1">Título HTML:</label>
+                        <select name="etiqueta-title1" id="tag-title1" required>
+                            <option value="" selected=""></option>
+                            <option value="title">title</option>
+                            <option value="h1">h1</option>
+                            <option value="h2">h2</option>
+                            <option value="h3">h3</option>
+                            <option value="h4">h4</option>
+                            <option value="h5">h5</option>
+                            <option value="h6">h6</option>
+                            <option value="p">p</option>
+                            <option value="a">a</option> 
+                            <option value="strong">strong</option> 
+    
+                        </select>
+                    </div>
+                    
+                    <div class="item-4">
+                        <label for="navegador">Navegador:</label>
+                        <select id="navegador" name="navegador">
+                            <option value="" selected=""></option>
+                            <option value="chrome">Chrome</option>
+                            <option value="edge">Edge</option>
+                            <option value="firefox">Firefox</option>
+                            <option value="safari">Safari</option>
+                            <option value="explorer">Explorer</option>
+                        </select>
+                    </div>
+
+                    <div class="TAG-CONT" style="opacity: 0;">
+                        <label for="attr-title1">Atributo CSS:</label>
+                        <select name="atributo-title1" id="attr-title1">
+                            <option value="" selected=""></option>
+                            <option value="id">id</option>
+                            <option value="class">class</option>
+                            <option value="name">name</option>
+                            
+                            
+    
+                        </select>
+                        <input type="text" name="value-attr-inp-title">
+                    </div>
                 </div>
             </div>
-    
-            
-            
-            
+                     
             
             <div class="submit-button">
                 <input type="submit" class="enviar-info"  value="Extraer informacion">
@@ -131,9 +146,11 @@
        
         </form>
 
-        <form action="{% url 'contenidos' %}" method="post">
+        
+        <form action="{% url 'contenidos' %}" method="post" style="min-height: 150px;">
             {% csrf_token %}
-            <p class="scraped-content">Contenido Scrapeado:</p>
+            {% if html1 %}
+            <p class="scraped-content">Contenidos Scrapeados:</p>
             <div class="scraped-data">
                 <div class="contenido">
                     <!-- <button type = "submit" class="delete-Button">Eliminar</button>   -->
@@ -149,9 +166,14 @@
             <input id="inp-data" type="text" name="data-html" value="{{ html }}"/>
             <input id="inp-fuente" type="number" name="font" value="{{ id_fuente }}">
             <input id="inp-page" type="text" name="page-html" value="{{ page }}"/>
-
+            
             <button class="process-data" type="submit">Procesar contenido extraido</button>
+            {% endif %}
         </form>
+        
     </div>
+    {% if alert %}
+    <script> alert("{{alert}}") </script>
+    {% endif %}
 </body>
 </html>

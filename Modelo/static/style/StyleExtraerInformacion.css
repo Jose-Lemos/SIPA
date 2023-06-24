@@ -4,6 +4,10 @@
     margin: 0;
 }
 
+body{
+    height: 100vh;
+}
+
 header
 {
     background-color: #2b208a;
@@ -178,11 +182,11 @@ input:focus
 {
     padding: 30px;
     display: flex;
-    width: 800px;
+    width: 1000px;
+    justify-content: center;
     margin-top: 5px;
     margin-left: auto;
     margin-right: auto;
-    height: 310px;
 }
 
 .parrafo-select
@@ -256,16 +260,21 @@ select, input
 .submit-button
 {
     text-align: center;
-    margin-top: 270px;
-    margin-left: -475px;
 }
 
 .enviar-info
 {
-    padding: 10px 80px;
-    font-size: 15px;
-    background-color: #3e6fda;
+    display: block;
+    background-color: #2b208a;
+    width: 400px;
+    padding: 10px;
+    margin: 20px auto 0;
+    font-size: 17px;
+    text-decoration: none;
     color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border-radius: 3px;
     cursor: pointer;
 }
 
@@ -303,6 +312,7 @@ select, input
     width: 600px;
     border-radius: 4px;
     box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
 }
 
 .label-container
@@ -342,11 +352,9 @@ select, input
     color: #fff;
     border: none;
     border-radius: 4px;
-    margin-top: 100px;
-    margin-left: 900px;
+    margin-top: 30px;
+    justify-content: center;
     cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
 }
 
 .boton-fuentes:hover

@@ -61,7 +61,7 @@ User = get_user_model()
 
 
 class Pais(models.Model):
-    nombre = models.CharField(max_length = 50, null = False, blank = None, unique=True)
+    nombre = models.CharField(max_length = 150, null = False, blank = None, unique=True)
     idioma = models.CharField(max_length = 250, null = False, blank = None)
     fecha_creacion = models.DateField(default = timezone.now(), null = False, blank = None)
 
@@ -82,7 +82,7 @@ class Adjunto(models.Model):
 
 class Categoria(models.Model):
     fecha = models.DateField(null=False, blank=False, default= datetime.date(timezone.now()))
-    concepto = models.CharField(max_length=100, null = False, blank = None, unique=True)
+    concepto = models.CharField(max_length=200, null = False, blank = None, unique=True)
 
     def __str__(self):
         return self.concepto
@@ -92,9 +92,9 @@ class Categoria(models.Model):
 
 
 class Fuente_Informacion(models.Model):
-    nombre = models.CharField(max_length=100, null = False, blank = None)
+    nombre = models.CharField(max_length=200, null = False, blank = None)
     URL = models.URLField(max_length= 200, null = False, blank = None, unique=True)
-    tipo = models.CharField(max_length=50)
+    tipo = models.CharField(max_length=150)
     nivel = models.PositiveIntegerField(default=1)
     fecha = models.DateField(default=timezone.now())
     idPais = models.ForeignKey(Pais, on_delete=models.CASCADE, null=True)
@@ -133,7 +133,7 @@ class Contenido_Original(models.Model):
 
 
 class Contenido_Procesado(models.Model):
-    titulo = models.CharField(max_length=100, null = False, blank = None, unique=True)
+    titulo = models.CharField(max_length=200, null = False, blank = None, unique=True)
     fecha_Creacion = models.DateField(default = timezone.now(), null = False, blank = None)
     contenido = models.TextField()
     anotacion = models.TextField()

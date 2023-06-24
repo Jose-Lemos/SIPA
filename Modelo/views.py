@@ -26,7 +26,7 @@ import time
 from .models import Contenido_Procesado, Pais, Categoria, Fuente_Informacion, Contenido_Original, Adjunto
 from .forms import RegistroForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form, AdjuntoForm
 
-
+from django.db.utils import IntegrityError
 # Create your views here.
 import os
 # Api de usuarios
@@ -64,15 +64,16 @@ def descargarImagen(url, fuente, nombre_fichero):
 
 #descargarImagen("https://www.bas.ac.uk/wp-content/uploads/2015/03/cbox-00001510-400x250.jpg","BAS", "cbox-00001510-400x250.jpg")
 class Articulo:
-    def __init__(self, titulo, link_pagina, link_imagen, html):
+    def __init__(self, titulo, contenido, link_pagina, link_imagen, html):
         self.titulo = titulo
+        self.contenido = contenido
         self.pagina = link_pagina
         self.imagen = link_imagen
         self.html = html
 
     def __str__(self):
-        texto = "Titulo-Articulo: {0} - Link: {1} - Imagen: {2} - HTML: {3}"
-        return texto.format(self.titulo, self.pagina, self.imagen, self.html)
+        texto = "Titulo-Articulo: {0} - Contenido: {1} - Link: {2} - Imagen: {3} - HTML: {4}"
+        return texto.format(self.titulo, self.contenido, self.pagina, self.imagen, self.html)
 
 
 # class UsuariosView(View):
@@ -198,7 +199,7 @@ class Panel_Adjuntos(LoginRequiredMixin, ListView):
     model = Adjunto
     context_object_name = "Adjuntos"
     template_name = "ListadoAdjuntos.html"
-    paginate_by = 4
+    paginate_by = 8
 
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -281,7 +282,7 @@ class listar_Fuente_informacion(LoginRequiredMixin, ListView):
     model = Fuente_Informacion
     context_object_name = "Fuentes"
     template_name = 'ListadoFuentes.html'
-    paginate_by = 5
+    paginate_by = 8
 
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -408,7 +409,7 @@ class Pantalla_Principal_View(LoginRequiredMixin, ListView):
     model = Contenido_Procesado
     template_name = 'index.html'
     context_object_name = "Contenidos"
-    paginate_by = 6
+    paginate_by = 9
 
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -463,8 +464,12 @@ class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
         context["contenido_relacionado"] = contenidos_similares
         return context
 
-
 class Extraer_HTML(LoginRequiredMixin, TemplateView):
+    template_name = "ExtraerInformacion.html"
+    fuentes = Fuente_Informacion.objects.all()
+    form = Contenido_Original
+
+class Extraer_HTML_Fuente(LoginRequiredMixin, TemplateView):
     template_name = "ExtraerInformacion.html"
     fuentes = Fuente_Informacion.objects.all()
     form = Contenido_Original
@@ -480,6 +485,8 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
         context['form'] = self.form
         context["html"] = ""
         context["html1"] = []
+        context["fuente"] = Fuente_Informacion.objects.get(id=context["pk"])
+        print(context["fuente"])
         print(context)
         return context
 
@@ -494,6 +501,8 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
             h2 = sec.find_all(tag_title)
             links = sec.find_all('a')
             imgs = sec.find_all('img')
+            contenido = str(sec.get_text())
+            contenido = contenido.replace("\n","")
             html_section = sec.prettify()
 
 
@@ -535,18 +544,23 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
                 #         imgs_sections.append(
                 #             img.get("src"))
 
+            if title_art == contenido:
+                contenido = ""
+
             if not ((len(links_sections) == 0) or (len(imgs_sections) == 0) or (title_art == None)):
                 new_art = Articulo(
-                        title_art, links_sections[0], imgs_sections[0], html_section)
+                        title_art, contenido, links_sections[0], imgs_sections[0], html_section)
                 if not (new_art.titulo == ""):
                     html_section = html_section.replace("&amp;", "and")
                     #articulo_string = "{"+title_art+"|"+links_sections[0]+"|"+imgs_sections[0]+"|"+html_section+"};"
                     articulo_string += "{"+title_art+"|"  #| utilizado para separar las claves
+                    articulo_string += contenido+"|"
                     articulo_string += links_sections[0]+"|"  #| utilizado para separar las claves
                     articulo_string += imgs_sections[0]+"|"
                     articulo_string += html_section+"};" 
 
                     context["html"] += "{"+title_art+"|"
+                    context["html"] += contenido+"|"
                     context["html"] += links_sections[0]+"|"
                     context["html"] += imgs_sections[0]+"|"
                     context["html"] += html_section+"};"
@@ -555,13 +569,13 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
             elif (len(links_sections) == 0):
                 if (len(imgs_sections) > 0):
                     new_art = Articulo(
-                            title_art, "vacio", imgs_sections[0], html_section)
+                            title_art, contenido, "vacio", imgs_sections[0], html_section)
                     if not (new_art.titulo == ""):
                         articles.append(new_art)    
             elif (len(imgs_sections) == 0):
                 if (len(links_sections) > 0):
                     new_art = Articulo(
-                            title_art, links_sections[0], "vacio", html_section)
+                            title_art, contenido, links_sections[0], "vacio", html_section)
                     if not (new_art.titulo == ""):
                         articles.append(new_art)    
             else:
@@ -569,7 +583,7 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
                 if title_art != "":
                     print("solo titulo: ", title_art)
 
-        articulo_string = articulo_string.replace("|",", ")
+        articulo_string = articulo_string.replace("|","* ")
         articulo_string = articulo_string.rsplit(";")
         articulo_string = [art for art in articulo_string if art != ""]
         context["html1"] = articulo_string
@@ -584,9 +598,9 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
 
         return seccion
     
-    def get_tag_selenium(self, url, tag_name):
+    def get_tag_selenium(self, url, tag_name, driver):
         seccion = []
-        driver = webdriver.Chrome()  # Replace with the appropriSate WebDriver for your browser
+        #driver = webdriver.Chrome()  # Replace with the appropriSate WebDriver for your browser
         driver.implicitly_wait(5)  # Set the waiting time to 5 seconds
 
         driver.get(url)
@@ -624,9 +638,9 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
 
         return seccion
     
-    def get_attr_selenium(self, url, tag, attr, value_attr):
+    def get_attr_selenium(self, url, tag, attr, value_attr, driver):
         seccion = []
-        driver = webdriver.Chrome()  # Replace with the appropriSate WebDriver for your browser
+        #driver = webdriver.Chrome()  # Replace with the appropriSate WebDriver for your browser
         driver.implicitly_wait(5)  # Set the waiting time to 5 seconds
 
         driver.get(url)
@@ -661,8 +675,9 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
         return seccion
 
     def post(self, request, **kwargs):
-        id_fuente = request.POST.get('fuente-id')
-        fuente = Fuente_Informacion.objects.get(id=id_fuente)
+        url_fuente = request.POST.get('fuente-id')
+        fuente = Fuente_Informacion.objects.get(URL = url_fuente)
+        id_fuente = fuente.id
         tag_title = request.POST.get("etiqueta-title1")
         tag_contenedor = request.POST.get("etiqueta-seccion1")
 
@@ -671,6 +686,8 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
 
         value_attr_contenedor = request.POST.get("value-attr-inp-cont")
         value_attr_title = request.POST.get("value-attr-inp-title")
+
+        navegador = request.POST.get("navegador")
 
         if request.method == "POST":
             context = super().get_context_data(**kwargs)
@@ -703,126 +720,75 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
             context["id_fuente"] = id_fuente
             context["page"] = head_foot
 
-            #print(fuente)
+            try:
+                if (navegador == "") or (navegador=="chrome"): 
+                    driver = webdriver.Chrome()
+                elif navegador == "edge":
+                    driver = webdriver.Edge()
+                elif navegador == "firefox":
+                    driver = webdriver.Firefox()
+                elif navegador == "safari":
+                    driver = webdriver.Safari()
+                else:
+                    driver = webdriver.Ie()
+            
 
-              #Para extraer sólo con el tag con BS
 
-            articles = []
-            secciones = soup.find_all(tag_contenedor)
-            if (value_attr_contenedor == "") or (attr_contenedor == ""):
-                articles = self.get_tags_btfl_soup(secciones, tag_title, context)
 
-                if (len(articles)==0):
-                    articles = self.get_tag_selenium(url, tag_contenedor)
+                articles = []
+                secciones = soup.find_all(tag_contenedor)
+                if (value_attr_contenedor == "") or (attr_contenedor == ""):
+                    articles = self.get_tags_btfl_soup(secciones, tag_title, context)
 
-            else:
-                print("ingresaron attr del cont")
-                seccion_cont = self.get_tag_attrs_btfl_soup(soup, tag_contenedor, attr_contenedor, value_attr_contenedor)
+                    if (len(articles)==0):
+                        articles = self.get_tag_selenium(url, tag_contenedor, driver)
 
-                if (len(seccion_cont) == 0):#falta preguntar or el attr de title
-                    print("no se encontró el contenedor ingresado con el ATTR en BFS")
+                else:
+                    print("ingresaron attr del cont")
+                    seccion_cont = self.get_tag_attrs_btfl_soup(soup, tag_contenedor, attr_contenedor, value_attr_contenedor)
 
-                    seccion_cont = self.get_attr_selenium(url, tag_contenedor, attr_contenedor, value_attr_contenedor)
+                    if (len(seccion_cont) == 0):#falta preguntar or el attr de title
+                        print("no se encontró el contenedor ingresado con el ATTR en BFS")
 
-                    if (len(seccion_cont) == 0):
-                        if (value_attr_title == "") or (attr_title == ""):    
-                            articles = self.get_tags_btfl_soup(secciones, tag_title, context)
+                        seccion_cont = self.get_attr_selenium(url, tag_contenedor, attr_contenedor, value_attr_contenedor, driver)
+
+                        if (len(seccion_cont) == 0):
+                            if (value_attr_title == "") or (attr_title == ""):    
+                                articles = self.get_tags_btfl_soup(secciones, tag_title, context)
+                            else:
+                            
+                                title = self.get_tag_attrs_btfl_soup(soup, tag_title, attr_title, value_attr_title)
+
+                                if title:
+                                    print("title",title)  #debo hacer las correspondencias entre los titulos y las secciones extraidas ambas con los atributos CSS
+                                else:
+                                    articles = self.get_tags_btfl_soup(secciones, tag_title, context)
                         else:
-                        
+                            articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
+                    else:
+                        print("se encontró contenedor con el attr ingresado con BFS")
+                        if (value_attr_title == "") or (attr_title == ""):
+                            articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
+                        else:
                             title = self.get_tag_attrs_btfl_soup(soup, tag_title, attr_title, value_attr_title)
 
                             if title:
-                                print("title",title)  #debo hacer las correspondencias entre los titulos y las secciones extraidas ambas con los atributos CSS
+                                print("tile:",title)  #debo hacer las correspondencias entre los titulos y las secciones extraidas ambas con los atributos CSS
                             else:
-                                articles = self.get_tags_btfl_soup(secciones, tag_title, context)
-                    else:
-                        articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
+                                articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
+
+                if articles:
+        
+                    for art in articles:
+                        print(art)
                 else:
-                    print("se encontró contenedor con el attr ingresado con BFS")
-                    if (value_attr_title == "") or (attr_title == ""):
-                        articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
-                    else:
-                        title = self.get_tag_attrs_btfl_soup(soup, tag_title, attr_title, value_attr_title)
+                    
+                    print("no se pudo crear un articulo")
+            except:
+                print("Debe tener instalado el Navegador Seleccionado")
+                context["alert"] = "Debe tener instalado el Navegador Seleccionado"
 
-                        if title:
-                            print("tile:",title)  #debo hacer las correspondencias entre los titulos y las secciones extraidas ambas con los atributos CSS
-                        else:
-                            articles = self.get_tags_btfl_soup(seccion_cont, tag_title, context)
-            # for sec in soup.find_all(tag_contenedor):
-            #     title_art = ""
-            #     h2 = sec.find_all(tag_title)
-            #     links = sec.find_all('a')
-            #     imgs = sec.find_all('img')
-
-            #     titles = []
-            #     for h in h2:
-            #         padre_title = h.parent
-            #         if padre_title.get("class") == sec.get("class"):
-            #             # print(sec.get('class'))
-            #             title_art = h.string
-            #             titles.append(title_art)
-            #         # if h2 is not None:
-
-            #             # print(h2.string)
-
-            #         # h4 = sec.find('h4')
-            #         # if h4 is not None:
-            #         #    print(h4.string)
-
-            #     links_sections = []
-            #     for link in links:
-            #         padre_lnk = link.parent
-            #         if padre_lnk.get('class') == sec.get('class'):
-            #             if not (link.get("href") in links_sections):
-            #                 links_sections.append(link.get("href"))
-            #             # print("link: ",link.get('href'))
-
-            #     imgs_sections = []
-            #     for img in imgs:
-            #         padre_img = img.parent
-            #         link_img = padre_img.get("href")
-            #         if padre_img.get('class') == sec.get('class'):
-            #             imgs_sections.append(img.get("src"))
-            #             # print("imagen: ",img.get('src'))
-            #         else:
-            #             if link_img is not None:
-            #                 if link_img in links_sections:
-            #                     imgs_sections.append(
-            #                         img.get("src"))
-
-            #     if not ((len(links_sections) == 0) or (len(imgs_sections) == 0) or (title_art == None)):
-            #         new_art = Articulo(
-            #             title_art, links_sections[0], imgs_sections[0])
-            #         if not (new_art.titulo == ""):
-            #             context["html"] += "{"+title_art+"|"  #| utilizado para separar las claves
-            #             context["html"] += links_sections[0]+"|"  #| utilizado para separar las claves
-            #             context["html"] += imgs_sections[0]+"};"
-            #             articles.append(new_art)
-            #         # print(new_art)
-            #     elif (len(links_sections) == 0):
-            #         if (len(imgs_sections) > 0):
-            #             new_art = Articulo(
-            #                 title_art, "vacio", imgs_sections[0])
-            #             if not (new_art.titulo == ""):
-            #                 articles.append(new_art)
-            #     elif (len(imgs_sections) == 0):
-            #         if (len(links_sections) > 0):
-            #             new_art = Articulo(
-            #                 title_art, links_sections[0], "vacio")
-            #             if not (new_art.titulo == ""):
-            #                 articles.append(new_art)
-            #     else:
-            #         print("solo titulo: ", title_art)
-            #         if title_art != "":
-            #             print("solo titulo: ", title_art)
-
-            if articles:
-
-                for art in articles:
-                    print(art)
-            else:
-                
-                print("no se pudo crear un articulo")
+            
 
             return self.render_to_response(context)
 
@@ -877,6 +843,7 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
         print(self.imagenes)
         print(fuente)
 
+        
         contenidos_html = []
         ids_fuentes = []
         for orig in self.contenidos_originales:
@@ -889,6 +856,8 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
         for cat in self.categorias:
             categorias_concepto.append(cat.concepto)
 
+        
+
         links_url = []
         for lnk in self.links:
             links_url.append(lnk.URL)
@@ -897,9 +866,12 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
         for img in self.imagenes:
             imagenes_url.append(img.imagen)
 
+        contenidos_textos = []
         contenidos_proc_tit = []
         for proc in self.contenidos_procesados:
             contenidos_proc_tit.append(proc.titulo)
+            if ((not(proc.contenido in contenidos_textos))and(proc.contenido != "")):
+                contenidos_textos.append(proc.contenido)
 
         fuentePerteneciente = Fuente_Informacion.objects.get(id = fuente)
         if (fuentePerteneciente in ids_fuentes):
@@ -915,6 +887,8 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
             newContOriginal = Contenido_Original(contenido = page, idFuente = fuentePerteneciente)
             newContOriginal.save()
 
+        contenidos_existentes = []
+        cont_procesados = []
         print("listas: ")
         for arti in articulos:
             print(arti)
@@ -925,60 +899,129 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
                 newCategoria = Categoria.objects.get(concepto = arti[0])
             else:
                 print("CAT NOT")
-                newCategoria = Categoria(concepto = arti[0])
-                newCategoria.save()
+                conc_cat = str(arti[0])
+
+                if (len(conc_cat) > 200):
+                    conc_cat = conc_cat[len(conc_cat)-199:len(conc_cat)]
+
+                try:
+                    newCategoria = Categoria(concepto = conc_cat)
+                    newCategoria.save()
+                except IntegrityError:
+                    newCategoria = Categoria.objects.get(concepto = conc_cat)
+
+            if (arti[1] in contenidos_textos):
+                print("el contenido texto ya existe en un Contenido Procesado")
+                newContenidoTexto = Contenido_Procesado.objects.get(contenido = arti[1]).contenido
+            else:
+                print("cont-text vacio o nuevo")
+                newContenidoTexto = arti[1]
 
             
-            if (arti[1] in links_url):  #Consulto si la url ya existe en la tabla de FuenteInfo
-                print("La fuente de INFO"+ arti[1] +"Ya eexiste")
-                newFuente = Fuente_Informacion.objects.get(URL = arti[1])
+            if (arti[2] in links_url):  #Consulto si la url ya existe en la tabla de FuenteInfo
+                print("La fuente de INFO"+ arti[2] +"Ya eexiste")
+                newFuente = Fuente_Informacion.objects.get(URL = arti[2])
             else:
                 print("NOPE")
-                name_link = str(arti[1])
+                name_link = str(arti[2])
                 name_link = name_link.rsplit("/")
                 if (len(name_link) > 1):
                     name_ext = name_link[len(name_link)-2]
                 else:
-                    name_ext = arti[1]
+                    name_ext = arti[2]
+
+                
+                
                 fuentePadre = Fuente_Informacion.objects.get(id=fuente)
                 nameP = fuentePadre.nombre +"-"+ name_ext
+
+                if (len(nameP) > 200):
+                    nameP= nameP[len(nameP)-199: len(nameP)]
+                
+                url_fuente = arti[2]
+
+                if (len(url_fuente) > 200):
+                    url_fuente = url_fuente[len(url_fuente)-199: len(url_fuente)]
+
                 typeP = fuentePadre.tipo
                 levelP = fuentePadre.nivel + 1
                 paisP = fuentePadre.idPais
-                newFuente = Fuente_Informacion(nombre = nameP, URL = arti[1], tipo = typeP, nivel = levelP, idPais = paisP, idPadre = fuente)
-                newFuente.save()
+
+                try:
+                    newFuente = Fuente_Informacion(nombre = nameP, URL = url_fuente, tipo = typeP, nivel = levelP, idPais = paisP, idPadre = fuente)
+                    newFuente.save()
+                except IntegrityError:
+                    newFuente = Fuente_Informacion.objects.get(URL = arti[2])
 
 
-            if (arti[2] in imagenes_url):  #Consulto si la imagen ya existe en la tabla de Adjuntos
-                print("La IMAGEN"+ arti[2] +"Ya eexiste en la BD!!")
-                newImage = Adjunto.objects.get(imagen = arti[2])
+            if (arti[3] in imagenes_url):  #Consulto si la imagen ya existe en la tabla de Adjuntos
+                print("La IMAGEN"+ arti[3] +"Ya eexiste en la BD!!")
+                newImage = Adjunto.objects.get(imagen = arti[3])
             else:
                 print("IMG NOT")
-                name_img = str(arti[2])
+                name_img = str(arti[3])
+                img_arti = str(arti[3])
                 name_img = name_img.rsplit("/")
                 if (len(name_img) > 0):
                     name_ext = name_img[len(name_img)-1]
                 else:
-                    name_ext = arti[2]
+                    name_ext = arti[3]
                 
                 concep = str(newCategoria.concepto)
                 concep = concep.replace(" ","-")
                 name_ext = concep + "-" + name_ext
+                
+
+                if (len(name_ext) > 250):
+                    name_ext = name_ext[len(name_ext)-199:len(name_ext)]
+                
+                if (len(arti[3]) > 200):
+                    img_arti = str(arti[3])[len(arti[3])-199:len(arti[3])]
+
                 print("name_ext: " + name_ext)
 
-                newImage = Adjunto(nombre = name_ext, imagen = arti[2], URL = arti[2])
-                newImage.save()
+                try:
+                    newImage = Adjunto(nombre = name_ext, imagen = img_arti, URL = img_arti)
+                    newImage.save()
+                except IntegrityError:
+                    newImage = Adjunto.objects.get(imagen = arti[3])
+                
+                
+                
 
             
-            html_section = arti[3]
+            html_section = arti[4]
             if newCategoria.concepto in contenidos_proc_tit:
                 print("el Contenido Procesado ya Existe en la BD!!!")
+                cont_procesados.append(Contenido_Procesado.objects.get(titulo = newCategoria.concepto))
+                contenidos_existentes.append("existente")
             else:
-                newContenidoProcesado = Contenido_Procesado(titulo = newCategoria.concepto, idContenido_Original = newContOriginal, idCategoria = newCategoria, idAdjunto = newImage, html = html_section)
-                newContenidoProcesado.save()
+                
+                try:
+                    print("se crea un nuevo Contenido Procesado")
+                    newContenidoProcesado = Contenido_Procesado(titulo = newCategoria.concepto, contenido = newContenidoTexto, idContenido_Original = newContOriginal, idCategoria = newCategoria, idAdjunto = newImage, html = html_section)
+                    newContenidoProcesado.save()
+                    contenidos_existentes.append("nuevo")
+                    cont_procesados.append(newContenidoProcesado)
+                except IntegrityError:
+                    txt_cont = str(newContenidoTexto)
+                    if not(txt_cont == newCategoria.concepto):
+                        if (len(txt_cont) > 200):
+                            txt_cont = txt_cont[len(txt_cont)-199: len(txt_cont)]
+                        
+                        try:
+                            print("se crea un nuevo Contenido Procesado")
+                            newContenidoProcesado = Contenido_Procesado(titulo = txt_cont, contenido = newContenidoTexto, idContenido_Original = newContOriginal, idCategoria = newCategoria, idAdjunto = newImage, html = html_section)
+                            newContenidoProcesado.save()
+                            contenidos_existentes.append("nuevo")
+                            cont_procesados.append(newContenidoProcesado)
+                        except IntegrityError:
+                            print("Se cambió el Titulo del contenido, porque ya existía otro contenido con el mismo título pero volvio a fallar")
+
                 
             
-
+        context["cont_existentes"] = contenidos_existentes
+        context["cont_procesados"] = cont_procesados
         #print(string_html)
         #context['form'] = self.queryset
         return self.render_to_response(context)
@@ -989,7 +1032,7 @@ class Panel_Contenidos_Proceasados(LoginRequiredMixin, ListView):
     model = Contenido_Procesado
     context_object_name = "Contenidos"
     template_name = 'ListadoContenidoProcesado.html'
-    paginate_by = 4
+    paginate_by = 8
 
 
     def get_queryset(self):
@@ -1036,7 +1079,7 @@ class select_fuente_info(LoginRequiredMixin, ListView):
     model = Fuente_Informacion
     template_name = "SelectFuenteInfo.html"
     context_object_name = "Fuentes"
-    paginate_by = 5
+    paginate_by = 8
 
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -1049,5 +1092,6 @@ class select_fuente_info(LoginRequiredMixin, ListView):
             Fuentes = Fuente_Informacion.objects.all().order_by("id")
         
         return Fuentes
+    
 
 
