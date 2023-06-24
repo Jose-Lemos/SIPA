@@ -886,6 +886,8 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
             newContOriginal = Contenido_Original(contenido = page, idFuente = fuentePerteneciente)
             newContOriginal.save()
 
+        contenidos_existentes = []
+        cont_procesados = []
         print("listas: ")
         for arti in articulos:
             print(arti)
@@ -990,12 +992,16 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
             html_section = arti[4]
             if newCategoria.concepto in contenidos_proc_tit:
                 print("el Contenido Procesado ya Existe en la BD!!!")
+                cont_procesados.append(Contenido_Procesado.objects.get(titulo = newCategoria.concepto))
+                contenidos_existentes.append("existente")
             else:
                 
                 try:
                     print("se crea un nuevo Contenido Procesado")
                     newContenidoProcesado = Contenido_Procesado(titulo = newCategoria.concepto, contenido = newContenidoTexto, idContenido_Original = newContOriginal, idCategoria = newCategoria, idAdjunto = newImage, html = html_section)
                     newContenidoProcesado.save()
+                    contenidos_existentes.append("nuevo")
+                    cont_procesados.append(newContenidoProcesado)
                 except IntegrityError:
                     txt_cont = str(newContenidoTexto)
                     if not(txt_cont == newCategoria.concepto):
@@ -1006,12 +1012,15 @@ class Contenidos_Procesados(LoginRequiredMixin, TemplateView):
                             print("se crea un nuevo Contenido Procesado")
                             newContenidoProcesado = Contenido_Procesado(titulo = txt_cont, contenido = newContenidoTexto, idContenido_Original = newContOriginal, idCategoria = newCategoria, idAdjunto = newImage, html = html_section)
                             newContenidoProcesado.save()
+                            contenidos_existentes.append("nuevo")
+                            cont_procesados.append(newContenidoProcesado)
                         except IntegrityError:
                             print("Se cambió el Titulo del contenido, porque ya existía otro contenido con el mismo título pero volvio a fallar")
 
                 
             
-
+        context["cont_existentes"] = contenidos_existentes
+        context["cont_procesados"] = cont_procesados
         #print(string_html)
         #context['form'] = self.queryset
         return self.render_to_response(context)

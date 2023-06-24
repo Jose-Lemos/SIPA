@@ -1,12 +1,72 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contenido Extraido</title>
+    <link rel="shortcut icon" href="{% static 'media/CANDADO.PNG' %}">
+    <title>Contenidos Extraídos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'style/StyleFuentes.css' %}">
 </head>
-<body>
-    <p>llegamos</p>
+<body style="background: #2C3E50;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #4CA1AF, #2C3E50);">
+    <div id="contenedor-principal">
+      <header>
+        <h1>Contenidos Procesados</h1>
+      </header>
+
+      <!-- <div style="display: flex;"  class="mx-auto w-50 justify-content-center align-items-center" >
+        <h2 class="w-auto text-center text-light">Fuentes de Información</h2>
+        {% include 'buscadorListados.html' %}
+      </div>
+
+      {% if is_paginated %}
+        <div class="mt-2">
+            {% include 'paginator.html' %}
+        </div>
+      {% endif %} -->
+
+      <div style="display: flex; justify-self: center; justify-content: space-evenly; text-align: center; margin-top: 10px; align-items: center;">
+        <h1 style="font-size: 30px;">Contenidos Procesados:</h1>
+        <a href="{% url 'panel-contenidos-procesados' %}" ><button style="font-size: 20px;">Aceptar</button></a>
+      </div>
+      
+      <div class="contenedor-tabla" style="margin-top: 10px;">
+        <table>
+          <thead>
+            <tr>
+              <th> ID </th>
+              <th> Titulo </th>
+              <th> Contenido </th>
+              <th> Adjunto </th>
+              <th> Fecha de Creación </th>
+              <th> Categoria </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for contenido in cont_procesados %}
+              <tr class="tamaño">
+                <td> {{contenido.id}} </td>
+                <td> {{contenido.titulo}} </td>
+                <td> {{contenido.contenido}} </td>
+                <td> {{contenido.idAdjunto}} </td>
+                <td> {{contenido.fecha_Creacion}} </td>
+                <td class="td-enlace">
+                  {{contenido.idCategoria}}
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+        
+    
+        
+    </div>
+    <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
 </body>
 </html>
