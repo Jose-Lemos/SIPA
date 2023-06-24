@@ -36,17 +36,25 @@ body
   width: auto;
 }
 
-.tag-buscador{
-    display: flex;
+.tag-buscador
+{
+  display: flex;
+
 }
 
+.search-icon
+{
+  color: #fff;
+  font-size: 15px;
+  
+}
 
 .btn-add
 {
   font-size: 16px;
   font-weight: 300;
   background: #2277d3;
-  color: #fff;
+  color: #c93737;
   padding: 12px;
   border-radius: 3px;
   position: relative;

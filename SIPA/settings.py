@@ -57,7 +57,7 @@ ROOT_URLCONF = 'SIPA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates/Template-Braian'],
+        'DIRS': ['C:/Users/User/SIPA/Modelo/static/templates/Template-Braian'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,8 +81,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME':  'sipa',
         'USER': 'postgres',
-        'PASSWORD': 'josekas30',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'luchador',
+        'HOST': 'localhost',
         'DATABASE_PORT': '5432',
     }
 }
@@ -126,9 +126,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#"C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/",
+    "C:/Users/User/SIPA/Modelo/static",
 ]
 
 # Media files

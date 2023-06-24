@@ -28,6 +28,11 @@
     left: 50%;
 }
 
+.search-icon
+{
+    color: #fff;
+}
+
 form{
     margin: 0px;
     padding: 0px;
