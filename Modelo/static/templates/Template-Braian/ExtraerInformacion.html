@@ -116,10 +116,10 @@
                         <select id="navegador" name="navegador">
                             <option value="" selected=""></option>
                             <option value="chrome">Chrome</option>
+                            <option value="edge">Edge</option>
                             <option value="firefox">Firefox</option>
                             <option value="safari">Safari</option>
-                            <option value="edge">Edge</option>
-                            <option value="opera">Opera</option>
+                            <option value="explorer">Explorer</option>
                         </select>
                     </div>
 
@@ -172,5 +172,8 @@
         </form>
         
     </div>
+    {% if alert %}
+    <script> alert("{{alert}}") </script>
+    {% endif %}
 </body>
 </html>
