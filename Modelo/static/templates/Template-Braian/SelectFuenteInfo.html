@@ -29,36 +29,40 @@ background: linear-gradient(to right, #4CA1AF, #2C3E50);">
         </div>
       {% endif %}
       
-      <form class="contenedor-tabla" method="get" action="{% url 'extraer-html' %}">
+      <div class="contenedor-tabla">
         <table>
-            <thead>
-              <tr>
-                <th> ID </th>
-                <th> Funte de Información </th>
-                <th> URL </th>
-                <th> Tipo </th>
-                <th> Fecha de Creación </th>
-                <th> Opciones </th>
-              </tr>
-            </thead>
+          <thead>
+            <tr>
+              <th> ID </th>
+              <th> Funte de Información </th>
+              <th> URL </th>
+              <th> Tipo </th>
+              <th> Fecha de Creación </th>
+              <th> Opciones </th>
+            </tr>
+          </thead>
 
-            <tbody>
-              {% for fuente in Fuentes %}
-                <tr class="tamaño">
-                  <td> {{fuente.id}} </td>
-                  <td> {{fuente.nombre}} </td>
-                  <td> {{fuente.URL}} </td>
-                  <td> {{fuente.tipo}} </td>
-                  <td> {{fuente.fecha}} </td>
-                  <td class="td-enlace">
+          <tbody>
+            {% for fuente in Fuentes %}
+              <tr class="tamaño">
+                <td> {{fuente.id}} </td>
+                <td> {{fuente.nombre}} </td>
+                <td> {{fuente.URL}} </td>
+                <td> {{fuente.tipo}} </td>
+                <td> {{fuente.fecha}} </td>
+                <td class="td-enlace">
+                  <form  method="get" action="{% url 'extraer-html-fuente' fuente.id %}" style="padding: 0; margin: 0;">
                     <button type="submit">Seleccionar</button>
-                  </td>
-                </tr>
-              {% endfor %}
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
 
-            </tbody>
+          </tbody>
         </table>
-    </form>
+      </div>
+        
+    
         
     </div>
     <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>

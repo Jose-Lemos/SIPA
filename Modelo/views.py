@@ -462,8 +462,12 @@ class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
         context["contenido_relacionado"] = contenidos_similares
         return context
 
-
 class Extraer_HTML(LoginRequiredMixin, TemplateView):
+    template_name = "ExtraerInformacion.html"
+    fuentes = Fuente_Informacion.objects.all()
+    form = Contenido_Original
+
+class Extraer_HTML_Fuente(LoginRequiredMixin, TemplateView):
     template_name = "ExtraerInformacion.html"
     fuentes = Fuente_Informacion.objects.all()
     form = Contenido_Original
@@ -479,6 +483,8 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
         context['form'] = self.form
         context["html"] = ""
         context["html1"] = []
+        context["fuente"] = Fuente_Informacion.objects.get(id=context["pk"])
+        print(context["fuente"])
         print(context)
         return context
 
@@ -660,8 +666,9 @@ class Extraer_HTML(LoginRequiredMixin, TemplateView):
         return seccion
 
     def post(self, request, **kwargs):
-        id_fuente = request.POST.get('fuente-id')
-        fuente = Fuente_Informacion.objects.get(id=id_fuente)
+        url_fuente = request.POST.get('fuente-id')
+        fuente = Fuente_Informacion.objects.get(URL = url_fuente)
+        id_fuente = fuente.id
         tag_title = request.POST.get("etiqueta-title1")
         tag_contenedor = request.POST.get("etiqueta-seccion1")
 
@@ -1048,5 +1055,6 @@ class select_fuente_info(LoginRequiredMixin, ListView):
             Fuentes = Fuente_Informacion.objects.all().order_by("id")
         
         return Fuentes
+    
 
 

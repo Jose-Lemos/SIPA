@@ -6,7 +6,7 @@ from .views import (Panel_Administracion_View, Pantalla_Principal_View, Visualiz
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
 listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML, Panel_Contenidos_Originales,
 modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, logoutView, Panel_Contenidos_Proceasados, Panel_Adjuntos,
-agregar_adjunto, modificar_adjunto, eliminar_adjunto, eliminar_contenido_original, eliminar_contenido_procesado, select_fuente_info)
+agregar_adjunto, modificar_adjunto, eliminar_adjunto, eliminar_contenido_original, eliminar_contenido_procesado, select_fuente_info, Extraer_HTML_Fuente)
 
 
 urlpatterns = [
@@ -64,5 +64,6 @@ urlpatterns = [
     #path Recoleccion
     #path('configuracion-scrapper/', Configurar_Scrapper.as_view(), name="configurar-scrapper"),
     path('extraer-html/', Extraer_HTML.as_view(), name="extraer-html"),
+    path('extraer-html/<int:pk>', Extraer_HTML_Fuente.as_view(), name="extraer-html-fuente"),
     path('seleccionar-fuente/', select_fuente_info.as_view(), name="seleccionar-fuente"),
 ]
