@@ -127,7 +127,8 @@ class Articulo:
 #             # No backend authenticated the credentials
 #             redirect('login')
 
-
+class loginView(LoginView):
+    template_name = 'login.html'
 
 class logoutView(TemplateView):
     template_name = 'logout.html'
