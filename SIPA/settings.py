@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'Modelo',
 ]
 
@@ -51,7 +50,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'SIPA.urls'
@@ -61,7 +59,7 @@ ROOT_URLCONF = 'SIPA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates/Template-Braian'],
+        'DIRS': ['C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,10 +134,6 @@ STATICFILES_DIRS = [
 ]
 
 
-CORS_ALLOWED_ORIGINS = [
-     "http://localhost:8000",
-     
-]
 # Media files
 # MEDIA_ROOT is the absolute filesystem path to the directory for user-uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

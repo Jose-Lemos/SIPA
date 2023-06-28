@@ -1,7 +1,7 @@
 from django import  forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Categoria, Configuracion_Fuente_Informacion, Contenido_Original, Contenido_Procesado, Fuente_Informacion, Adjunto, Pais
+from .models import Categoria, Contenido_Procesado, Fuente_Informacion, Adjunto, Pais
 
 class RegistroForm(UserCreationForm):
     class Meta:
@@ -25,42 +25,6 @@ class RegistroForm(UserCreationForm):
             'is_superuser': forms.NullBooleanSelect(attrs={'class':'form-control'}),
         }
 
-
-#class AdminForm(forms.ModelForm):
-#    class Meta:
-#       model = Admin
-#       fields = [
-#           'nombre',
-#       ]
-
-
-class Configuracion_Fuente_Info_Form(forms.ModelForm):
-    class Meta:
-        model = Configuracion_Fuente_Informacion
-        fields = [
-            'id_fuente',
-            'buscar_Titulo',
-            'buscar_Contenido',
-            'buscar_Imagenes',
-            'buscar_links',
-        ]
-
-        labels = {
-            'id_fuente': 'Fuente de Información: ',
-            'buscar_Titulo': 'Como Buscar el título: ',
-            'buscar_Contenido': 'Como Buscar los Conceptos: ',
-            'buscar_Imagenes': 'Como Buscar las Imagenes: ',
-            'buscar_links': 'Como Buscar los links: ',
-        }
-
-
-
-#class Contenido_Original_Form(forms.ModelForm):
-#    class Meta:
-#        model = Contenido_Original
-#        fields = [
-#            'contenido'
-#        ]
 
 
 class Contenido_Procesado_Form(forms.ModelForm):

@@ -1,31 +1,25 @@
 # Módulos necesarios para la API
 
 # Modulos necesarios para las vistas comunes
-from typing import Any
-from django import http
-from django.db.models.query import QuerySet
-from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView, DetailView
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound, FileResponse
+from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView
+from django.http import FileResponse
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
 # módulos necesarios para el WebScrapping
 import urllib.request
 from bs4 import BeautifulSoup
-from django.contrib.auth.forms import AuthenticationForm
+
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 # Modelos necesarios para las vistas
 from .models import Contenido_Procesado, Pais, Categoria, Fuente_Informacion, Contenido_Original, Adjunto
-from .forms import RegistroForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form, AdjuntoForm
+from .forms import RegistroForm, CategoriaForm, PaisForm, Fuente_Info_Form, AdjuntoForm
 
 from django.db.utils import IntegrityError
 
@@ -80,62 +74,6 @@ class Articulo:
         return texto.format(self.titulo, self.contenido, self.pagina, self.imagen, self.html)
 
 
-# class UsuariosView(View):
-#     @method_decorator(csrf_exempt)
-#     def dispatch(self, request, *args, **kwargs):
-#         return super().dispatch(request, *args, **kwargs)
-
-#     def get(self, request):
-
-#         usuarios = list(User.objects.values())
-
-#         if len(usuarios) > 0:
-#             datos = {'message': 'Éxito', 'usuarios': usuarios}
-#         else:
-#             datos = {'message': 'No se encontraron Usuarios...'}
-
-#         return JsonResponse(datos)
-
-#     def post(self, request, nombreN, contraseñaN):
-#         nuevoUsuario = {"nombre": nombreN, "contraseña": contraseñaN}
-#         User.objects.create(
-#             nombre=nuevoUsuario['nombreN'], contraseña=nuevoUsuario['contraseñaN'])
-#         jd = json.loads(request.body)
-#         datos = {'message': 'Éxito'}
-#         return JsonResponse(datos)
-
-#     def put(self, request):
-#         pass
-
-#     def delete(self, request):
-#         pass
-
-
-# Vistas de Usuarios
-# class loginView(LoginView):
-#     template_name = 'login.html'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         return context
-    
-#     def post(self, request, **kwargs):
-#         name_user = request.POST.get('email-user')
-#         pass_user = request.POST.get('pass-user')
-#         print(name_user, pass_user)
-
-#         user = authenticate(username=name_user, password=pass_user)
-#         if user is not None:
-#         # A backend authenticated the credentials
-#             redirect('home')
-#         else:
-#             # No backend authenticated the credentials
-#             redirect('login')
-
-
-
-class logoutView(TemplateView):
-    template_name = 'logout.html'
 
 
 class listar_Usuarios(LoginRequiredMixin, ListView):
@@ -165,23 +103,7 @@ class UsuarioCreateView(LoginRequiredMixin, CreateView):
     template_name = "AgregarUsuario.html"
     success_url = reverse_lazy('usuarios')
 
-    # def get_context_data(self, **kwargs):
-    # context = super().get_context_data(**kwargs)
-
-    # def post(self, request, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     email_user = request.POST["email"]
-    #     pass_user = request.POST["password"]
-    #     is_super = request.POST["is_superuser"]
-
-    #     new_User = Usuario()
-    #     new_User.email = email_user
-    #     new_User.password = pass_user
-    #     new_User.is_superuser = is_super
-    #     new_User.save()
-
-        # context = self.get_context_data(**kwargs)
-        # return self.render_to_response(context)
+    
 
 
 class modificar_Usuario(LoginRequiredMixin, UpdateView):
@@ -331,12 +253,7 @@ class listar_Paises(LoginRequiredMixin, ListView):
     template_name = 'ListadoPaises.html'
     paginate_by = 10
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['Paises'] = self.queryset
-    #     context['mensaje'] = 'No existen Paises en la Base de Datos. Puedes agregar Paises con el botón "+ Agregar"'
-    #     print(context)
-    #     return context
+    
     
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -348,32 +265,7 @@ class listar_Paises(LoginRequiredMixin, ListView):
         
         return Paises
     
-    # def get(self, request, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['Paises'] = Pais.objects.all()
-    #     context['mensaje'] = 'No existen Paises en la Base de Datos. Puedes agregar Paises con el botón "+ Agregar"'
-
-    #     return self.render_to_response(context)
-
-    # def post(self, request, **kwargs):
-    #     busqueda = request.POST.get("buscador")
-    #     context = super().get_context_data(**kwargs)
-
-    #     if request.method == "POST":
-    #         print(busqueda)
-    #         if busqueda:
-    #             paises = Pais.objects.filter(
-    #                 Q(nombre__icontains = busqueda)
-    #             )
-    #             if paises.exists()==True:
-    #                 context['Paises'] = paises
-    #             else:
-    #                 context['mensaje'] = 'No se enconrtraron Países con el nombre ingresado. Por favor ingresar otro nombre'
-    #         else:
-    #             context['mensaje'] = 'Por favor ingrese un texto para realizar la búsqueda'
-    #         return self.render_to_response(context)
-    #     else:
-    #         return self.render_to_response(context)
+    
 
 
 
@@ -539,12 +431,12 @@ class Visualizar_Contenido_View(LoginRequiredMixin, TemplateView):
 class Extraer_HTML(LoginRequiredMixin, TemplateView):
     template_name = "ExtraerInformacion.html"
     fuentes = Fuente_Informacion.objects.all()
-    form = Contenido_Original
+
 
 class Extraer_HTML_Fuente(LoginRequiredMixin, TemplateView):
     template_name = "ExtraerInformacion.html"
     fuentes = Fuente_Informacion.objects.all()
-    form = Contenido_Original
+
 
     # def get(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -554,7 +446,6 @@ class Extraer_HTML_Fuente(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['fuentes'] = self.fuentes
-        context['form'] = self.form
         context["html"] = ""
         context["html1"] = []
         context["fuente"] = Fuente_Informacion.objects.get(id=context["pk"])
@@ -1166,8 +1057,5 @@ class select_fuente_info(LoginRequiredMixin, ListView):
         return Fuentes
     
 
-
-class pruebaPDF(LoginRequiredMixin, TemplateView):
-    template_name = "descargarPDF.html"
 
 

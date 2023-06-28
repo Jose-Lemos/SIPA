@@ -36,7 +36,6 @@
     <div class="container">
         <a href="{% url 'home' %}" class="arrow-back"><i class="fa-sharp fa-solid fa-arrow-left-long icon-arrow"></i></a>
         <div class="container-content-description">
-            <a href="{% url 'prueba' %}">ir a la prueba</a>
             <div class="content-visualizer">
                 <a href="{{contenido_procesado.idAdjunto}}"><img class="card-img-top img-fluid" style="height: 264px;" src="{{contenido_procesado.idAdjunto}}" alt="Card image cap" id="img-cont" ></a>
                 <div class="title-cont">{{contenido_procesado.titulo}}</div>
@@ -48,7 +47,7 @@
             </div>
         </div>
         <div class="container-btn">
-            <a href="https://www.uv.mx/pozarica/caa-conta/files/2016/02/REGULAR-AND-IRREGULAR-VERBS.pdf" class="btn-home" download="algo" target="_blank"><i class="fa-regular fa-file icon-file"></i>Adjuntos</a>
+            <a href="{{contenido_procesado.idAdjunto.URL}}" class="btn-home" download="algo" target="_blank"><i class="fa-regular fa-file icon-file"></i>Adjuntos</a>
             <form action="{% url 'descargar-pdf' contenido_procesado.id %}" method="post" target="_blank">
                 {% csrf_token %}
                 <input type="text" name="cont-title" style="opacity: 0; visibility: hidden;" value="{{contenido_procesado.titulo}}">
