@@ -2,10 +2,11 @@
 
 # Modulos necesarios para las vistas comunes
 from typing import Any
+from django import http
 from django.db.models.query import QuerySet
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView, DetailView
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound, FileResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
@@ -27,6 +28,9 @@ from .models import Contenido_Procesado, Pais, Categoria, Fuente_Informacion, Co
 from .forms import RegistroForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form, AdjuntoForm
 
 from django.db.utils import IntegrityError
+
+import jinja2
+import pdfkit
 # Create your views here.
 import os
 # Api de usuarios
@@ -437,16 +441,84 @@ class Pantalla_Principal_View(LoginRequiredMixin, ListView):
         return context
 
 
+def descargar_pdf(request, pk ):
+    #return HttpResponse("Hola")
+    print(pk)
+
+    contenido_p = Contenido_Procesado.objects.get(id=pk)
+    
+
+    def crear_pdf( info, ruta_css, titulo):
+        ruta_template = "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/scripts/template/base_pdf.html"
+        base_descargas = os.path.join(os.path.join(os.path.expanduser('~')), 'Downloads') 
+        nombre_template = ruta_template.split("/")[-1]
+        ruta_template = ruta_template.replace(nombre_template, "")
+
+        env = jinja2.Environment(loader=jinja2.FileSystemLoader(ruta_template))
+        template = env.get_template(nombre_template)
+        html = template.render(info)
+
+        options = {
+            "encoding": "UTF-8",
+        }
+
+        config = pdfkit.configuration(wkhtmltopdf="C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe")
+
+        ruta_salida = base_descargas + "\\" + titulo + ".pdf"
+
+        pdfkit.from_string(html, ruta_salida,css = ruta_css, options=options, configuration=config)
+
+        return ruta_salida
+
+    info = {
+        "Adjunto": contenido_p.idAdjunto.URL,
+        "titulo": contenido_p.titulo,
+        "contenido": contenido_p.contenido,
+        "fecha_Creacion":contenido_p.fecha_Creacion,
+        "fuente": contenido_p.idContenido_Original.idFuente
+    }
+    archivo = crear_pdf(info, "", "contenido_"+str(contenido_p.id))
+
+    f = open(archivo, "rb")
+    responsePDF = FileResponse(f, as_attachment=True)
+
+    return responsePDF
+    
+    
+
+    
+    
+
+
+    
+
+
+
 # Vistas de los contenidos
-class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
-    model = Contenido_Procesado
+class Visualizar_Contenido_View(LoginRequiredMixin, TemplateView):
     template_name = 'VisualizarContenido.html'
+
+    def post(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        contenido = request.POST.get("cont-title")
+
+        print(contenido)
+
+        return self.render_to_response(context)
+
+
+
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        contenido_procesado = context["contenido_procesado"]
+
+        contenido_procesado = Contenido_Procesado.objects.get(id=context["pk"]) 
+        context["contenido_procesado"] = contenido_procesado
         contenidos_similares = []
         obj_contenidos = Contenido_Procesado.objects.all()
+
 
         for cont in obj_contenidos:
             if (cont != contenido_procesado):
@@ -461,6 +533,7 @@ class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
         if (len(contenidos_similares) > 4):
             contenidos_similares = contenidos_similares[:4]
         context["contenido_relacionado"] = contenidos_similares
+
         return context
 
 class Extraer_HTML(LoginRequiredMixin, TemplateView):
@@ -1092,5 +1165,9 @@ class select_fuente_info(LoginRequiredMixin, ListView):
         
         return Fuentes
     
+
+
+class pruebaPDF(LoginRequiredMixin, TemplateView):
+    template_name = "descargarPDF.html"
 
 

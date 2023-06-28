@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertir HTML a PDF</title>
+    <!-- El script de la librería-->
+
+    <script src="{% static 'scripts/html2pdf.bundle.min.js' %}"></script>
+    <!--Nuestro script, que se encarga de crear el PDF usando la librería-->
+    <script src="{% static 'scripts/script.js' %}"></script>
+    <!-- Algunos estilos -->
+
+</head>
+
+<body>
+    <h1>Mi página web</h1>
+    <strong>Presiona el siguiente botón para crear un PDF:</strong>
+    <button id="btnCrearPdf">Click aquí</button>
+    <h5>Estamos probando la creación de un PDF desde HTML usando JavaScript</h5>
+    <a href="//parzibyte.me/blog">Creado por Parzibyte</a>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas dignissimos laudantium laboriosam asperiores?
+        Doloremque fuga quia odit quas. Obcaecati aliquam suscipit molestias? Architecto nisi blanditiis maxime beatae
+        temporibus assumenda ex.</p>
+    <img src="https://www.bas.ac.uk/wp-content/uploads/2015/03/10010588-edited-400x250.jpg" alt="Una imagen">
+    <div id="container"></div>
+    <h1>Otro encabezado</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Luis Cabrera Benito</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+
+        function toDataURL(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+            callback(reader.result);
+            }
+            reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
+        }
+
+        toDataURL('https://www.bas.ac.uk/wp-content/uploads/2015/03/10010588-edited-400x250.jpg', function(dataUrl) {
+        console.log('RESULT:', dataUrl)
+        })
+    </script>
+</body>
+
+</html>
