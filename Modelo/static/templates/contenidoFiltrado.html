@@ -49,30 +49,86 @@
         <div class="filters mt-2">
             <div class="container-select-btn-1" style="z-index: 1;">
                 <div class="select-btn-1">
-                    <a class="btn-text" href="{% url 'select-category' %}">Categorias: Todas</a>
+                    <span class="btn-text">Categorias: Todas</span>
+                    <span class="arrow-dwn">
+                        <i class="fa-solid fa-chevron-down icon-dwn"></i>
+                    </span>
                 </div>
-                
+                {% if Categorias %}
+                <ul class="list-items-1">
+                    {% for categ in Categorias %}
+                    <li class="item-1">
+                        <span class="checkbox">
+                            <i class="fa-solid fa-check check-icon"></i>
+                        </span>
+                        <span class="item-text">{{categ}}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
 
             <div class="container-select-btn-2" style="z-index: 1;">
                 <div class="select-btn-2">
-                    <a class="btn-text-2" href="#">Fuentes: Todas</a>
+                    <span class="btn-text-2">Fuentes: Todas</span>
+                    <span class="arrow-dwn-2">
+                        <i class="fa-solid fa-chevron-down icon-dwn"></i>
+                    </span>
                 </div>
-                
+                {% if Fuentes %}
+                <ul class="list-items-2">
+                    {% for font in Fuentes %}
+                    <li class="item-2">
+                        <span class="checkbox-2">
+                            <i class="fa-solid fa-check check-icon-2"></i>
+                        </span>
+                        <span class="item-text">{{font.nombre}}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
 
             <div class="container-select-btn-3" style="z-index: 1;">
                 <div class="select-btn-3">
-                    <a class="btn-text-3" href="#">Paises: Todos</a>
+                    <span class="btn-text-3">Paises: Todos</span>
+                    <span class="arrow-dwn-3">
+                        <i class="fa-solid fa-chevron-down icon-dwn"></i>
+                    </span>
                 </div>
-                
+                {% if Paises %}
+                <ul class="list-items-3">
+                    {% for pais in Paises %}
+                    <li class="item-3">
+                        <span class="checkbox-3">
+                            <i class="fa-solid fa-check check-icon-3"></i>
+                        </span>
+                        <span class="item-text">{{pais}}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
 
             <div class="container-select-btn-4" style="z-index: 1;">
                 <div class="select-btn-4">
-                    <a class="btn-text-4" href="#">Fechas: Todas</a>
+                    <span class="btn-text-4">Fechas: Todas</span>
+                    <span class="arrow-dwn-4">
+                        <i class="fa-solid fa-chevron-down icon-dwn"></i>
+                    </span>
                 </div>
-                
+                {% if Fechas %}
+                <ul class="list-items-4">
+                    {% for fech in Fechas %}
+                    <li class="item-4">
+                        <span class="checkbox-4">
+                            <i class="fa-solid fa-check check-icon-4"></i>
+                        </span>
+                        <span class="item-text">{{fech}}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </div>
             
         </div>

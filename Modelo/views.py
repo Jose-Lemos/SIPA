@@ -1,8 +1,9 @@
 # Módulos necesarios para la API
 
 # Modulos necesarios para las vistas comunes
+from typing import Any
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView
-from django.http import FileResponse
+from django.http import FileResponse, HttpRequest, HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
@@ -331,17 +332,79 @@ class Pantalla_Principal_View(LoginRequiredMixin, ListView):
         context["Paises"] = Pais.objects.all()
         context["Fechas"] = fechas_cont
         return context
+    
+class contenido_filtrado(LoginRequiredMixin, ListView):
+    model = Contenido_Procesado
+    template_name = 'contenidoFiltrado.html'
+    context_object_name = "Contenidos"
+    paginate_by = 9
+
+    def get_queryset(self):
+        txt_buscador = self.request.GET.get("buscador")
+
+        if txt_buscador:
+            Contenidos = Contenido_Procesado.objects.filter(titulo__icontains = txt_buscador)
+        else:
+            Contenidos = Contenido_Procesado.objects.all()
+        
+        return Contenidos
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cont_procesado = Contenido_Procesado.objects.all()
+        fechas_cont = []
+
+        for cont in cont_procesado:
+            if not(cont.fecha_Creacion in fechas_cont):
+                fechas_cont.append(cont.fecha_Creacion)
+
+        #context["Contenidos"] = cont_procesado
+        print(context)
+        return context
+    
+
+
+class home_categoria(LoginRequiredMixin, ListView):
+        model = Categoria
+        template_name = 'SelectCategoria.html'
+        context_object_name = "Categorias"
+        paginate_by = 9
+
+        def get_queryset(self):
+            txt_buscador = self.request.GET.get("buscador")
+
+            if txt_buscador:
+                Contenidos = Categoria.objects.filter(nombre__icontains = txt_buscador)
+            else:
+                Contenidos = Categoria.objects.all()
+            
+            return Contenidos
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            cont_procesado = Contenido_Procesado.objects.all()
+            fechas_cont = []
+
+            for cont in cont_procesado:
+                if not(cont.fecha_Creacion in fechas_cont):
+                    fechas_cont.append(cont.fecha_Creacion)
+
+            #context["Contenidos"] = cont_procesado
+            context["Categorias"] = Categoria.objects.all()
+            context["name"] = "name"
+            return context
+        
+
 
 
 def descargar_pdf(request, pk ):
     #return HttpResponse("Hola")
-    print(pk)
 
     contenido_p = Contenido_Procesado.objects.get(id=pk)
     
 
     def crear_pdf( info, ruta_css, titulo):
-        ruta_template = "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/scripts/template/base_pdf.html"
+        ruta_template = "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates/base_pdf.html"
         base_descargas = os.path.join(os.path.join(os.path.expanduser('~')), 'Downloads') 
         nombre_template = ruta_template.split("/")[-1]
         ruta_template = ruta_template.replace(nombre_template, "")
@@ -369,7 +432,8 @@ def descargar_pdf(request, pk ):
         "fecha_Creacion":contenido_p.fecha_Creacion,
         "fuente": contenido_p.idContenido_Original.idFuente
     }
-    archivo = crear_pdf(info, "", "contenido_"+str(contenido_p.id))
+
+    archivo = crear_pdf(info, "", "contenido-procesado-"+str(contenido_p.id))
 
     f = open(archivo, "rb")
     responsePDF = FileResponse(f, as_attachment=True)

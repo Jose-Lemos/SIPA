@@ -4,7 +4,8 @@ from .views import (Panel_Administracion_View, Pantalla_Principal_View, Visualiz
 UsuarioCreateView, agregar_categoria, agregar_fuente_info, agregar_pais, eliminar_Usuario, eliminar_categoria, eliminar_fuente_info, eliminar_pais,
 listar_Categorias, listar_Fuente_informacion, listar_Paises, listar_Usuarios, Extraer_HTML, Panel_Contenidos_Originales,
 modificar_Usuario, modificar_categoria, modificar_fuente_info, modificar_pais, Panel_Contenidos_Proceasados, Panel_Adjuntos,
-agregar_adjunto, modificar_adjunto, eliminar_adjunto, eliminar_contenido_original, eliminar_contenido_procesado, select_fuente_info, Extraer_HTML_Fuente, descargar_pdf)
+agregar_adjunto, modificar_adjunto, eliminar_adjunto, eliminar_contenido_original, eliminar_contenido_procesado, select_fuente_info, Extraer_HTML_Fuente, descargar_pdf,
+home_categoria, contenido_filtrado)
 
 
 urlpatterns = [
@@ -56,6 +57,9 @@ urlpatterns = [
     #path de Navegacion
     path('admin/', Panel_Administracion_View.as_view(), name = "admin"),
     path('home/', Pantalla_Principal_View.as_view(), name = "home"),
+    path('home/<str:name>', contenido_filtrado.as_view(), name="contenido-filtrado"),
+    path('select-category/', home_categoria.as_view(), name="select-category" ),
+
     path('contenidos/', Contenidos_Procesados.as_view(), name="contenidos"),
     path('contenido/<int:pk>', Visualizar_Contenido_View.as_view(), name = 'contenido'),
     path('contenidoPDF/<int:pk>', descargar_pdf, name="descargar-pdf"),
