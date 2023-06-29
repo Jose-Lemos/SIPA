@@ -130,7 +130,7 @@ STATIC_URL = '/static/'
 
 #"C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/"
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+   os.path.join(BASE_DIR, "static"),
     "C:/Users/User/SIPA/Modelo/static",
 ]
 

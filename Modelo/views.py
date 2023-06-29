@@ -411,7 +411,7 @@ def descargar_pdf(request, pk ):
     
 
     def crear_pdf( info, ruta_css, titulo):
-        ruta_template = "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates/base_pdf.html"
+        ruta_template = "C:/Users/User/SIPA/Modelo/static/templates/base_pdf.html"
         base_descargas = os.path.join(os.path.join(os.path.expanduser('~')), 'Downloads') 
         nombre_template = ruta_template.split("/")[-1]
         ruta_template = ruta_template.replace(nombre_template, "")
@@ -440,7 +440,8 @@ def descargar_pdf(request, pk ):
         "fuente": contenido_p.idContenido_Original.idFuente
     }
 
-    archivo = crear_pdf(info, "", "contenido-procesado-"+str(contenido_p.id))
+    ruta_css = "C:/Users/User/SIPA/Modelo/static/style/StyleBasePDF.css"
+    archivo = crear_pdf(info, ruta_css, "contenido-procesado-" + str(contenido_p.id))
 
     f = open(archivo, "rb")
     responsePDF = FileResponse(f, as_attachment=True)

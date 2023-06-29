@@ -11,9 +11,9 @@
 header
 {
     height: 80px;
-    background: #0575E6;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #021B79, #0575E6);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #021B79, #0575E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #0575E6;  
+    background: -webkit-linear-gradient(to right, #021B79, #0575E6);  
+    background: linear-gradient(to right, #021B79, #0575E6); 
     padding: 10px;
     justify-content: space-between;
     align-items: center;
@@ -25,14 +25,15 @@ html, body
     height: 100%;
 
 }
+
 body
 {
     font-size: 16px;
     font-weight: 400;
-    /* background-color: #eceaff; */
-    background-color: #2C3E50;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #4b6cb7;  
+    background: -webkit-linear-gradient(to right, #182848, #4b6cb7);  
+    background: linear-gradient(to right, #182848, #4b6cb7); 
+
 }
 
 .user-pic
@@ -108,7 +109,8 @@ span
     color: #35353a;
 }
 
-.container-search{
+.container-search
+{
     justify-content: center;
     align-items: center;
 }
@@ -179,13 +181,18 @@ span
     font-size: 20px;
 }
 
+.panel-admin
+{
+    width: auto;
+    margin-right: 55px;
+    font-size: 17px;
+}
+
+
 /* css de la pagina*/
 
 .container
-{
-    background-color: #2C3E50;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+{   
     width: 100%;
     height: 100%;
     margin: auto;
@@ -206,7 +213,7 @@ span
 
 .icon-arrow
 {
-    color: #3958df;
+    color: #f6f7fa;
     font-size: 30px;
 }
 
@@ -227,14 +234,15 @@ span
     height: 270px;
     margin: auto;
     position: relative;
-    border: 4px solid #3a44ce;
+    border: 3px solid #e66e1f;
     border-radius: 3px;
     text-align: center;
     justify-content: center;
     align-items: center;
 }
 
-.title-cont{
+.title-cont
+{
     position: absolute;
     top: 60%;
     justify-content: center;
@@ -255,15 +263,17 @@ span
     height: 55px;
     position: relative;
     left: 75px;
-    top: 5px;
-    font-weight: 300;
+    margin-top: 0;
+    font-weight: bolder;
 }
 
-label
+
+.description label
 {
     display: block;
     padding: 5px;
 }
+
 
 .container-btn
 {
@@ -279,8 +289,9 @@ a
     display: block;
 }
 
-.btn-home
+.btn-adjunto
 {
+    text-decoration: none;
     padding: 13px;
     background-color: #3131e7;
     color: #fff;
@@ -293,12 +304,13 @@ a
 
 .btn-download
 {
-    padding: 15px;
-    background-color: #cc3737;
+    padding: 10px;
+    background-color: #da1c16;
     border-radius: 3px;
+    border: none;
     color: #fff;
     width: 125px;
-    margin: auto;
+    margin-left: 40px;
     position: relative;
     top: 10px;
 }
@@ -310,9 +322,9 @@ a
     background: #ca6363;
 }
 
-.btn-home:hover
+.btn-adjunto:hover
 {
-    background: #4545f0;
+    background: #6565e6;
 }
 
 .icon-file , .icon-download
@@ -326,9 +338,9 @@ a
     height: 80px;
     margin: auto;
     position: relative;
-    top: -210px;
+    top: -180px;
     left: -50px;
-    border: 5px solid #3a44ce;
+    border: 2px solid #faf7f3;
     border-radius: 3px;
 }
 
@@ -343,7 +355,9 @@ textarea
     width: 100%;
     height: 100%;
     font-size: 15px;
-    background: #2c2a2a;
+    background: #fe8c00;  
+    background: -webkit-linear-gradient(to right, #f83600, #fe8c00);  
+    background: linear-gradient(to right, #f83600, #fe8c00); 
     color: #fff;
 
 }
@@ -360,10 +374,9 @@ i
 
 .container-related-content
 {
-    /* background-color: #ca6363; */
     width: 60%;
     margin: auto;
-    margin-top: -190px;
+    margin-top: -170px;
     height: 170px;
     display: flex;
     flex-direction: row;
@@ -384,14 +397,15 @@ i
 {
     width: 100%;
     height: 100%;
-    border: 3px solid #3131e7;
+    border: 2px solid #f35c16;
+    border-radius: 3px;
 }
 
 p
 {
-   color: #fff;
+    color: #fff;
     width: 100%;
     height: auto;
     white-space: initial;
-    margin-left: 30px;
+    margin-left: 5px;
 }

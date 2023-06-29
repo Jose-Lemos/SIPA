@@ -29,7 +29,7 @@
             </div>
         </div>
         <span class="user-pic ml-2" onclick="toggleMenu()">{{user.username}} <i class="fa-solid fa-chevron-down icon-dwn"></i></span>
-        <a id="link-panel" href="{% url 'admin' %}" class="text-white text-decoration-none w-25">panel de administracion</a>
+        <a id="link-panel" href="{% url 'admin' %}" class="text-white text-decoration-none panel-admin">Panel de Administracion</a>
         
         
     </header>
@@ -38,16 +38,17 @@
         <div class="container-content-description">
             <div class="content-visualizer">
                 <a href="{{contenido_procesado.idAdjunto}}"><img class="card-img-top img-fluid" style="height: 264px;" src="{{contenido_procesado.idAdjunto}}" alt="Card image cap" id="img-cont" ></a>
-                <div class="title-cont">{{contenido_procesado.titulo}}</div>
+                <!-- <div class="title-cont">{{contenido_procesado.titulo}}</div> -->
             </div>
 
             <div class="description">
-                <label for="">{{contenido_procesado.titulo}}</label>
-                <label for="">Extraído de: {{contenido_procesado.idContenido_Original.idFuente}} - {{contenido_procesado.fecha_Creacion}}</label>
+                <label  for="">Titulo: {{contenido_procesado.titulo}}</label>
+                <label  for="">Extraído de: {{contenido_procesado.idContenido_Original.idFuente}}</label>
+                <label for="">Fecha: {{contenido_procesado.fecha_Creacion}}</label>
             </div>
         </div>
         <div class="container-btn">
-            <a href="{{contenido_procesado.idAdjunto.URL}}" class="btn-home" download="algo" target="_blank"><i class="fa-regular fa-file icon-file"></i>Adjuntos</a>
+            <a href="{{contenido_procesado.idAdjunto.URL}}" class="btn-adjunto" download="algo" target="_blank"><i class="fa-regular fa-file icon-file"></i>Adjuntos</a>
             <form action="{% url 'descargar-pdf' contenido_procesado.id %}" method="post" target="_blank">
                 {% csrf_token %}
                 <input type="text" name="cont-title" style="opacity: 0; visibility: hidden;" value="{{contenido_procesado.titulo}}">
