@@ -2,31 +2,30 @@
 
 # Modulos necesarios para las vistas comunes
 from typing import Any
-from django.db.models.query import QuerySet
-from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView, DetailView
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView
+from django.http import FileResponse, HttpRequest, HttpResponse
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
 # módulos necesarios para el WebScrapping
 import urllib.request
 from bs4 import BeautifulSoup
-from django.contrib.auth.forms import AuthenticationForm
+
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 # Modelos necesarios para las vistas
 from .models import Contenido_Procesado, Pais, Categoria, Fuente_Informacion, Contenido_Original, Adjunto
-from .forms import RegistroForm, CategoriaForm, PaisForm, Fuente_Info_Form, Configuracion_Fuente_Info_Form, AdjuntoForm
+from .forms import RegistroForm, CategoriaForm, PaisForm, Fuente_Info_Form, AdjuntoForm
 
 from django.db.utils import IntegrityError
+
+import jinja2
+import pdfkit
 # Create your views here.
 import os
 # Api de usuarios
@@ -76,60 +75,10 @@ class Articulo:
         return texto.format(self.titulo, self.contenido, self.pagina, self.imagen, self.html)
 
 
-# class UsuariosView(View):
-#     @method_decorator(csrf_exempt)
-#     def dispatch(self, request, *args, **kwargs):
-#         return super().dispatch(request, *args, **kwargs)
-
-#     def get(self, request):
-
-#         usuarios = list(User.objects.values())
-
-#         if len(usuarios) > 0:
-#             datos = {'message': 'Éxito', 'usuarios': usuarios}
-#         else:
-#             datos = {'message': 'No se encontraron Usuarios...'}
-
-#         return JsonResponse(datos)
-
-#     def post(self, request, nombreN, contraseñaN):
-#         nuevoUsuario = {"nombre": nombreN, "contraseña": contraseñaN}
-#         User.objects.create(
-#             nombre=nuevoUsuario['nombreN'], contraseña=nuevoUsuario['contraseñaN'])
-#         jd = json.loads(request.body)
-#         datos = {'message': 'Éxito'}
-#         return JsonResponse(datos)
-
-#     def put(self, request):
-#         pass
-
-#     def delete(self, request):
-#         pass
 
 
-# Vistas de Usuarios
-# class loginView(LoginView):
-#     template_name = 'login.html'
+#      
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         return context
-    
-#     def post(self, request, **kwargs):
-#         name_user = request.POST.get('email-user')
-#         pass_user = request.POST.get('pass-user')
-#         print(name_user, pass_user)
-
-#         user = authenticate(username=name_user, password=pass_user)
-#         if user is not None:
-#         # A backend authenticated the credentials
-#             redirect('home')
-#         else:
-#             # No backend authenticated the credentials
-#             redirect('login')
-
-class loginView(LoginView):
-    template_name = 'login.html'
 
 class logoutView(TemplateView):
     template_name = 'logout.html'
@@ -162,23 +111,7 @@ class UsuarioCreateView(LoginRequiredMixin, CreateView):
     template_name = "AgregarUsuario.html"
     success_url = reverse_lazy('usuarios')
 
-    # def get_context_data(self, **kwargs):
-    # context = super().get_context_data(**kwargs)
-
-    # def post(self, request, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     email_user = request.POST["email"]
-    #     pass_user = request.POST["password"]
-    #     is_super = request.POST["is_superuser"]
-
-    #     new_User = Usuario()
-    #     new_User.email = email_user
-    #     new_User.password = pass_user
-    #     new_User.is_superuser = is_super
-    #     new_User.save()
-
-        # context = self.get_context_data(**kwargs)
-        # return self.render_to_response(context)
+    
 
 
 class modificar_Usuario(LoginRequiredMixin, UpdateView):
@@ -328,12 +261,7 @@ class listar_Paises(LoginRequiredMixin, ListView):
     template_name = 'ListadoPaises.html'
     paginate_by = 10
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['Paises'] = self.queryset
-    #     context['mensaje'] = 'No existen Paises en la Base de Datos. Puedes agregar Paises con el botón "+ Agregar"'
-    #     print(context)
-    #     return context
+    
     
     def get_queryset(self):
         txt_buscador = self.request.GET.get("buscador")
@@ -345,32 +273,7 @@ class listar_Paises(LoginRequiredMixin, ListView):
         
         return Paises
     
-    # def get(self, request, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['Paises'] = Pais.objects.all()
-    #     context['mensaje'] = 'No existen Paises en la Base de Datos. Puedes agregar Paises con el botón "+ Agregar"'
-
-    #     return self.render_to_response(context)
-
-    # def post(self, request, **kwargs):
-    #     busqueda = request.POST.get("buscador")
-    #     context = super().get_context_data(**kwargs)
-
-    #     if request.method == "POST":
-    #         print(busqueda)
-    #         if busqueda:
-    #             paises = Pais.objects.filter(
-    #                 Q(nombre__icontains = busqueda)
-    #             )
-    #             if paises.exists()==True:
-    #                 context['Paises'] = paises
-    #             else:
-    #                 context['mensaje'] = 'No se enconrtraron Países con el nombre ingresado. Por favor ingresar otro nombre'
-    #         else:
-    #             context['mensaje'] = 'Por favor ingrese un texto para realizar la búsqueda'
-    #         return self.render_to_response(context)
-    #     else:
-    #         return self.render_to_response(context)
+    
 
 
 
@@ -436,19 +339,150 @@ class Pantalla_Principal_View(LoginRequiredMixin, ListView):
         context["Paises"] = Pais.objects.all()
         context["Fechas"] = fechas_cont
         return context
-
-
-# *Obtiene el contenido procesado de la base de datos y luego lo vuelca una lista que luego le da un nombre clave
-# *Para utilizarlo en el template indicado
-class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
+    
+class contenido_filtrado(LoginRequiredMixin, ListView):
     model = Contenido_Procesado
-    template_name = 'VisualizarContenido.html'
+    template_name = 'contenidoFiltrado.html'
+    context_object_name = "Contenidos"
+    paginate_by = 9
+
+    def get_queryset(self):
+        txt_buscador = self.request.GET.get("buscador")
+
+        if txt_buscador:
+            Contenidos = Contenido_Procesado.objects.filter(titulo__icontains = txt_buscador)
+        else:
+            Contenidos = Contenido_Procesado.objects.all()
+        
+        return Contenidos
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        contenido_procesado = context["contenido_procesado"]
+        cont_procesado = Contenido_Procesado.objects.all()
+        fechas_cont = []
+
+        for cont in cont_procesado:
+            if not(cont.fecha_Creacion in fechas_cont):
+                fechas_cont.append(cont.fecha_Creacion)
+
+        #context["Contenidos"] = cont_procesado
+        print(context)
+        return context
+    
+
+
+class home_categoria(LoginRequiredMixin, ListView):
+        model = Categoria
+        template_name = 'SelectCategoria.html'
+        context_object_name = "Categorias"
+        paginate_by = 9
+
+        def get_queryset(self):
+            txt_buscador = self.request.GET.get("buscador")
+
+            if txt_buscador:
+                Contenidos = Categoria.objects.filter(nombre__icontains = txt_buscador)
+            else:
+                Contenidos = Categoria.objects.all()
+            
+            return Contenidos
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            cont_procesado = Contenido_Procesado.objects.all()
+            fechas_cont = []
+
+            for cont in cont_procesado:
+                if not(cont.fecha_Creacion in fechas_cont):
+                    fechas_cont.append(cont.fecha_Creacion)
+
+            #context["Contenidos"] = cont_procesado
+            context["Categorias"] = Categoria.objects.all()
+            context["name"] = "name"
+            return context
+        
+
+
+
+def descargar_pdf(request, pk ):
+    #return HttpResponse("Hola")
+
+    contenido_p = Contenido_Procesado.objects.get(id=pk)
+    
+
+    def crear_pdf( info, ruta_css, titulo):
+        ruta_template = "C:/Users/progr/Desktop/SIPA/SIPA/Modelo/static/templates/base_pdf.html"
+        base_descargas = os.path.join(os.path.join(os.path.expanduser('~')), 'Downloads') 
+        nombre_template = ruta_template.split("/")[-1]
+        ruta_template = ruta_template.replace(nombre_template, "")
+
+        env = jinja2.Environment(loader=jinja2.FileSystemLoader(ruta_template))
+        template = env.get_template(nombre_template)
+        html = template.render(info)
+
+        options = {
+            "encoding": "UTF-8",
+        }
+
+        config = pdfkit.configuration(wkhtmltopdf="C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe")
+
+        ruta_salida = base_descargas + "\\" + titulo + ".pdf"
+
+        pdfkit.from_string(html, ruta_salida,css = ruta_css, options=options, configuration=config)
+
+        return ruta_salida
+
+    info = {
+        "Adjunto": contenido_p.idAdjunto.URL,
+        "titulo": contenido_p.titulo,
+        "contenido": contenido_p.contenido,
+        "fecha_Creacion":contenido_p.fecha_Creacion,
+        "fuente": contenido_p.idContenido_Original.idFuente
+    }
+
+    archivo = crear_pdf(info, "", "contenido-procesado-"+str(contenido_p.id))
+
+    f = open(archivo, "rb")
+    responsePDF = FileResponse(f, as_attachment=True)
+
+    return responsePDF
+    
+    
+
+    
+    
+
+
+    
+
+
+
+# Vistas de los contenidos
+class Visualizar_Contenido_View(LoginRequiredMixin, TemplateView):
+    model = Contenido_Procesado
+    template_name = 'VisualizarContenido.html'
+
+    def post(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        contenido = request.POST.get("cont-title")
+
+        print(contenido)
+
+        return self.render_to_response(context)
+
+
+
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        contenido_procesado = Contenido_Procesado.objects.get(id=context["pk"]) 
+        context["contenido_procesado"] = contenido_procesado
         contenidos_similares = []
         obj_contenidos = Contenido_Procesado.objects.all()
+
 
         for cont in obj_contenidos:
             if (cont != contenido_procesado):
@@ -463,17 +497,18 @@ class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
         if (len(contenidos_similares) > 4):
             contenidos_similares = contenidos_similares[:4]
         context["contenido_relacionado"] = contenidos_similares
+
         return context
 
 class Extraer_HTML(LoginRequiredMixin, TemplateView):
     template_name = "ExtraerInformacion.html"
     fuentes = Fuente_Informacion.objects.all()
-    form = Contenido_Original
+
 
 class Extraer_HTML_Fuente(LoginRequiredMixin, TemplateView):
     template_name = "ExtraerInformacion.html"
     fuentes = Fuente_Informacion.objects.all()
-    form = Contenido_Original
+
 
     # def get(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -483,7 +518,6 @@ class Extraer_HTML_Fuente(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['fuentes'] = self.fuentes
-        context['form'] = self.form
         context["html"] = ""
         context["html1"] = []
         context["fuente"] = Fuente_Informacion.objects.get(id=context["pk"])
@@ -1094,5 +1128,6 @@ class select_fuente_info(LoginRequiredMixin, ListView):
         
         return Fuentes
     
+
 
 

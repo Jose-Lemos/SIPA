@@ -1,63 +1,10 @@
-from django.utils import timezone, dateformat
+from django.utils import timezone
 from datetime import datetime
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, User
 from django.contrib.auth import get_user_model
 User = get_user_model()
-
-
-# # Create your models here
-# class UserManager(BaseUserManager):
-
-#     def create_user(self, email=None, password=None, superuser=False):
-#         if not email:
-#             raise ValueError('El usuario necesita un email')
-        
-#         if not password:
-#             raise ValueError('El usuario necesita contraseña')
-        
-#         user_obj = self.model(email=self.normalize_email(email))
-#         user_obj.set_password(password)
-#         user_obj.is_superuser = superuser
-#         user_obj.save(using=self._db)
-#         return user_obj
-
-#     def create_superuser(self, email=None, password=None):
-#         user_obj = self.create_user(email=email, password=password, superuser=True)
-#         return user_obj
-
-# class Usuario(PermissionsMixin, AbstractBaseUser):
-#     id = models.BigAutoField(auto_created=True, primary_key=True, verbose_name="ID")
-#     email = models.EmailField(max_length=255, unique=True, default="@gmail.com")
-#     password = models.CharField(max_length=255)
-#     is_superuser = models.BooleanField()
-
-#     # New manager
-#     objects = UserManager()
-
-#     USERNAME_FIELD = 'email'
-#     EMAIL_FIELD = 'email'
-#     REQUIRED_FIELDS = [] #USERNAME_FIELD and password are required by default
-
-#     def get_username(self):
-#         return self.email
-
-#     def __str__(self):
-#         return self.email
-
-#     # Required by admin app
-#     def is_staff(self):
-#         return self.is_superuser
-    
-
-
-
-
-
-
-
-
+ 
 
 
 class Pais(models.Model):
@@ -103,21 +50,6 @@ class Fuente_Informacion(models.Model):
     def __str__(self): 
         return self.URL
     
-
-
-
-class Configuracion_Fuente_Informacion(models.Model):
-    id_fuente = models.ForeignKey(Fuente_Informacion, on_delete=models.CASCADE, null=True)
-    buscar_Titulo = models.CharField(max_length= 200,null = False, blank = None)
-    buscar_Contenido = models.CharField(max_length= 200, null = False, blank = None)
-    buscar_Imagenes = models.CharField(max_length= 200, null = False, blank = None)
-    buscar_links = models.CharField(max_length= 200, null = False, blank = None)
-
-    def get_absolute_url(self):
-        return reverse('fuentes', kwargs={'pk': self.pk})
-
-    def __str__(self):
-        return self.buscar_Titulo
     
 
 class Contenido_Original(models.Model):

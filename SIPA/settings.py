@@ -54,10 +54,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'SIPA.urls'
 
+#CORS_ALLOW_ALL_ORIGINS = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['C:/Users/User/SIPA/Modelo/static/templates/Template-Braian'],
+        'DIRS': ['C:/Users/User/SIPA/Modelo/static/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,6 +133,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     "C:/Users/User/SIPA/Modelo/static",
 ]
+
 
 # Media files
 # MEDIA_ROOT is the absolute filesystem path to the directory for user-uploaded files

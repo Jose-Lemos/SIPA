@@ -7,7 +7,7 @@
     <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
     {% load static %}
     <link rel="shortcut icon" href="{% static 'media/CANDADO.PNG' %}">
-    <link rel="stylesheet" href="{% static 'style/CSS-Braian/StyleInicio.css' %}">
+    <link rel="stylesheet" href="{% static 'style/StyleInicio.css' %}">
     <title>Pagina de inicio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </head>
@@ -49,93 +49,30 @@
         <div class="filters mt-2">
             <div class="container-select-btn-1" style="z-index: 1;">
                 <div class="select-btn-1">
-                    <span class="btn-text">Categorias: Todas</span>
-                    <span class="arrow-dwn">
-                        <i class="fa-solid fa-chevron-down icon-dwn"></i>
-                    </span>
+                    <a class="btn-text" href="{% url 'select-category' %}">Categorias: Todas</a>
                 </div>
-                {% if Categorias %}
-                <ul class="list-items-1">
-                    {% for categ in Categorias %}
-                    <li class="item-1">
-                        <span class="checkbox">
-                            <i class="fa-solid fa-check check-icon"></i>
-                        </span>
-                        <span class="item-text">{{categ}}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
+                
             </div>
 
             <div class="container-select-btn-2" style="z-index: 1;">
                 <div class="select-btn-2">
-                    <span class="btn-text-2">Fuentes: Todas</span>
-                    <span class="arrow-dwn-2">
-                        <i class="fa-solid fa-chevron-down icon-dwn"></i>
-                    </span>
+                    <a class="btn-text-2" href="#">Fuentes: Todas</a>
                 </div>
-                {% if Fuentes %}
-                <ul class="list-items-2">
-                    {% for font in Fuentes %}
-                    <li class="item-2">
-                        <span class="checkbox-2">
-                            <i class="fa-solid fa-check check-icon-2"></i>
-                        </span>
-                        <span class="item-text">{{font.nombre}}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
+                
             </div>
 
             <div class="container-select-btn-3" style="z-index: 1;">
                 <div class="select-btn-3">
-                    <span class="btn-text-3">Paises: Todos</span>
-                    <span class="arrow-dwn-3">
-                        <i class="fa-solid fa-chevron-down icon-dwn"></i>
-                    </span>
+                    <a class="btn-text-3" href="#">Paises: Todos</a>
                 </div>
-                {% if Paises %}
-                <ul class="list-items-3">
-                    {% for pais in Paises %}
-                    <li class="item-3">
-                        <span class="checkbox-3">
-                            <i class="fa-solid fa-check check-icon-3"></i>
-                        </span>
-                        <span class="item-text">{{pais}}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
+                
             </div>
 
             <div class="container-select-btn-4" style="z-index: 1;">
                 <div class="select-btn-4">
-                    <span class="btn-text-4">Fechas: Todas</span>
-                    <span class="arrow-dwn-4">
-                        <i class="fa-solid fa-chevron-down icon-dwn"></i>
-                    </span>
+                    <a class="btn-text-4" href="#">Fechas: Todas</a>
                 </div>
-                {% if Fechas %}
-                <ul class="list-items-4">
-                    {% for fech in Fechas %}
-                    <li class="item-4">
-                        <span class="checkbox-4">
-                            <i class="fa-solid fa-check check-icon-4"></i>
-                        </span>
-                        <span class="item-text">{{fech}}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </div>
-            
-            <div >
-                <button type="submit" class="filter-btn">
-                    <span class="filter-icon"><i class="fa-solid fa-filter"></i></span>
-                    Filtrar
-                </button>
+                
             </div>
             
         </div>
@@ -165,11 +102,11 @@
     
 
     {% load static %}
-    <script src="{% static 'scripts/JS-Braian/main.js' %}"></script>
-    <script src="{% static 'scripts/JS-Braian/Categories.js' %}"></script>
-    <script src="{% static 'scripts/JS-Braian/Fuentes.js' %}"></script>
-    <script src="{% static 'scripts/JS-Braian/Paises.js' %}"></script>
-    <script src="{% static 'scripts/JS-Braian/Fechas.js' %}"></script>
+    <script src="{% static 'scripts/main.js' %}"></script>
+    <script src="{% static 'scripts/Categories.js' %}"></script>
+    <script src="{% static 'scripts/Fuentes.js' %}"></script>
+    <script src="{% static 'scripts/Paises.js' %}"></script>
+    <script src="{% static 'scripts/Fechas.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     
 </body>

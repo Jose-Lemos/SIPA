@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'media/CANDADO.PNG' %}">
+    <title>Listado de cats de informacion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'style/StyleFuentes.css' %}">
+</head>
+<body style="background: #2C3E50;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #4CA1AF, #2C3E50);">
+    <div id="contenedor-principal">
+      <header>
+        <a href="{% url 'home' %}" class="arrow-back"><i class="fa-solid fa-arrow-left  icon-back"></i></a>
+        <h1>Categorias</h1>
+      </header>
+
+      <div style="display: flex;"  class="mx-auto w-50 justify-content-center align-items-center" >
+        <h2 class="w-auto text-center text-light">Categorias</h2>
+        {% include 'buscadorListados.html' %}
+      </div>
+
+      {% if is_paginated %}
+        <div class="mt-2">
+            {% include 'paginator.html' %}
+        </div>
+      {% endif %}
+      
+      <div class="contenedor-tabla">
+        <table>
+          <thead>
+            <tr>
+              <th> ID </th>
+              <th> Nombre </th>
+              <th> Fecha de Creación </th>
+              <th> Opciones </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for cat in Categorias %}
+              <tr class="tamaño">
+                <td> {{cat.id}} </td>
+                <td> {{cat.concepto}} </td>
+                <td> {{cat.fecha}} </td>
+                <td class="td-enlace">
+                  <form  method="get" action="{% url 'contenido-filtrado' cat.concepto %}" style="padding: 0; margin: 0;">
+                    <button type="submit">Seleccionar</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+        
+    
+        
+    </div>
+    <script src="https://kit.fontawesome.com/b2985c5115.js" crossorigin="anonymous"></script>
+</body>
+</html>
