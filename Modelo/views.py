@@ -438,7 +438,8 @@ class Pantalla_Principal_View(LoginRequiredMixin, ListView):
         return context
 
 
-# Vistas de los contenidos
+# *Obtiene el contenido procesado de la base de datos y luego lo vuelca una lista que luego le da un nombre clave
+# *Para utilizarlo en el template indicado
 class Visualizar_Contenido_View(LoginRequiredMixin, DetailView):
     model = Contenido_Procesado
     template_name = 'VisualizarContenido.html'
